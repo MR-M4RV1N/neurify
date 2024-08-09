@@ -1,0 +1,37 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Progress{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">Progress details</h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ progress.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Title</th>
+                                <td>{{ progress.title }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <a href="{{ path('app_progress_index') }}" class="btn btn-sm btn-outline-secondary">back to list</a>
+
+                        <a href="{{ path('app_progress_edit', {'id': progress.id}) }}" class="btn btn-sm btn-outline-primary">edit</a>
+
+                        {{ include('cpanel/progress/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

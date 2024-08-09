@@ -1,0 +1,135 @@
+﻿            <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
+                <div class="main-navbar">
+                    <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
+                        <a class="navbar-brand w-100 mr-0" href="/cpanel/index">
+                            <div class="d-table m-auto">
+                                <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="/cpanel/images/admin-panel-primary.png" alt="Shards Dashboard">
+                                <span class="d-none d-md-inline ml-1">{% trans %}control panel{% endtrans %}</span>
+                            </div>
+                        </a>
+                        <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+                            <i class="material-icons">&#xE5C4;</i>
+                        </a>
+                    </nav>
+                </div>
+                <form action="#" class="main-sidebar__search w-100 border-right d-sm-flex d-md-none d-lg-none">
+                    <div class="input-group input-group-seamless ml-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </div>
+                        </div>
+                        <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search">
+                    </div>
+                </form>
+                <div class="nav-wrapper">
+                    {% set path = app.request.pathinfo %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <h6 class="pl-4 text-muted border-bottom" style="margin: 0px; font-size: 0.6rem; letter-spacing: 3px;">ADMIN AREA</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {{ path|area('/admin') }}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                                    <i class="material-icons">account_balance</i>
+                                    <span>{% trans %}Admin panel{% endtrans %}</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-small">
+                                    <a class="dropdown-item " href="/cpanel/admin">{% trans %}Registered{% endtrans %}</a>
+                                </div>
+                            </li>
+                        </ul>
+                    {% endif %}
+                    <h6 class="pl-4 text-muted border-bottom" style="margin: 0px; font-size: 0.6rem; letter-spacing: 3px;">PERSONAL AREA</h6>
+                    <ul class="nav flex-column">
+                        <!--<li class="nav-item">
+                            <a class="nav-link {{ path|area('/dashboard') }}" href="/cpanel/dashboard">
+                                <i class="material-icons">dashboard</i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>-->
+                        <li class="nav-item">
+                            <a class="nav-link {{ path|area('/editor') }}" href="/cpanel/editor/draft">
+                                <i class="material-icons">playlist_add</i>
+                                <span>{% trans %}Challenges in planning{% endtrans %}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ path|area('/progress') }}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                                <i class="material-icons">show_chart</i>
+                                <span>{% trans %}Progress{% endtrans %}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-small">
+                                <a class="dropdown-item " href="/cpanel/progress/events/list">{% trans %}Completed challenges{% endtrans %}</a>
+                                <a class="dropdown-item " href="/cpanel/progress/activity">{% trans %}Your activity{% endtrans %}</a>
+                                <a class="dropdown-item " href="/cpanel/progress">{% trans %}Your level{% endtrans %}</a>
+                                <a class="dropdown-item " href="/cpanel/users/username/{{ app.user.username }}">{% trans %}Your public profile{% endtrans %}</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ path|area('/project') }}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                                <i class="material-icons">import_contacts</i>
+                                <span>{% trans %}About the project{% endtrans %}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-small">
+                                <!--<a class="dropdown-item " href="/cpanel/project/assistant">{% trans %}AI Assistant{% endtrans %}</a>-->
+                                <a class="dropdown-item " href="/cpanel/project/presentation">{% trans %}Presentation{% endtrans %}</a>
+                                <a class="dropdown-item " href="/cpanel/project/about">{% trans %}Project description{% endtrans %}</a>
+                                <a class="dropdown-item " href="/cpanel/project/download">
+                                    {% trans %}Download the app{% endtrans %}
+                                    <!--<i class="material-icons">get_app</i>-->
+                                </a>
+                                <!--<a class="dropdown-item " href="/cpanel/project/instruction">{% trans %}Instruction{% endtrans %}</a>-->
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ path|area('/sets') }}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                                <i class="material-icons">business_center</i>
+                                <span>{% trans %}Sets{% endtrans %}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-small">
+                                <a class="dropdown-item " href="/cpanel/sets/exercises">{% trans %}Exercises{% endtrans %}</a>
+                                <a class="dropdown-item " href="/cpanel/sets/blanks/1">{% trans %}Recommendations{% endtrans %}</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <h6 class="pl-4 text-muted border-bottom" style="margin: 0px; font-size: 0.6rem; letter-spacing: 3px;">PUBLIC AREA</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ path|area('/public') }} {{ path|area('/users') }} {{ path|area('/chat') }}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                                <i class="material-icons">people_outline</i>
+                                <span>{% trans %}Other users{% endtrans %}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-small">
+                                <a class="dropdown-item " href="/cpanel/public/list">{% trans %}Feed{% endtrans %}</a>
+                                <a class="dropdown-item " href="/cpanel/users/list">{% trans %}Users{% endtrans %}</a>
+                                <a class="dropdown-item " href="/cpanel/chat/chat_list">{% trans %}Chat{% endtrans %}</a>
+                            </div>
+                        </li>
+                        <!--<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ path|area('/ensemble') }}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                                <i class="material-icons">group_work</i>
+                                <span>{% trans %}Communities{% endtrans %}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-small">
+                                <a class="dropdown-item " href="/cpanel/ensemble/other/closed">{% trans %}My communities{% endtrans %}</a>
+                                <a class="dropdown-item " href="/cpanel/ensemble/list">{% trans %}All communities{% endtrans %}</a>
+                            </div>
+                        </li>-->
+                    </ul>
+                    <h6 class="pl-4 text-muted border-bottom" style="margin: 0px; font-size: 0.6rem; letter-spacing: 3px;">SYSTEM</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {{ path|area('/profile') }}" href="/cpanel/profile/index">
+                                <i class="material-icons">person</i>
+                                <span>{% trans %}My profile{% endtrans %}</span>
+                            </a>
+                        </li>
+                        <!-- Кнопка выйти -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">
+                                <i class="material-icons">exit_to_app</i> {% trans %}Logout{% endtrans %}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>

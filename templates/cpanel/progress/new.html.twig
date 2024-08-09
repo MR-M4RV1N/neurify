@@ -1,0 +1,22 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}New Progress{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Create new record{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        {{ include('cpanel/progress/_form.html.twig') }}
+
+                        <a href="{{ path('app_progress_index') }}" class="btn btn-sm btn-outline-secondary mt-2">{% trans %}Back{% endtrans %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

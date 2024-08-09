@@ -1,0 +1,125 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI Chat{% endblock %}
+
+{% block styles %}
+    <style>
+        /* Add these styles to your main CSS file or directly in the Twig template */
+
+        .message {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            background-color: #d1e7dd;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message.assistant {
+            background-color: #f8d7da;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #842029;
+            border-color: #f5c2c7;
+            align-self: center;
+            text-align: center;
+            margin: 10px auto;
+        }
+
+        #chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        #ai-form {
+            display: flex;
+        }
+
+        #question {
+            flex: 1;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card card-small mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">AI Chat</h6>
+                    </div>
+                    <div class="card-body" id="chat-container">
+                        <!-- Chat messages will be appended here -->
+                    </div>
+                    <div class="card-footer">
+                        <form id="ai-form" class="d-flex">
+                            <input type="text" class="form-control" id="question" name="question" placeholder="Type your message..." required>
+                            <button type="submit" class="btn btn-primary ml-2">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('ai-form');
+            const chatContainer = document.getElementById('chat-container');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const questionInput = document.getElementById('question');
+                const question = questionInput.value;
+
+                if (question.trim() === '') return;
+
+                appendMessage('user', question);
+                questionInput.value = '';
+
+                fetch('{{ path('ask_question') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question: question })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            appendMessage('error', data.error);
+                        } else {
+                            appendMessage('assistant', data.answer);
+                        }
+                    })
+                    .catch(error => {
+                        appendMessage('error', 'Произошла ошибка. Пожалуйста, попробуйте позже.');
+                        console.error('Fetch error:', error);
+                    });
+            });
+
+            function appendMessage(sender, message) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', sender);
+                messageElement.textContent = message;
+                chatContainer.appendChild(messageElement);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        });
+    </script>
+{% endblock %}

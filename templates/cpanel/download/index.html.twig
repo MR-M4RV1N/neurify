@@ -1,0 +1,123 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block styles %}
+    <style>
+        @media (min-width: 768px) {
+            .custom-img {
+                width: 25%;
+            }
+        }
+        @media (max-width: 768px) {
+            .custom-img {
+                width: 75%;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4 mb-5">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Download the app{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        <!--<div class="text-center">Приложение будет всегда под рукой.</div>-->
+
+                        <div class="mt-4 mb-5">
+                            <div class="text-center" id="mobileMessage">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                Приложение скачано.
+                            </div>
+                            <div id="desktopMessage" class="text-center" style="display: none;">
+                                Зайдите с мобильного устройства.
+                            </div>
+                            <div id="installButton" style="display: none;">
+                                <div class="d-flex justify-content-center">
+                                    <button id="downloadButton" class="btn btn-outline-secondary">
+                                        <i class="material-icons">&#xE2C4;</i>
+                                        {% trans %}Download{% endtrans %}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <script src="{{ asset('js/install.js') }}"></script>
+                            <script>
+                                let deferredPrompt;
+
+                                window.addEventListener('beforeinstallprompt', (e) => {
+                                    e.preventDefault();
+                                    deferredPrompt = e;
+                                    // Проверяем, установлено ли уже приложение
+                                    if (!isAppInstalled()) {
+                                        document.getElementById('installButton').style.display = 'block';
+                                        document.getElementById('downloadButton').addEventListener('click', handleDownloadClick);
+                                    }
+                                });
+
+                                function handleDownloadClick() {
+                                    document.getElementById('installButton').style.display = 'none';
+                                    deferredPrompt.prompt();
+                                    deferredPrompt.userChoice.then((choiceResult) => {
+                                        if (choiceResult.outcome === 'accepted') {
+                                            console.log('User accepted the A2HS prompt');
+                                        } else {
+                                            console.log('User dismissed the A2HS prompt');
+                                        }
+                                        deferredPrompt = null;
+                                    });
+                                }
+
+                                function isAppInstalled() {
+                                    // Проверка на наличие установленного приложения
+                                    // Например, для iOS
+                                    if (window.navigator.standalone) {
+                                        return true;
+                                    }
+                                    // Для других платформ можно использовать другие методы проверки
+                                    // Например, проверка с помощью сервисного работника
+                                    if (window.matchMedia('(display-mode: standalone)').matches) {
+                                        return true;
+                                    }
+                                    // Дополнительные методы проверки, если необходимо
+                                    return false;
+                                }
+
+                                function isMobileDevice() {
+                                    return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+                                }
+
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    const mobileMessage = document.getElementById('mobileMessage');
+                                    const desktopMessage = document.getElementById('desktopMessage');
+                                    const installButton = document.getElementById('installButton');
+
+                                    if (isMobileDevice()) {
+                                        desktopMessage.style.display = 'none';
+                                        if (!isAppInstalled() && deferredPrompt) {
+                                            installButton.style.display = 'block';
+                                        } else {
+                                            mobileMessage.style.display = 'block';
+                                        }
+                                    } else {
+                                        mobileMessage.style.display = 'none';
+                                        installButton.style.display = 'none';
+                                        desktopMessage.style.display = 'block';
+                                    }
+                                });
+                            </script>
+
+                            <div class="text-center mt-5">
+                                <img src="/cpanel/images/mobile_app.png" class="img-fluid custom-img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

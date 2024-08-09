@@ -1,0 +1,25 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}New Draft{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Create new item{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+
+                        {{ include('cpanel/draft/_form.html.twig') }}
+
+                        <div class="mt-5">
+                            <a href="{{ path('app_draft_index')}}" class="btn btn-sm btn-outline-secondary"><i class="material-icons">arrow_back</i> {% trans %}back{% endtrans %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'security/base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-center mt-5 mb-5">
+        <div class="card shadow-lg" style="width: 550px; border-top: 5px solid #0275d8;">
+            <div class="card-body">
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <div class="mb-3">
+                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+
+                    <h5 class="mb-4 font-weight-normal text-center">{% trans %}Please sign in{% endtrans %}</h5>
+                    <div class="form-group">
+                        <label for="inputEmail" class="font-weight-normal">{% trans %}Email{% endtrans %}</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" placeholder="{% trans %}Enter your email address...{% endtrans %}" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="font-weight-normal">{% trans %}Password{% endtrans %}</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="{% trans %}Enter your password{% endtrans %}" required>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+
+                    {#
+                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html
+
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+                    #}
+
+                    {# Ваша ссылка для сброса пароля #}
+                    <div class="mb-3">
+                        <a href="{{ path('app_forgot_password_request') }}">{% trans %}forgot your password?{% endtrans %}</a>
+                    </div>
+
+                    <div class="d-flex mt-4">
+                        <button class="btn btn btn-primary mr-3" type="submit">
+                            {% trans %}Enter{% endtrans %}
+                        </button>
+                        <div class="text-right">
+                            <a href="/register" class="btn btn-outline-secondary">{% trans %}Register{% endtrans %}</a>
+                        </div>
+                    </div>
+                </form>
+
+                <hr>
+
+                <div class="text-center mt-3">
+                    <a href="{{ path('connect_google_start') }}" class="btn btn-danger">
+                        <i class="fab fa-google mr-3"></i> {% trans %}Login with Google{% endtrans %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

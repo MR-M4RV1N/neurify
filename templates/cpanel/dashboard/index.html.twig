@@ -1,0 +1,78 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+<div class="main-content-container container-fluid">
+    <div class="card card-small p-1 mt-4">
+        <div class="card-header border-bottom">
+            <h6 class="m-0">Dashboard</h6>
+        </div>
+        <div class="card-body p-0 pb-3 text-center">
+            <table class="table mb-0">
+                <tbody class="text-left">
+                    <tr>
+                        <td class="pl-4">{% trans %}selected category{% endtrans %}:</td>
+                        <td>{{ selectedCategory }}</td>
+                    </tr>
+                    <tr>
+                        <td class="pl-4">{% trans %}total collections{% endtrans %}:</td>
+                        <td>{{ totalCategories }}</td>
+                    </tr>
+                    <tr>
+                        <td class="pl-4" style="width: 270px">{% trans %}total completed challenges{% endtrans %}:</td>
+                        <td>{{ totalEvents }}</td>
+                    </tr>
+                    <tr>
+                        <td class="pl-4" style="width: 270px">{% trans %}next level{% endtrans %}:</td>
+                        <td>{{ nextLevel }} ({{ totalEvents + nextLevel }})</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="card card-small p-1 mt-4 mb-3">
+        <div class="card-header border-bottom">
+            <h6 class="m-0 text-center">{% trans %}your level{% endtrans %}: "{{ level.title }}"</h6>
+        </div>
+        <div class="card-body p-0 pb-3 text-center">
+            <div class="col col-md-4 mx-auto text-center mt-3">
+                <img class="img-fluid rounded" src="/images/{{ level.image }}">
+            </div>
+            <div class="col col-md-4 mx-auto text-center mt-3">
+                <p>
+                    {{ level.description }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-small p-1 mt-4 mb-5">
+        <div class="card-header border-bottom">
+            <h6 class="m-0 text-center">Līmeni</h6>
+        </div>
+        <div class="card-body p-0 pb-3 text-center">
+            <table class="table mb-0">
+                <thead class="bg-light">
+                <tr>
+                    <th scope="col" class="border-0">#</th>
+                    <th scope="col" class="border-0 text-left">Nosaukums</th>
+                    <th scope="col" class="border-0 text-left">Izaicinājumu skaits</th>
+                </tr>
+                </thead>
+                <tbody class="text-left">
+                {% for l in levels %}
+                    <tr>
+                        <td class="pl-4" style="width: 50px">{{ loop.index }}</td>
+                        <td>{{ l.title }}</td>
+                        <td>{{ l.challenges }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

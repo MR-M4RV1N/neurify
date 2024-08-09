@@ -1,0 +1,119 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Progress index{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">{% trans %}Section{% endtrans %}</span>
+                <h3 class="page-title">{% trans %}Progress{% endtrans %}</h3>
+            </div>
+        </div>
+        <!-- End Page Header -->
+
+        <div class="card card-small p-1 mb-3">
+            <div class="card-header border-bottom">
+                <h6 class="m-0 text-center">{% trans %}your level{% endtrans %}: {{ level.number }}</h6>
+            </div>
+            <div class="card-body p-0 pb-3 text-center">
+                <div class="col col-md-4 mx-auto text-center">
+                    <img class="img-fluid rounded" src="/images/{{ level.image }}">
+                </div>
+                <div class="col col-md-4 mx-auto text-center">
+                    <h6>
+                        {{ level.title }}
+                    </h6>
+                    <p>
+                        {{ level.description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        {% if app.user.progress > 100 %}
+        <!-- Default Light Table -->
+        <div class="row">
+            <div class="col">
+                <div class="card card-small mt-3">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0">{% trans %}Collections{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body p-0 pb-3 text-center">
+                        <table class="table mb-0">
+                            <thead class="bg-light">
+                            <tr>
+                                <th scope="col" class="border-0">#</th>
+                                <th scope="col" class="border-0 text-left">{% trans %}Title{% endtrans %}</th>
+                                <th scope="col" class="border-0">{% trans %}Actions{% endtrans %}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for progress in categories %}
+                                <tr>
+                                    <td style="width: 70px">{{ loop.index }}</td>
+                                    <td class="text-left {{ progress.active ? 'active-row' : '' }}">{{ progress.title }}</td>
+                                    <td>
+                                        <a href="{{ path('app_events_by_id', {'id': progress.id}) }}">{% trans %}look{% endtrans %}</a> |
+                                        <a href="{{ path('app_progress_edit', {'id': progress.id}) }}">{% trans %}edit{% endtrans %}</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3">{% trans %}There are no entries{% endtrans %}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card card-small p-1 mt-3 mb-5">
+            <div class="card-header border-bottom">
+                <h6 class="m-0 text-center">{% trans %}Levels{% endtrans %}</h6>
+            </div>
+            <div class="card-body p-0 pb-3 text-center">
+                <table class="table mb-0">
+                    <thead class="bg-light">
+                    <tr>
+                        <th scope="col" class="border-0">#</th>
+                        <th scope="col" class="border-0 text-left">{% trans %}Title{% endtrans %}</th>
+                        <th scope="col" class="border-0 text-left d-none d-md-table-cell">{% trans %}Challenges{% endtrans %}</th>
+                        <th scope="col" class="border-0 text-left">{% trans %}Actions{% endtrans %}</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-left">
+                    {% for l in levels %}
+                        <tr>
+                            <td class="pl-4 {{ level.id == l.id ? 'active-row' : ''}}" style="width: 50px">{{ loop.index }}</td>
+                            <td class="{{ level.id == l.id ? 'active-row' : ''}}">
+                                {{ l.title }}
+                            </td>
+                            <td class="{{ level.id == l.id ? 'active-row' : ''}} d-none d-md-table-cell">
+                                {% if level.id == l.id %}
+                                    {% trans %}Before{% endtrans %}
+                                {% endif %}
+                                {{ l.challenges }}
+                            </td>
+                            <td>
+                                {% if l.id < level.id %}
+                                    <a href="/cpanel/progress/by-level/{{ l.number }}">{% trans %}Review{% endtrans %}</a>
+                                {% elseif l.id == level.id %}
+                                    <a href="/cpanel/editor/events/last">{% trans %}Open{% endtrans %}</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD FLOATING BUTTON -->
+    <!-- <div class="devstyle-floating-button" onclick="location.href='{{ path('app_progress_new') }}'"> +</div> -->
+{% endblock %}

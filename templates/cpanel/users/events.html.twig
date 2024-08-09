@@ -1,0 +1,46 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">Sadaļa</span>
+                <h3 class="page-title mb-2">Publiskie ieraksti</h3>
+            </div>
+        </div>
+        <div class="row px-2">
+            {% for event in events %}
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card card-small card-post card-post--1 h-100">
+                        <div class="card-post__image"
+                             style="background-image: url('/cpanel/images/events/{{ event.image }}');">
+                            <div class="card-post__author d-flex">
+                                <a href="{{ path('app_users_user', {'id': event.user.id}) }}" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('/cpanel/profile/uploads/images/{{ event.user.image }}');">Written by {{ event.user.firstname }} {{ event.user.lastname }}</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a class="text-fiord-blue" href="{{ path('app_users_events_show', {'id': event.id}) }}">{{ event.title }}</a>
+                            </h5>
+                            <p class="card-text">
+                                {% if event.description|length > 155 %}
+                                    {{ event.description|slice(0, 155) ~ '...' }}
+                                {% else %}
+                                    {{ event.description }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="card-footer text-muted border-top py-3">
+                            <span>Autors: {{ event.user.firstname }} {{ event.user.lastname }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div>Nav neviena ieraksta.</div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

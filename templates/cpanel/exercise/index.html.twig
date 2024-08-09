@@ -1,0 +1,79 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Exercise index{% endblock %}
+
+{% block body %}
+    <!-- Page Header -->
+    <div class="main-content-container container-fluid">
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">{% trans %}Section{% endtrans %}</span>
+                <h3 class="page-title">{% trans %}Exercises{% endtrans %}</h3>
+            </div>
+        </div>
+        <div class="row px-2">
+            {% for exercise in exercises %}
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card card-small card-post h-100">
+                        <div class="card-post__image" style="background-image: url('/cpanel/images/exercises/{{ exercise.image }}');"></div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a class="text-fiord-blue" href="{{ path('app_exercise_show', {'id': exercise.id}) }}">{{ exercise.title }}</a>
+                            </h5>
+                            <p class="card-text">
+                                {{ exercise.description|html_slice(155)|raw }}
+                            </p>
+                        </div>
+                        <div class="card-footer text-muted border-top py-3">
+                            <div class="d-flex justify-content-end">
+                                <div class="mr-5 mt-1 w-100">
+                                    <span id="loading-{{ exercise.id }}" class="text-info">
+                                        <i class="fas fa-spinner fa-spin"></i> Loading...
+                                    </span>
+                                    <span class="text-success devstyle-hidden" id="completed-{{ exercise.id }}">
+                                        <i class="fas fa-check-circle"></i> {% trans %}Completed{% endtrans %}
+                                    </span>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            var exerciseId = {{ exercise.id }};
+                                            var completedSpan = document.getElementById('completed-' + exerciseId);
+                                            var loadingSpan = document.getElementById('loading-' + exerciseId);
+
+                                            // Показываем индикатор загрузки
+                                            loadingSpan.style.display = 'inline';
+
+                                            fetch('/cpanel/exercises/ajax/check?id=' + exerciseId)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    // Скрываем индикатор загрузки
+                                                    loadingSpan.style.display = 'none';
+
+                                                    if (data.result) {
+                                                        completedSpan.classList.remove('devstyle-hidden');
+                                                    }
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error:', error);
+                                                    loadingSpan.style.display = 'none'; // Скрываем индикатор загрузки в случае ошибки
+                                                });
+                                        });
+                                    </script>
+                                </div>
+
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_exercise_show', {'id': exercise.id}) }}">{% trans %}Open{% endtrans %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div>No records found</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <!-- ADD FLOATING BUTTON -->
+        <div class="devstyle-floating-button" onclick="location.href='{{ path('app_exercise_new') }}'"> +</div>
+    {% endif %}
+
+{% endblock %}

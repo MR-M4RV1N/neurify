@@ -1,0 +1,34 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Edit Event{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Edit challenge{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        {{ include('cpanel/event/_form.html.twig', {'button_label': 'Update'|trans}) }}
+
+                        <div class="d-flex mt-5">
+                            <a href="{{ path('app_events_list') }}" class="btn btn-sm btn-outline-secondary"><i class="material-icons">arrow_back</i> {% trans %}Back{% endtrans %}</a>
+                            {% if event.public == false %}
+                                <form action="{{ path('app_event_to_public', {'id': form.vars.value.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to public this item?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-primary ml-2"><i class="material-icons">public</i> {% trans %}To public{% endtrans %}</button>
+                                </form>
+                            {% else %}
+                                <form action="{{ path('app_event_retract_public', {'id': form.vars.value.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to retract public item?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger ml-2"><i class="material-icons">public</i> {% trans %}Retract{% endtrans %}</button>
+                                </form>
+                            {% endif %}
+                            {{ include('cpanel/event/_delete_form.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

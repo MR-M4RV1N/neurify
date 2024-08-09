@@ -1,0 +1,26 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Edit Ensemble{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Edit challege{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        {{ include('cpanel/ensemble/_form.html.twig', {'button_label': 'Update'|trans}) }}
+
+                        <div class="d-flex mt-5">
+                            <a href="{{ path('app_ensemble_list') }}" class="btn btn-sm btn-outline-secondary"><i class="material-icons">arrow_back</i> {% trans %}Back{% endtrans %}</a>
+
+                            {{ include('cpanel/ensemble/_delete_form.html.twig') }}`
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'client/users/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-lg-8">
+                <div class="card card-small mb-4 mt-4 p-lg-5 p-md-5">
+                    <div class="card-header border-bottom text-center">
+                        <div class="mb-3 mx-auto">
+                            <img class="rounded-circle devstyle-user-avatar" src="/cpanel/profile/uploads/images/{{ profile.image }}" alt="User Avatar" width="110"> </div>
+                        <h4 class="mb-0">{{ profile.firstname }} {{ profile.lastname }}</h4>
+                        <span class="text-muted d-block mb-2">{{ level.title }} ({{ level.number }})</span>
+                    </div>
+                    {% if app.user.type == 2 %}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item p-4">
+                                <strong class="text-muted d-block mb-2 text-center">{% trans %}Description{% endtrans %}</strong>
+                                <span>
+                                {{ profile.description }}
+                            </span>
+                            </li>
+                        </ul>
+                    {% endif %}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-4">
+                            <div class="progress-wrapper">
+                                <strong class="text-muted d-block mb-2">{% trans %}Progress{% endtrans %}</strong>
+                                <div class="progress progress-sm">
+                                    {% set part = profile.progress %}
+                                    {% set total = 81 %}
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ profile.progress }}" aria-valuemin="0" aria-valuemax="81" style="width: {{ (part / total * 100)|number_format(0) ~ '%' }};">
+                                        <span class="progress-value">{{ (part / total * 100)|number_format(0) ~ '%' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item p-4 text-center">
+                            {% if profile.id != app.user.id %}
+                                <!-- Write to / -->
+                                <button id="chatButton" class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
+                                    <i class="material-icons mr-1" id="chatIcon">message</i>
+                                    <span id="chatText">{% trans %}Write to{% endtrans %}</span>
+                                </button>
+                                <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="confirmModalLabel">{% trans %}Confirmation{% endtrans %}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {% trans %}A new chat will be created.{% endtrans %}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
+                                                <button type="button" class="btn btn-primary" id="confirmButton">OK</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        var chatButton = document.getElementById('chatButton');
+                                        var chatText = document.getElementById('chatText');
+
+                                        chatButton.addEventListener('click', function() {
+                                            chatText.textContent = 'Loading...'; // Показываем индикатор загрузки
+                                            var checkUrl = '{{ path('cpanel_chat_check', {'id': profile.id}) }}'; // Используем правильный маршрут для проверки
+
+                                            fetch(checkUrl)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.result) {
+                                                        window.location.href = '{{ path('cpanel_chat_new', {'id': profile.id}) }}'; // Если результат true, переход
+                                                    } else {
+                                                        $('#confirmModal').modal('show'); // Если результат false, показать модальное окно
+                                                        chatText.textContent = 'Send a message'; // Восстановить текст кнопки при ошибке
+                                                    }
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error:', error);
+                                                    chatText.textContent = 'Send a message'; // Восстановить текст кнопки при ошибке
+                                                });
+                                        });
+
+                                        document.getElementById('confirmButton').addEventListener('click', function() {
+                                            window.location.href = '{{ path('cpanel_chat_new', {'id': profile.id}) }}'; // Переход по подтверждению
+                                        });
+                                    });
+                                </script>
+                                <!-- / Write to -->
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-lg-8">
+            <!-- Page Header -->
+            <div class="page-header d-flex justify-content-center pb-3">
+                <div class="col-12 col-sm-4 text-center mb-0">
+                    <h3 class="page-title mb-2">{% trans %}Try to repeat{% endtrans %}</h3>
+                </div>
+            </div>
+
+            <div class="row px-2">
+                {% for event in events %}
+                    <div class="col-lg-4 col-md-6 col-sm-4 mb-4">
+                        <div class="card card-small card-post card-post--1 h-100">
+                            <div class="card-post__image"
+                                 style="background-image: url('/cpanel/images/events/{{ event.image }}');">
+
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a class="text-fiord-blue" href="{{ path('client_event_show', {'id': event.id}) }}">{{ event.title }}</a>
+                                </h5>
+                                <p class="card-text">
+                                    {% if event.description|length > 155 %}
+                                        {{ event.description|slice(0, 155) ~ '...' }}
+                                    {% else %}
+                                        {{ event.description }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="card-footer text-muted border-top py-3">
+                                <span>{% trans %}Author{% endtrans %}: {{ event.user.firstname }} {{ event.user.lastname }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="ml-4">{% trans %}No records found{% endtrans %}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

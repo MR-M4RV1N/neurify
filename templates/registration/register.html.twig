@@ -1,0 +1,169 @@
+{% extends 'security/base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% form_theme registrationForm 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="d-flex justify-content-center mt-5 mb-5">
+        <div class="card shadow-lg" style="width: 550px; border-top: 5px solid #0275d8;">
+            <div class="card-body">
+                <div class="text-center">
+                    <img src="/cpanel/images/admin-panel-primary.png" style="width:50px; margin-bottom:20px;">
+                </div>
+
+                <h6 class="h6 mb-3 font-weight-light text-center">{% trans %}Register{% endtrans %}</h6>
+
+                {{ form_start(registrationForm) }}
+                <div>
+                    {{ form_row(registrationForm.email) }}
+                </div>
+                <br>
+                <div>
+                    {{ form_row(registrationForm.plainPassword, {
+                        label: 'password'
+                    }) }}
+                </div>
+                <br>
+                <div>
+                    {{ form_row(registrationForm.username) }}
+                    <!-- Вывод ошибок валидации имени пользователя -->
+                    {% if registrationForm.username.vars.errors %}
+                        {% for error in registrationForm.username.vars.errors %}
+                            <div class="alert alert-danger">
+                                {{ error.message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <!-- Кнопка проверить имя пользователя на доступность -->
+                    <div id="username-check" class="alert alert-danger d-none"></div>
+                </div>
+                <br>
+                <div>
+                    {{ form_row(registrationForm.firstname) }}
+                    {{ form_row(registrationForm.lastname) }}
+                </div>
+                <div>
+                    {{ form_row(registrationForm.lang) }}
+                </div>
+                <div class="mt-5">
+                    {{ form_row(registrationForm.agreeTerms, {
+                        label: 'Accept the terms <a href="#" data-toggle="modal" data-target="#termsModal">Terms of Use</a>'
+                    }) }}
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" id="register-button" disabled>{% trans %}Register{% endtrans %}</button>
+                </div>
+                {{ form_end(registrationForm) }}
+
+                <!-- Modal -->
+                <div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="termsModalLabel">{% trans %}Terms of Use{% endtrans %}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {% if app.request.locale == 'ru' %}
+                                    <div>
+                                        <h4>Условия пользования</h4>
+                                        <p>Добро пожаловать на наш сайт! Пожалуйста, внимательно прочитайте эти условия перед использованием нашего сервиса.</p>
+                                        <h5>Общие положения</h5>
+                                        <ul>
+                                            <li>Используя наш сайт, вы соглашаетесь соблюдать эти условия.</li>
+                                            <li>Мы оставляем за собой право изменять эти условия в любое время без предварительного уведомления.</li>
+                                        </ul>
+                                        <h5>Использование сайта</h5>
+                                        <ul>
+                                            <li>Пользователи обязуются использовать сайт только в законных целях и не нарушать права других пользователей.</li>
+                                        </ul>
+                                        <h5>Ограничение ответственности</h5>
+                                        <ul>
+                                            <li>Мы не несем ответственности за любые убытки, возникшие в результате использования сайта.</li>
+                                        </ul>
+                                    </div>
+                                {% elseif app.request.locale == 'lv' %}
+                                    <div>
+                                        <h4>Noteikumi</h4>
+                                        <p>Laipni lūdzam mūsu vietnē! Lūdzu, rūpīgi izlasiet šos noteikumus pirms mūsu pakalpojumu izmantošanas.</p>
+                                        <h5>Vispārīgie noteikumi</h5>
+                                        <ul>
+                                            <li>Izmantojot mūsu vietni, jūs piekrītat ievērot šos noteikumus.</li>
+                                            <li>Mēs paturam tiesības jebkurā laikā mainīt šos noteikumus bez iepriekšēja brīdinājuma.</li>
+                                        </ul>
+                                        <h5>Vietnes izmantošana</h5>
+                                        <ul>
+                                            <li>Lietotāji apņemas izmantot vietni tikai likumīgiem mērķiem un nepārkāpt citu lietotāju tiesības.</li>
+                                        </ul>
+                                        <h5>Atbildības ierobežojums</h5>
+                                        <ul>
+                                            <li>Mēs neesam atbildīgi par jebkādiem zaudējumiem, kas radušies vietnes izmantošanas rezultātā.</li>
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <h4>Terms</h4>
+                                        <p>Welcome to our website! Please read these terms carefully before using our services.</p>
+                                        <h5>General Provisions</h5>
+                                        <ul>
+                                            <li>By using our website, you agree to comply with these terms.</li>
+                                            <li>We reserve the right to change these terms at any time without prior notice.</li>
+                                        </ul>
+                                        <h5>Website Use</h5>
+                                        <ul>
+                                            <li>Users agree to use the website only for lawful purposes and not to infringe on the rights of other users.</li>
+                                        </ul>
+                                        <h5>Limitation of Liability</h5>
+                                        <ul>
+                                            <li>We are not responsible for any losses resulting from the use of the website.</li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Close{% endtrans %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameInput = document.getElementById('registration_form_username');
+            const usernameCheck = document.getElementById('username-check');
+            const registerButton = document.getElementById('register-button');
+
+            usernameInput.addEventListener('input', function() {
+                const username = usernameInput.value;
+                if (username.length > 0) {
+                    fetch(`/check-username?username=${username}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.exists) {
+                                usernameCheck.classList.remove('d-none');
+                                usernameCheck.textContent = 'Username already exists.';
+                                registerButton.disabled = true;
+                            } else {
+                                usernameCheck.classList.add('d-none');
+                                registerButton.disabled = false;
+                            }
+                        });
+                } else {
+                    usernameCheck.classList.add('d-none');
+                    registerButton.disabled = true;
+                }
+            });
+        });
+    </script>
+{% endblock %}

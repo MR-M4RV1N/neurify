@@ -1,0 +1,175 @@
+/* Это для таблицы "show" */
+.devstyle-table
+  table-layout: fixed
+
+.td
+  @media screen and (min-width: 1200px)
+    height: 150px
+    font-size: 12px
+  @media screen and (min-width: 992px) and (max-width: 1200px)
+    height: 150px
+    font-size: 12px
+  @media screen and (min-width: 768px) and (max-width: 992px)
+    height: 150px
+    font-size: 12px
+  @media screen and (min-width: 576px) and (max-width: 768px)
+    height: 160px
+    font-size: 12px
+  @media screen and (max-width: 576px)
+    height: 100px
+    font-size: 10px
+  vertical-align: middle !important
+  cursor: pointer
+  -moz-hyphens: auto
+  -webkit-hyphens: auto
+  -ms-hyphens: auto
+.td-empty 
+  height: 100px
+  width: 100px
+  vertical-align: middle !important
+  -moz-hyphens: auto
+  -webkit-hyphens: auto
+  -ms-hyphens: auto
+  font-size: 10px
+.td:hover 
+  background-color: #d0d0d0
+.special-table-border td
+  border: 1px solid black
+.loop-index
+  background-color: whitesmoke
+
+/* Это для пагинации */
+.pagination
+  display: inline-block
+.pagination a
+  background-color: white
+  color: black
+  float: left
+  padding: 8px 16px
+  text-decoration: none
+  border: 1px solid #ddd
+.pagination a.active
+  background-color: blue
+  color: white
+  border: 1px solid blue
+.pagination a:hover:not(.active)
+  background-color: #ddd
+.pagination a:first-child
+  border-top-left-radius: 5px
+  border-bottom-left-radius: 5px
+.pagination a:last-child
+  border-top-right-radius: 5px
+  border-bottom-right-radius: 5px
+/* Это для пагинации Pagerfanta */
+.pagination span.current
+  background-color: white
+  color: black
+  float: left
+  padding: 8px 16px
+  text-decoration: none
+  border: 1px solid #ddd
+  background-color: blue
+  color: white
+  border: 1px solid blue
+.pagination span.disabled
+  background-color: white
+  color: black
+  float: left
+  padding: 8px 16px
+  text-decoration: none
+  border: 1px solid #ddd
+
+
+/* Это для плавающей кнопки "Добавить" */
+.devstyle-floating-button
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 50px
+  height: 50px
+  background-color: #1266F1
+  border-radius: 50%
+  box-shadow: 0 6px 10px 0 #666
+  transition: all 0.1s ease-in-out
+  cursor: pointer
+  font-size: 30px
+  color: white
+  position: fixed
+  right: 30px
+  bottom: 30px
+  line-height: 1
+
+  &:hover
+    box-shadow: 0 6px 14px 0 #666
+    transform: scale(1.1)
+
+/* Это для карточек постов - чтобы одинаковые были */
+.devstyle-blog-card-body
+  min-height: 150px
+  font-size: 12px
+
+.devstyle-content-area
+  margin-right: -15px !important
+  margin-left: -15px !important
+
+/* Это чтобы <strong> работал в ckeditor */
+strong
+  font-weight: bold
+
+/* Это для картинок в items */
+.devstyle-item-image-height
+  @media screen and (min-width: 900px)
+      height: 350px
+  @media screen and (max-width: 900px)
+      height: 200px
+/* Это для того, чтобы модалка была поверх всего (не пропадала под левом меню) */
+.devstyle-modal-z-index
+  z-index: 10000 !important
+/* Это для ячеек матрицы */
+.devstyle-sanskrit-letter
+  font-size: 24px
+/* Это для записей блога */
+.devstyle-blog-card-img
+  border-top-left-radius: 0.625rem
+  border-top-right-radius: 0.625rem
+  height: 200px
+  object-fit: cover
+/* Это для показа руки вместо указателя */
+.devstyle-pointer
+  cursor: pointer
+/* Это для аватара в топбаре, а то не было круглое при user-avatar rounded-circle */
+.devstyle-profile-image
+  width: 2.5rem
+  height: 2.5rem
+  object-fit: cover
+  border-radius: 50% !important
+/* Это для таблицы "show" */
+.devstyle-table
+  table-layout: fixed
+/* Это для того, чтобы активная запись была красной */
+.active-row
+  color: red
+.devstyle-user-avatar
+  object-fit: cover /* Обеспечивает заполнение контейнера без потери пропорций */
+  height: 110px /* Высота равна ширине для создания круга */
+  width: 110px /* Ширина */
+.devstyle-red-circle
+  display: inline-block
+  width: 20px /* или другой размер, который вам нужен */
+  height: 20px
+  background-color: red
+  color: white
+  text-align: center
+  line-height: 20px /* высота равна ширине для центрирования текста */
+  border-radius: 50%  /* делает круг */
+  font-size: 12px /* адаптируйте размер шрифта по необходимости */
+.devstyle-hidden
+  display: none
+.devstyle-text-indent
+  text-indent: 40px
+.large-icon
+  font-size: 24px !important
+.icon-text-container
+    display: flex
+    align-items: center
+    justify-content: center

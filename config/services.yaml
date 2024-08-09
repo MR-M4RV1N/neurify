@@ -1,0 +1,60 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+      image_upload_directory_drafts: '%kernel.project_dir%/public/cpanel/images/drafts'
+      image_upload_directory_events: '%kernel.project_dir%/public/cpanel/images/events'
+      image_upload_directory_blanks: '%kernel.project_dir%/public/cpanel/images/blanks'
+      image_upload_directory_example: '%kernel.project_dir%/public/cpanel/images/example'
+      image_upload_directory_exercises: '%kernel.project_dir%/public/cpanel/images/exercises'
+      image_upload_directory: '%kernel.project_dir%/public/images/uploads'
+      profile_image_upload_directory: '%kernel.project_dir%/public/cpanel/profile/uploads/images'
+      openai.api_key: '%env(OPENAI_API_KEY)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            string $apiKey: '%openai.api_key%'
+    HTMLPurifier_Config:
+        class: HTMLPurifier_Config
+        factory: ['HTMLPurifier_Config', 'createDefault']
+        calls:
+            - [set, ['HTML.DefinitionID', 'purifier_config']]
+            - [set, ['HTML.DefinitionRev', 1]]
+            - [set, ['Cache.SerializerPath', '%kernel.cache_dir%/htmlpurifier']]
+            - [set, ['HTML.Allowed', 'p,b,a[href],i']]
+    HTMLPurifier:
+        class: HTMLPurifier
+        arguments: ['@HTMLPurifier_Config']
+    App\Service\ImageOptimizerService:
+        autowire: true
+        autoconfigure: true
+    App\Service\ImageUploadHandlerService:
+        autowire: true
+        autoconfigure: true
+    App\EventSubscriber\ProfileCheckSubscriber:
+        arguments:
+            $profileService: '@App\Service\ProfileService'
+            $router: '@router.default'
+        tags:
+            - { name: 'kernel.event_subscriber' }
+    App\Service\OpenAIService:
+        arguments:
+            $apiKey: '%openai.api_key%'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

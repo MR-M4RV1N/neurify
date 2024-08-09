@@ -1,0 +1,141 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Event{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="card card-small p-1 mt-4">
+            <div class="card-header border-bottom">
+                <h6 class="m-0 text-center">{{ event.title }}</h6>
+            </div>
+            <div class="card-body">
+                <div class="col col-md-4 mx-auto text-center">
+                    <img class="img-fluid rounded" src="/cpanel/images/events/{{ event.image }}">
+                </div>
+
+                <div class="col col-md-6 mx-auto mt-3">
+                    <p class="text-center">{% trans %}completed at{% endtrans %}: {{ event.date|date('Y-m-d') }}</p>
+                </div>
+
+                <div class="col col-md-6 mx-auto mt-3">
+                    <p class="text-justify devstyle-text-indent">{{ event.description }}</p>
+                </div>
+
+                <div class="col col-md-6 mx-auto border-top pt-3">
+                    <div class="d-flex">
+                        <a href="{{ path('app_ensemble_open', {'id': event.ensemble.id}) }}" class="btn btn-sm btn-outline-secondary mr-2"><i class="material-icons">arrow_back</i> {% trans %}Back{% endtrans %}</a>
+                        {% if event.user.id != app.user.id %}
+                            <!-- Кнопка для app_event_copy_to_draft с всплывающим подтверждением -->
+                            <a href="{{ path('app_event_copy_to_draft', {id: event.id}) }}" class="btn btn-sm btn-outline-primary" onclick="event.preventDefault(); if(confirm('{% trans %}Are you sure you want to copy this challenge to draft?{% endtrans %}')) { window.location.href = this.href; }">
+                                <i class="material-icons">file_copy</i>
+                                {% trans %}To draft{% endtrans %}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-small p-1 mt-4 mb-5">
+            <div class="card-header border-bottom">
+                <h6 class="m-0 text-center">{% trans %}Comments{% endtrans %}</h6>
+            </div>
+            <div class="card-body">
+                <div class="col col-md-6 mx-auto mt-3">
+                    <form action="{{ path('app_comment_new', {id: event.id}) }}" method="post" class="comment-form">
+                        <!-- CSRF Token -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token('new-comment') }}">
+                        <!-- Container for reply, now visible input will be added here -->
+                        <div class="reply-container"></div>
+                        <!-- Hidden input for parent comment ID, will be dynamically set by JavaScript -->
+                        <input type="hidden" name="parent" id="parentCommentId">
+                        <!-- Comment -->
+                        <div class="form-group">
+                            <textarea name="text" class="form-control" placeholder="{% trans %}Your comment{% endtrans %}" aria-label="{% trans %}Your comment{% endtrans %}"></textarea>
+                        </div>
+                        <!-- Submit -->
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-sm btn-primary">
+                                <i class="material-icons">send</i>
+                                {% trans %}Send{% endtrans %}
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Comments -->
+                    {% for comment in comments %}
+                        <div class="blog-comments__item d-flex p-3">
+                            <div class="blog-comments__avatar mr-3">
+                                <img src="/cpanel/profile/uploads/images/{{ comment.user.image }}" alt="User avatar"/>
+                            </div>
+                            <div class="blog-comments__content">
+                                <div class="blog-comments__meta text-muted">
+                                    <a class="text-secondary" href="#">{{ comment.user.username }}</a>
+                                    <span class="text-muted">– {{ comment.createdAt|date }}</span>
+                                </div>
+                                <!-- Если comment.parent не пустой, то отображаем -->
+                                {% if comment.parent %}
+                                    <p class="m-0 my-1 mb text-muted text-small"><em>{% trans %}Response to user comment{% endtrans %} {{ comment.parent.user.username }}: {{ comment.parent.text }}</em></p>
+                                {% endif %}
+                                <p class="m-0 my-1 mb-2 text-muted comment-text">{{ comment.text|raw }}</p>
+                                <button class="btn btn-sm btn-reply" data-comment-id="{{ comment.id }}">{% trans %}Reply{% endtrans %}</button>
+                                <!-- Кнопка (форма) для app_comment_delete с всплывающим подтверждением -->
+                                {% if comment.user.id == app.user.id %}
+                                    <form action="{{ path('app_comment_delete', {id: comment.id}) }}" method="post" class="d-inline">
+                                        <!-- CSRF Token -->
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token('delete-comment', comment.id) }}">
+                                        <button type="submit" class="btn btn-sm" onclick="if(!confirm('{% trans %}Are you sure you want to delete this comment?{% endtrans %}')) event.preventDefault();">
+                                            {% trans %}Delete{% endtrans %}
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            document.querySelectorAll('.btn-reply').forEach(button => {
+                                button.addEventListener('click', function() {
+                                    const commentId = this.getAttribute('data-comment-id');
+                                    const commentText = this.closest('.blog-comments__content').querySelector('p.comment-text').textContent.trim();
+                                    const form = this.closest('.card-body').querySelector('.comment-form');
+                                    const replyContainer = form.querySelector('.reply-container');
+
+                                    // Очистка контейнера для ответа
+                                    replyContainer.innerHTML = '';
+
+                                    // Установка значения в скрытый input
+                                    const parentInput = form.querySelector('#parentCommentId');
+                                    parentInput.setAttribute('value', commentId);
+
+                                    // Создание видимого input
+                                    const replyInput = document.createElement('input');
+                                    replyInput.setAttribute('type', 'text');
+                                    replyInput.setAttribute('name', 'replyToCommentText');
+                                    replyInput.setAttribute('value', `{% trans %}Response to user comment{% endtrans %}: ${commentText}`);
+                                    replyInput.setAttribute('readonly', true);
+                                    replyInput.classList.add('form-control'); // Добавление класса для стилизации
+
+                                    // Вставка input в контейнер для ответа
+                                    replyContainer.appendChild(replyInput);
+
+                                    // Перемещение фокуса на поле ввода комментария
+                                    // const textarea = form.querySelector('textarea[name="text"]');
+                                    // textarea.focus();
+                                });
+                            });
+                        });
+                    </script>
+                    {# Отображение пагинации #}
+                    <div class="container">
+                        <div class="d-flex justify-content-center pagination mt-5 mb-5">
+                            <div class="pagination">
+                                {{ pagerfanta(comments, 'default') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

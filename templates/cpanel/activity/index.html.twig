@@ -1,0 +1,123 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Activity{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">
+                    {% trans %}Data for the year{% endtrans %}
+                </span>
+                <h3 class="page-title">{% trans %}Your activity{% endtrans %}</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <!-- Challenges in planning -->
+                <!--<div class="card card-small p-1">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Challenges in planning{% endtrans %}: {{ draftsCount }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <canvas id="draftsChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>-->
+
+                <!-- Completed challenges -->
+                <div class="card card-small p-1 mt-1">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Completed challenges{% endtrans %}: {{ eventsCount }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <canvas id="eventsChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        fetch('/cpanel/progress/activity/api/statistics')
+                            .then(response => response.json())
+                            .then(data => {
+                                const eventLabels = data.events.map(item => item.month);
+                                const eventValues = data.events.map(item => item.count);
+
+                                const draftLabels = data.drafts.map(item => item.month);
+                                const draftValues = data.drafts.map(item => item.count);
+
+                                const eventsCtx = document.getElementById('eventsChart').getContext('2d');
+                                new Chart(eventsCtx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: eventLabels,
+                                        datasets: [{
+                                            label: 'Количество выполненных записей',
+                                            data: eventValues,
+                                            borderColor: 'rgba(75, 192, 192, 1)',
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        }
+                                    }
+                                });
+
+                                const draftsCtx = document.getElementById('draftsChart').getContext('2d');
+                                new Chart(draftsCtx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: draftLabels,
+                                        datasets: [{
+                                            label: 'Количество запланированных записей',
+                                            data: draftValues,
+                                            borderColor: 'rgba(255, 99, 132, 1)',
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                    });
+                </script>
+
+                {% if eventsByMonth|length > 0 %}
+                    {% for month, events in eventsByMonth %}
+                        <div class="card card-small my-3">
+                            <div class="card-header border-bottom">
+                                <h6 class="m-0 text-center">{{ month }}</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    {% for event in events %}
+                                        <li class="list-group-item">
+                                            <a href="{{ path('app_event_show', {'id': event.id}) }}">{{ event.title }}</a>
+                                            <div class="small text-muted">{{ event.date|date('d M Y') }}</div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center">{% trans %}Your completed records will be displayed here by month{% endtrans %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

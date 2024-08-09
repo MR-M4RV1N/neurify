@@ -1,0 +1,143 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}User profile{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <!-- Сообщение -->
+                {% for label, messages in app.session.flashBag.all %}
+                    <div class="alert alert-accent alert-dismissible fade show mt-4" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <i class="fa fa-info mx-2"></i>
+                        {% for message in messages %}
+                            <strong>{{ message|raw }}</strong>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <div class="card card-small mb-4 pt-3 mt-4">
+                    <div class="card-header border-bottom text-center">
+                        <div class="mb-3 mx-auto">
+                            <img class="rounded-circle devstyle-user-avatar" src="/cpanel/profile/uploads/images/{{ app.user.image }}" alt="User Avatar" width="110">
+                        </div>
+                        <h4 class="mb-0">{{ app.user.firstname }} {{ app.user.lastname }}</h4>
+                        <span class="text-muted d-block mb-2">{{ myLevel.title }} ({{ myLevel.number }})</span>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item p-4">
+                            <strong class="text-muted d-block mb-2">{% trans %}Description{% endtrans %}</strong>
+                            <span>
+                                {{ app.user.description }}
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-4">
+                            <div class="progress-wrapper">
+                                <strong class="text-muted d-block mb-2">{% trans %}Progress{% endtrans %}</strong>
+                                <div class="progress progress-sm">
+                                    {% set part = app.user.progress %}
+                                    {% set total = 81 %}
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ app.user.progress }}" aria-valuemin="0" aria-valuemax="81" style="width: {{ (part / total * 100)|number_format(0) ~ '%' }};">
+                                        <span class="progress-value">{{ (part / total * 100)|number_format(0) ~ '%' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item p-4 text-center">
+                            <form action="{{ path('app_events_list') }}" method="get">
+                                <button type="submit" class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
+                                    <i class="material-icons mr-1">input</i>{% trans %}Open{% endtrans %}
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4 mb-5">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{{ app.user.email }}</h6>
+                    </div>
+                    <div class="card-body p-0 p-3">
+                        {{ form_start(form) }}
+                        <div>
+                            {{ form_row(form.username) }}
+                            <!-- Вывод ошибок валидации имени пользователя -->
+                            {% if form.username.vars.errors %}
+                                {% for error in form.username.vars.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ error.message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            <!-- Проверить имя пользователя на доступность -->
+                            <div id="username-check" class="alert alert-danger d-none"></div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const usernameInput = document.getElementById('user_username');
+                                    const usernameCheck = document.getElementById('username-check');
+                                    const registerButton = document.getElementById('register-button');
+
+                                    usernameInput.addEventListener('input', function() {
+                                        const username = usernameInput.value;
+                                        if (username.length > 0) {
+                                            fetch(`/check-username?username=${username}`)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.exists) {
+                                                        usernameCheck.classList.remove('d-none');
+                                                        usernameCheck.textContent = 'Username already exists.';
+                                                        registerButton.disabled = true;
+                                                    } else {
+                                                        usernameCheck.classList.add('d-none');
+                                                        registerButton.disabled = false;
+                                                    }
+                                                });
+                                        } else {
+                                            usernameCheck.classList.add('d-none');
+                                            registerButton.disabled = true;
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="text-center m-3">
+                            <i class="material-icons">arrow_drop_down</i> <!-- Иконка Font Awesome как разделитель -->
+                        </div>
+                        <div>
+                            {{ form_row(form.firstname) }}
+                            {{ form_row(form.lastname) }}
+                            {{ form_row(form.age) }}
+                            {{ form_row(form.location) }}
+                            {{ form_row(form.lang) }}
+                        </div>
+                        <div class="text-center m-3">
+                            <i class="material-icons">arrow_drop_down</i> <!-- Иконка Font Awesome как разделитель -->
+                        </div>
+                        <div>
+                            {{ form_row(form.image) }}
+                        </div>
+                        <div class="text-center m-3">
+                            <i class="material-icons">arrow_drop_down</i> <!-- Иконка Font Awesome как разделитель -->
+                        </div>
+                        <div>
+                            {{ form_row(form.description) }}
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-3">{% trans %}Update{% endtrans %}</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Draft index{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">{% trans %}Item quantity{% endtrans %}: {{ drafts|length }}</span>
+                <h3 class="page-title mb-2">{% trans %}Challenges in planning{% endtrans %}</h3>
+            </div>
+        </div>
+        <div class="row px-2">
+            {% for draft in drafts %}
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card card-small card-post h-100">
+                        <div class="card-post__image"
+                             style="background-image: url('/cpanel/images/drafts/{{ draft.image }}');"></div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a class="text-fiord-blue" href="{{ path('app_draft_show', {'id': draft.id}) }}">{{ draft.title }}</a>
+                            </h5>
+                            <p class="card-text">
+                                {% if draft.description|length > 155 %}
+                                    {{ draft.description|slice(0, 155) ~ '...' }}
+                                {% else %}
+                                    {{ draft.description }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="card-footer text-muted border-top py-3 text-right">
+                            <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_draft_show', {'id': draft.id}) }}">
+                                {% trans %}Show{% endtrans %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="ml-2">{% trans %}No records found{% endtrans %}</div>
+            {% endfor %}
+            {# Отображение пагинации #}
+            <div class="container">
+                <div class="d-flex justify-content-center pagination mt-2 mb-5">
+                    <div class="pagination">
+                        {{ pagerfanta(drafts, 'default') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD FLOATING BUTTON -->
+    <div class="devstyle-floating-button" onclick="location.href='{{ path('app_draft_new') }}'">+</div>
+
+{% endblock %}

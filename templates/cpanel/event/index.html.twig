@@ -1,0 +1,63 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">
+                    {% trans %}completed{% endtrans %}: {{ events|length }}
+                </span>
+                <h3 class="page-title mb-2">{% trans %}My new experience{% endtrans %}</h3>
+            </div>
+        </div>
+        <div class="row px-2">
+            {% for event in events %}
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card card-small card-post h-100 card-post--1">
+                        <div class="card-post__image"
+                             style="background-image: url('/cpanel/images/events/{{ event.image }}');">
+                            {% if event.public == true %}
+                                <a href="#" class="card-post__category badge badge-pill badge-primary">Public</a>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a class="text-fiord-blue" href="{{ path('app_event_edit', {'id': event.id}) }}">{{ event.title }}</a>
+                            </h5>
+                            <p class="card-text">
+                                {% trans %}completed at{% endtrans %}: {{ event.date|date('Y-m-d') }}
+                            </p>
+                        </div>
+                        <div class="card-footer text-muted border-top py-3">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-success">
+                                    <i class="fas fa-check-circle"></i> {% trans %}Completed{% endtrans %}
+                                </span>
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_event_show', {'id': event.id}) }}">
+                                    {% trans %}Show{% endtrans %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="ml-2">{% trans %}No records found{% endtrans %}</div>
+            {% endfor %}
+            {# Отображение пагинации #}
+            <div class="container">
+                <div class="d-flex justify-content-center pagination mt-2 mb-5">
+                    <div class="pagination">
+                        {{ pagerfanta(events, 'default') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD FLOATING BUTTON -->
+    <div class="devstyle-floating-button" onclick="location.href='{{ path('app_event_new') }}'">+</div>
+
+{% endblock %}

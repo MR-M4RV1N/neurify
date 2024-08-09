@@ -1,0 +1,65 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Ensemble index{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">
+                    {% trans %}Section{% endtrans %}
+                </span>
+                <h3 class="page-title mb-2">{{ title|trans }}</h3>
+            </div>
+        </div>
+        <div class="row px-2">
+            {% for ensemble in ensembles %}
+                <div class="col-lg-4">
+                    <div class="card card-small card-post mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ ensemble.title }}
+                            </h5>
+                            <small>{% if ensemble.isIsclosed == true %} <i class="fas fa-lock"></i> {% endif %}</small>
+                            <p class="card-text text-muted">
+                                {% if ensemble.description|length > 155 %}
+                                    {{ ensemble.description|slice(0, 155) ~ '...' }}
+                                {% else %}
+                                    {{ ensemble.description }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="card-footer border-top d-flex">
+                            <div class="card-post__author d-flex">
+                                <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('/cpanel/profile/uploads/images/{{ ensemble.author.image }}');">Written by {{ ensemble.author.username }}</a>
+                                <div class="d-flex flex-column justify-content-center ml-3">
+                                    <span class="card-post__author-name">{{ ensemble.author.username }}</span>
+                                    <small class="text-muted">{{ ensemble.createdAt|date }}</small>
+                                </div>
+                            </div>
+                            <div class="my-auto ml-auto">
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_ensemble_open', {'id': ensemble.id}) }}">
+                                    {% trans %}Open{% endtrans %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="ml-2">{% trans %}There are no entries{% endtrans %}</div>
+            {% endfor %}
+            {# Отображение пагинации #}
+            <div class="container">
+                <div class="d-flex justify-content-center pagination mt-2 mb-5">
+                    <div class="pagination">
+                        {{ pagerfanta(ensembles, 'default') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD FLOATING BUTTON -->
+    <div class="devstyle-floating-button" onclick="location.href='{{ path('app_ensemble_new') }}'">+</div>
+{% endblock %}

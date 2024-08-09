@@ -1,0 +1,30 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Edit Draft{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Edit item{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        {{ include('cpanel/draft/_form.html.twig', {'button_label': 'Update'|trans}) }}
+
+                        <div class="d-flex mt-5">
+                            <a href="{{ path('app_draft_index') }}" class="btn btn-sm btn-outline-secondary"><i class="material-icons">arrow_back</i> {% trans %}Back{% endtrans %}</a>
+                            <form action="{{ path('app_draft_complete', {'id': form.vars.value.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to complete this item?');">
+                                <button type="submit" class="btn btn-sm btn-outline-primary ml-2"><i class="material-icons">done</i> {% trans %}Complete{% endtrans %}</button>
+                            </form>
+                            <div class="text-right">
+                                {{ include('cpanel/draft/_delete_form.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

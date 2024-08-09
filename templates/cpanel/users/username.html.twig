@@ -1,0 +1,144 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small mb-4 pt-3 mt-4">
+                    <div class="card-header border-bottom text-center">
+                        <div class="mb-3 mx-auto">
+                            <img class="rounded-circle devstyle-user-avatar" src="/cpanel/profile/uploads/images/{{ profile.image }}" alt="User Avatar" width="110"> </div>
+                        <h4 class="mb-0">{{ profile.firstname }} {{ profile.lastname }}</h4>
+                        <span class="text-muted d-block mb-2">{{ level.title }} ({{ level.number }})</span>
+                    </div>
+                    {% if app.user.type == 2 %}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item p-4">
+                            <strong class="text-muted d-block text-center">{% trans %}Description{% endtrans %}</strong>
+                            <p class="devstyle-text-indent text-justify">
+                                {{ profile.description }}
+                            </p>
+                        </li>
+                    </ul>
+                    {% endif %}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-4">
+                            <div class="progress-wrapper">
+                                <strong class="text-muted d-block mb-2">{% trans %}Progress{% endtrans %}</strong>
+                                <div class="progress progress-sm">
+                                    {% set part = profile.progress %}
+                                    {% set total = 81 %}
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ profile.progress }}" aria-valuemin="0" aria-valuemax="81" style="width: {{ (part / total * 100)|number_format(0) ~ '%' }};">
+                                        <span class="progress-value">{{ (part / total * 100)|number_format(0) ~ '%' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item p-4 text-center">
+                            <div class="mb-3">
+                                <span>Ссылка на ваш профиль:</span><br>
+                                <span class="mr-2">https://neurify.life/@{{ profile.username }}</span><br>
+                                <!-- Кнопка "Скопировать ссылку" -->
+                                <button id="copyButton" class="btn btn-sm btn-outline-light">
+                                    <i class="material-icons">content_copy</i> {% trans %}Copy{% endtrans %}
+                                </button>
+                            </div>
+                            <!-- JavaScript для копирования ссылки -->
+                            <script>
+                                document.getElementById('copyButton').addEventListener('click', function() {
+                                    var shareUrl = 'https://neurify.life/@{{ profile.username }}';
+
+                                    // Копируем ссылку в буфер обмена
+                                    var dummy = document.createElement('textarea');
+                                    document.body.appendChild(dummy);
+                                    dummy.value = shareUrl;
+                                    dummy.select();
+                                    document.execCommand('copy');
+                                    document.body.removeChild(dummy);
+
+                                    // Уведомление
+                                    alert('Ссылка скопирована: ' + shareUrl);
+                                });
+                            </script>
+
+                            <hr>
+
+                            <!-- Кнопка "Поделиться" -->
+                            <button id="shareButton" class="btn btn-outline-secondary">
+                                <i class="material-icons">share</i> Поделиться
+                            </button>
+                            <script>
+                                document.getElementById('shareButton').addEventListener('click', function() {
+                                    var shareUrl = 'https://neurify.life/@{{ profile.username }}';
+
+                                    if (navigator.share) {
+                                        navigator.share({
+                                            title: 'Профиль пользователя {{ profile.username }}',
+                                            text: 'Посмотрите профиль пользователя {{ profile.username }} на Neurify',
+                                            url: shareUrl
+                                        }).then(() => {
+                                            console.log('Спасибо за то, что поделились!');
+                                        }).catch((error) => {
+                                            console.error('Ошибка при попытке поделиться:', error);
+                                        });
+                                    } else {
+                                        // Копируем ссылку в буфер обмена
+                                        var dummy = document.createElement('textarea');
+                                        document.body.appendChild(dummy);
+                                        dummy.value = shareUrl;
+                                        dummy.select();
+                                        document.execCommand('copy');
+                                        document.body.removeChild(dummy);
+                                        alert('Ссылка скопирована: ' + shareUrl);
+                                    }
+                                });
+                            </script>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pb-3">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">{% trans %}User{% endtrans %} {{ profile.username }}</span>
+                <h3 class="page-title mb-2">{% trans %}Try to repeat{% endtrans %}</h3>
+            </div>
+        </div>
+
+        <div class="row px-2">
+            {% for event in events %}
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card card-small card-post card-post--1 h-100">
+                        <div class="card-post__image"
+                             style="background-image: url('/cpanel/images/events/{{ event.image }}');">
+                            <div class="card-post__author d-flex">
+                                <a href="{{ path('app_users_user', {'id': event.user.id}) }}" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('/cpanel/profile/uploads/images/{{ event.user.image }}');">Written by {{ event.user.firstname }} {{ event.user.lastname }}</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a class="text-fiord-blue" href="{{ path('app_users_events_show', {'id': event.id}) }}">{{ event.title }}</a>
+                            </h5>
+                            <p class="card-text">
+                                {% if event.description|length > 155 %}
+                                    {{ event.description|slice(0, 155) ~ '...' }}
+                                {% else %}
+                                    {{ event.description }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="card-footer text-muted border-top py-3">
+                            <span>{% trans %}Author{% endtrans %}: {{ event.user.firstname }} {{ event.user.lastname }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="ml-4">{% trans %}No records found{% endtrans %}</div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

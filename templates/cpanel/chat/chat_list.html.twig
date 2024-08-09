@@ -1,0 +1,33 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4 mb-5">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Chat{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body p-0 pb-3">
+                        <table class="table mb-0">
+                            {% for c in myChats %}
+                                <tr>
+                                    <td><a href="{{ path('cpanel_chat_message_list', {'id': c.id}) }}"><i class="material-icons">chat</i> {{ c.title }}</a></td>
+                                    <td>
+                                        {% if c.recited > 0 %}
+                                            <div class="devstyle-red-circle">{{ c.recited }}</div>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <div>{% trans %}No records found{% endtrans %}</div>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">{% trans %}Section{% endtrans %}</span>
+                <h3 class="page-title mb-2">{% trans %}Users{% endtrans %}</h3>
+            </div>
+        </div>
+        <div class="row px-2">
+            {% for user in users %}
+                <div class="col-lg-4 mb-4">
+                    <div class="card card-small mb-4 pt-3 h-100">
+                        <div class="card-header border-bottom text-center">
+                            <div class="mb-3 mx-auto">
+                                <img class="rounded-circle devstyle-user-avatar" src="/cpanel/profile/uploads/images/{{ user.image }}" alt="User Avatar" width="110"> </div>
+                            <h4 class="mb-0">{{ user.firstname }} {{ user.lastname }}</h4>
+                            <span class="text-muted d-block mb-2">{{ user.progress|checkUserLevel(user.lang) }}</span>
+                        </div>
+                        <!--<ul class="list-group list-group-flush">
+                            <li class="list-group-item p-4">
+                                <strong class="text-muted d-block mb-2">{% trans %}Description{% endtrans %}</strong>
+                                <span>
+                                    {% if user.description|length > 200 %}
+                                        {{ user.description|slice(0, 200) ~ '...' }}
+                                    {% else %}
+                                        {{ user.description }}
+                                    {% endif %}
+                                </span>
+                            </li>
+                        </ul>-->
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item px-4">
+                                <div class="progress-wrapper">
+                                    <strong class="text-muted d-block mb-2">{% trans %}Progress{% endtrans %}</strong>
+                                    <div class="progress progress-sm">
+                                        {% set part = user.progress %}
+                                        {% set total = 81 %}
+                                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ user.progress }}" aria-valuemin="0" aria-valuemax="81" style="width: {{ (part / total * 100)|number_format(0) ~ '%' }};">
+                                            <span class="progress-value">{{ (part / total * 100)|number_format(0) ~ '%' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-4 text-center">
+                                <form action="{{ path('app_users_user', {'id': user.id}) }}" method="get">
+                                    <button type="submit" class="mb-2 btn btn-sm btn-pill btn-outline-primary mr-2">
+                                        <i class="material-icons mr-1">input</i>{% trans %}Open{% endtrans %}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% else %}
+                <div>Nav neviena ieraksta.</div>
+            {% endfor %}
+            {# Отображение пагинации #}
+            <div class="container">
+                <div class="d-flex justify-content-center pagination mt-2 mb-5">
+                    <div class="pagination">
+                        {{ pagerfanta(users, 'default') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

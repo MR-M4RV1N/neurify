@@ -1,0 +1,42 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Event{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="card card-small p-1 mt-4">
+            <div class="card-header border-bottom">
+                <h6 class="m-0 text-center">{{ event.title }}</h6>
+            </div>
+            <div class="card-body">
+                <div class="col col-md-4 mx-auto text-center">
+                    <img class="img-fluid rounded" src="/cpanel/images/events/{{ event.image }}">
+                </div>
+
+                <div class="col col-md-6 mx-auto mt-3">
+                    <p class="text-center">{% trans %}completed at{% endtrans %}: {{ event.date|date('Y-m-d') }}</p>
+                </div>
+
+                <div class="col col-md-6 mx-auto mt-3">
+                    <p class="text-justify devstyle-text-indent">{{ event.description }}</p>
+                </div>
+
+                <div class="col col-md-6 mx-auto border-top pt-3">
+                    <div class="d-flex justify-content-center">
+                        <a href="javascript:history.back()" class="btn btn-sm btn-outline-secondary">
+                            <i class="material-icons">arrow_back</i> {% trans %}Back{% endtrans %}
+                        </a>
+
+                        {% if event.public == false %}
+                            <form action="{{ path('app_event_to_public', {'id': event.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to public this item?');">
+                                <button type="submit" class="btn btn-sm btn-outline-primary ml-2"><i class="material-icons">public</i> {% trans %}To public{% endtrans %}</button>
+                            </form>
+                        {% endif %}
+                        <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="btn btn-sm btn-outline-primary ml-2"><i class="material-icons">edit</i> {% trans %}Edit{% endtrans %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

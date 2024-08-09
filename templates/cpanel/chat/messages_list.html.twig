@@ -1,0 +1,75 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4 mb-5">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{{ chatTitle }}</h6>
+                    </div>
+                    <div class="card-body">
+                        {% for m in messages %}
+                            {% if m.sender.id == app.user.id %}
+                            <div class="blog-comments__item d-flex p-3 justify-content-end">
+                                <div class="blog-comments__content">
+                                    <div class="blog-comments__meta text-muted">
+                                        <a class="text-secondary" href="#">{{ m.sender.username }}</a>
+                                        <span class="text-muted">– {{ m.date|date('d/m/Y') }} - {{ m.time|date('H:i') }}</span>
+                                    </div>
+                                    <p class="m-0 my-1 mb-2 text-muted">
+                                        {{ m.message }}
+                                    </p>
+                                    <div class="blog-comments__actions">
+                                        <div class="btn-group btn-group-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="blog-comments__avatar ml-3">
+                                    <img class="devstyle-profile-image" src="/cpanel/profile/uploads/images/{{ m.sender.image }}" alt="User avatar" />
+                                </div>
+                            </div>
+                            {% else %}
+                                <div class="blog-comments__item d-flex p-3">
+                                    <div class="blog-comments__avatar mr-3">
+                                        <img class="devstyle-profile-image" src="/cpanel/profile/uploads/images/{{ m.sender.image }}" alt="User avatar" /> </div>
+                                    <div class="blog-comments__content">
+                                        <div class="blog-comments__meta text-muted">
+                                            <a class="text-secondary" href="#">{{ m.sender.username }}</a>
+                                            <span class="text-muted">– {{ m.date|date('d/m/Y') }} - {{ m.time|date('H:i') }}</span>
+                                        </div>
+                                        <p class="m-0 my-1 mb-2 text-muted">
+                                            {{ m.message }}
+                                        </p>
+                                        <div class="blog-comments__actions">
+                                            <div class="btn-group btn-group-sm">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div>{% trans %}No records found{% endtrans %}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div id="messageSection" class="card card-small mb-4 mt-4">
+                    <div class="card-body">
+                        {{ include('cpanel/chat/_message.html.twig') }}
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var messageSection = document.getElementById('messageSection');
+                        if (messageSection) {
+                            messageSection.scrollIntoView();
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}
