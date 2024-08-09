@@ -8,6 +8,7 @@
 /var/
 /vendor/
 /public/cpanel/images/
+.env
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
