@@ -1,0 +1,30 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}{% trans %}New achievement{% endtrans %}{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title">{% trans %}Edit record{% endtrans %}</h3>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+        <!-- CONTENT... -->
+        <div class="row border bg-white p-2">
+            <a href="javascript:history.back()" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-angle-left"></i> {% trans %}Back{% endtrans %}
+            </a>
+        </div>
+        <div class="row border bg-white mb-5">
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-4 mb-4">
+                {{ include('/cpanel/picture/_form.html.twig', {'button_label': 'Update'|trans}) }}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right mb-3 border-top pt-3">
+                {{ include('/cpanel/picture/_delete_form.html.twig') }}
+            </div>
+        </div>
+        <!-- ...CONTENT -->
+    </div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Ensemble index{% endblock %}
+
+{% block body %}
+    <!-- Используется /components/_account-list.scss -->
+    <div class="mb-3 mx-auto text-center mt-3">
+        <div class="profile-avatar-container">
+            <div class="avatar-wrapper">
+                <img class="rounded-circle" src="/cpanel/profile/uploads/images/{{ app.user.image }}" alt="User Avatar" style="width: 100%; height: 100%; object-fit: cover;">            <!--<img src="/images/Flame-{{ flame }}.png" alt="About Neurify" class="mini-icon">-->
+                <a href="/cpanel/progress/">
+                    <img src="/images/L{{ level }}.png" alt="About Neurify" class="mini-icon-level" id="user-level">
+                </a>
+                <!--<a href="/cpanel/progress/activity">
+                    <img src="{{ asset('/icons/statistics_9417343.png') }}"
+                         alt="Icon"
+                         class="mini-icon"
+                    >
+                </a>-->
+            </div>
+        </div>
+        <div class="pt-4 pb-2">
+            <h4 class="mb-0">{{ app.user.firstname }} {{ app.user.lastname }}</h4>
+            <a href="/cpanel/resume/events">
+                <span class="text-uppercase page-subtitle" id="user-selected-artisan">{{ app.user.artisan }}</span>
+            </a>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center" style="line-height: 10px">
+            <div>
+                <h6 class="m-0">{{ subscriptions }}</h6>
+                Подписок
+            </div>
+            <div class="devstyle-statistics-data-devider"></div>
+            <div>
+                <h6 class="m-0">{{ followers }}</h6>
+                Подписчиков
+            </div>
+            <div class="devstyle-statistics-data-devider"></div>
+            <div>
+                <h6 class="m-0">{{ totalLikes }}</h6>
+                Лайков
+            </div>
+        </div>
+    </div>
+
+    <!-- for lastEvents -->
+    <!-- Если у пользователя есть записи, то отображаем их, иначе нет -->
+    {% if lastEvents is not empty %}
+        {% include '/cpanel/account/_last_events.html.twig' %}
+    {% endif %}
+
+    <div class="d-flex justify-content-center mb-3 mt-0">
+        <a href="{{ path('app_ensemble_new') }}" class="btn btn-sm btn-primary mt-3" id="add-category-button">
+            <i class="material-icons">add</i> {% trans %}Add category{% endtrans %}
+        </a>
+    </div>
+    <!--<div class="d-flex justify-content-center mb-3 mt-0">
+        <a href="{{ path('app_ensemble_new') }}" class="btn btn-sm btn-primary custom-orange mt-3" id="add-category-button">
+            <i class="material-icons">add</i> {% trans %}Add category{% endtrans %}
+        </a>
+    </div>-->
+
+    {% set userId = app.user.id %}
+    {% include '/cpanel/account/_ensembles.html.twig' %}
+    <!-- /init/menu-toggle (не используется) -->
+    <!-- /init/intro-init.js -->
+    <div id="intro-data" data-user-just-registered="{{ userJustRegistered ? 'true' : 'false' }}"></div>
+{% endblock %}

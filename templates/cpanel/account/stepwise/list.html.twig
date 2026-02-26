@@ -1,0 +1,17 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block body %}
+    {% include '/cpanel/account/_profile.html.twig' %}
+    <div class="text-center mt-3 mx-1">
+        {{ app.user.description }}
+    </div>
+    {% include '/cpanel/account/_tabs.html.twig' %}
+
+    {% set userId = app.user.id %}
+    {% include '/cpanel/account/stepwise/_stepwise.html.twig' %}
+
+    <!-- /init/menu-toggle (не используется) -->
+    <!-- /init/intro-init.js -->
+{% endblock %}

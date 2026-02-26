@@ -1,0 +1,13 @@
+.btn.btn-primary.custom-orange {
+  background-color: #d3a266;
+  border-color: #d3a266;
+
+  &:hover {
+    background-color: #b98a4f;
+    border-color: #b98a4f;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(211, 162, 102, 0.5);
+  }
+}

@@ -1,0 +1,113 @@
+<div class="col-lg-4 col-md-6 col-sm-12 mb-4 m-0 px-1">
+	{% if is_ensemble %}
+		{% set event_path = path('app_ensemble_show', {'id': event.id}) %}
+	{% elseif is_default %}
+		{% set event_path = path('app_default_show', {'id': event.id}) %}
+	{% elseif is_featured %}
+		{% set event_path = path('app_featured_show', {'id': event.id}) %}
+	{% elseif is_events %}
+		{% set event_path = path('app_event_show', {'id': event.id}) %}
+	{% elseif is_public %}
+		{% set event_path = path('app_public_show', {'id': event.id}) %}
+	{% elseif is_subscription %}
+		{% set event_path = path('app_subscription_show', {'id': event.id}) %}
+	{% elseif is_user %}
+		{% set event_path = path('app_user_events_show', {'id': event.id}) %}
+	{% elseif is_bookmark %}
+		{% set event_path = path('app_bookmark_show', {'id': event.id}) %}
+	{% endif %}
+
+	<div
+		class="card devstyle-card">
+		<!-- Header -->
+		<div class="devstyle-card-header mt-3 pl-3">
+			<a href="{{ is_public is defined and is_public ? path('app_users_classification', {'id': event.user.id}) ~ '#target-section' : path('app_users_user', {'id': event.user.id}) }}" class="d-flex align-items-center">
+				<img src="/cpanel/profile/uploads/images/{{ event.user.image }}" alt="Avatar">
+			</a>
+			<div>
+				<a href="{{ is_public is defined and is_public ? path('app_users_classification', {'id': event.user.id}) ~ '#target-section' : path('app_users_user', {'id': event.user.id}) }}" class="text-decoration-none text-dark">
+					<h6 class="mb-0">{{ event.user.firstname }}
+						{{ event.user.lastname }}</h6>
+				</a>
+				<span class="text-muted">
+					{% trans %}Achievement{% endtrans %}
+					{{ event.date|date('d.m.Y') }}
+					{% if not event.public %}
+						<i class="material-icons text-muted mr-1" title="Не публичное событие">lock</i>
+					{% endif %}
+				</span>
+			</div>
+		</div>
+
+		<!-- Card Body -->
+		<div class="card-body">
+			<p class="card-text">
+				{% set typeIcons = {
+                    0: '/icons/star_7588772_b5px.png',
+                    1: '/icons/star_7588772_b5px.png',
+                    2: '/icons/cup_11918887.png',
+                    3: '/icons/creative-design_7244756.png',
+                    4: '/icons/challenge_17584513.png'
+                } %}
+
+				<img src="{{ asset(typeIcons[event.type]) }}" alt="Icon" width="28">
+				<a class="text-fiord-blue ml-1" href="{{ event_path }}">
+					{{ event.title }}
+				</a>
+			</p>
+			{% include '/cpanel/events/_common/_images.html.twig' %}
+		</div>
+		<!-- Footer -->
+		<div class="card-footer bg-white border-top">
+			<div class="d-flex justify-content-between">
+				<div class="d-flex justify-content-start">
+					{% if is_bookmark %}
+
+						{% else %}
+							{% set isLiked = event.id in likedEvents %}
+							{# Проверяем, есть ли событие в массиве likedEvents #}
+							<div class="like-button mr-3" data-event-id="{{ event.id }}" data-csrf-token="{{ csrf_token('like' ~ event.id) }}">
+								<button
+									type="button" class="btn btn-link p-0 like-toggle" style="font-size: 24px;">
+									<!-- Иконка сердца, устанавливаем цвет на основе состояния лайка -->
+									<i class="fa fa-heart {% if isLiked %}text-primary{% else %}text-muted{% endif %} heart-icon"></i>
+								</button>
+								<span class="like-count">{{ event.likeCount }}</span>
+							</div>
+							<div class="comment-button mr-3" data-event-id="{{ event.id }}" data-event-path="{{ event_path }}">
+								<button type="button" class="btn btn-link p-0 comment-toggle" style="font-size: 24px;">
+									<i class="fa fa-comments text-muted comment-icon"></i>
+								</button>
+								<span class="comment-count">{{ event.commentCount }}</span>
+							</div>
+							<!-- Кнопка принятого вызова (🔥) -->
+							<div class="bookmark-button mr-3 {% if event.id in bookmarkedEvents %}accepted{% endif %}" data-event-id="{{ event.id }}" data-csrf-token="{{ csrf_token('bookmark' ~ event.id) }}">
+								<button type="button" class="btn btn-link p-0 bookmark-toggle" style="font-size: 24px;">
+									<i class="fas fa-fire {% if event.id in bookmarkedEvents %}text-warning{% else %}text-muted{% endif %} bookmark-icon"></i>
+								</button>
+								<span class="bookmark-count">{{ event.bookmarkCount }}</span>
+							</div>
+					{% endif %}
+				</div>
+				<div class="d-flex justify-content-end">
+					{% if is_bookmark %}
+						<a class="btn btn-sm btn-primary mr-2" href="{{ path('app_bookmark_complete', {'id': event.id}) }}">
+							{% trans %}Complete{% endtrans %}
+						</a>
+						<!-- Кнопка удаления вызова (🗑) -->
+						<button type="button" class="btn btn-outline-danger bookmark-remove mr-1" data-event-id="{{ event.id }}" data-csrf-token="{{ csrf_token('bookmark_remove') }}">
+							<i class="fas fa-trash"></i>
+						</button>
+						<a class="btn btn-sm btn-outline-secondary" href="{{ event_path }}">
+							<i class="material-icons">open_in_new</i>
+						</a>
+					{% else %}
+						<a class="btn btn-sm btn-outline-secondary" href="{{ event_path }}">
+							{% trans %}Show{% endtrans %}
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

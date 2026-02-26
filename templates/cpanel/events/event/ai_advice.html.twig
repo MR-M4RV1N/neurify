@@ -1,0 +1,50 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI-comment{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pt-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h5>{% trans %}Your challenge is saved successfully{% endtrans %}!</h5>
+                <span class="text-uppercase page-subtitle">{% trans %}Keep up the good work{% endtrans %}!</span>
+            </div>
+        </div>
+
+        <div class="card card-small card-post h-100 mt-4 mb-5">
+            <form action="{{ path('event_ai_advice_send') }}" method="post">
+                <input type="hidden" name="eventId" value="{{ lastEvent.id }}">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        {% if aiAdvice %}
+                            <div class="text-center mb-3">
+                                <img src="{{ asset('icons/artificial-intelligence.png') }}" alt="AI Icon" width="48" class="mb-2">
+                                <h5 class="text-primary mb-3">{% trans %}AI adviced description{% endtrans %}</h5>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aiAdviceTextarea" class="form-label">{% trans %}You can edit the advice before saving{% endtrans %}</label>
+                                <textarea name="aiAdvice" id="aiAdviceTextarea" class="form-control" rows="6">{{ aiAdvice|raw }}</textarea>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning text-center mt-3">
+                                {% trans %}AI has not yet commented on this event.{% endtrans %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-footer bg-white text-right">
+                        <a href="{{ path('app_account_statistics') }}" class="btn btn-sm btn-outline-secondary">
+                            {% trans %}Back{% endtrans %}
+                        </a>
+                        <button type="submit" class="btn btn-sm btn-outline-primary ml-2">
+                            {% trans %}Update{% endtrans %}
+                            <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

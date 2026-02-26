@@ -1,0 +1,17 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI-комментарии{% endblock %}
+
+{% block body %}
+    {# Notification message #}
+    {% include '/cpanel/ai_consulting/_ai_notification_message.html.twig' %}
+
+    {# Options #}
+    {% include '/cpanel/ai_consulting/_consultation_options.html.twig' %}
+
+    {# Records #}
+    {% include '/cpanel/ai_consulting/_generated_records.html.twig' %}
+
+    {# Ai generated categories #}
+    {% include '/cpanel/ai_consulting/_generated_categories.html.twig' %}
+{% endblock %}

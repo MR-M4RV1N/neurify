@@ -1,0 +1,74 @@
+<div class="card card-small go-stats">
+    <div class="card-header border-bottom">
+        <h6 class="m-0">{% trans %}Last 12 weeks{% endtrans %}</h6>
+        <div class="block-handle"></div>
+    </div>
+    <div class="card-body py-0">
+        <ul class="list-group list-group-small list-group-flush">
+            {% set weeksUsed = lifeBalanceAgg.weeksUsed ?? 0 %}
+            {% set maxPoints = weeksUsed * 5 %}
+            {% set items = [] %}
+            {% for key, total in lifeBalanceAgg.totals %}
+                {% set percent = (maxPoints > 0)
+                    ? ((total / maxPoints) * 100)
+                    : 0 %}
+
+                {% set items = items|merge([{
+                    'key': key,
+                    'total': total,
+                    'percent': percent,
+                    'avg': lifeBalanceAvg[key] ?? 0
+                }]) %}
+            {% endfor %}
+
+            {% for item in items %}
+                <li class="list-group-item d-flex row px-0 border-top border-bottom">
+                    <div class="col-lg-6 col-md-8 col-sm-8 col-6">
+                        <div class="go-stats__label mb-1">
+                            <h6 class="go-stats__label mb-1">{{ item.key|trans }}</h6>
+                        </div>
+
+                        <div class="go-stats__meta ml-1">
+                                <span>
+                                    <span>{{ item.avg }}</span> Average
+                                </span>
+                            <span class="d-block d-sm-inline">
+                                    <strong class="text-success">{{ item.total }}</strong> Points
+                                </span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-4 col-sm-4 col-6 d-flex">
+                        <div class="go-stats__value text-right ml-auto d-flex align-items-center mr-2">
+                            <h6 class="go-stats__label mb-0">{{ item.percent|number_format(1, ',', '') }}%</h6>
+                        </div>
+
+                        <div class="go-stats__chart d-flex ml-auto align-items-center">
+                            <canvas
+                                    class="my-auto js-goal-percent-chart"
+                                    width="45" height="45"
+                                    data-percent="{{ item.percent }}"
+                                    data-label="{% trans %}Percent{% endtrans %}">
+                            </canvas>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!--<div class="card-footer border-top">
+        <div class="row">
+            <div class="col">
+                <select class="custom-select custom-select-sm" style="max-width: 130px;">
+                    <option selected>Last Week</option>
+                    <option value="1">Today</option>
+                    <option value="2">Last Month</option>
+                    <option value="3">Last Year</option>
+                </select>
+            </div>
+            <div class="col text-right view-report">
+                <a href="#">View full report &rarr;</a>
+            </div>
+        </div>
+    </div>-->
+</div>

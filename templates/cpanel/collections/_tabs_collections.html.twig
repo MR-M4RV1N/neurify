@@ -1,0 +1,8 @@
+<div class="mb-4 text-center">
+    {% set path = app.request.pathinfo %}
+    <div class="btn-group btn-group-toggle d-inline-flex">
+        <a href="/cpanel/collections/platform" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/collections/platform') }}">{% trans %}Reccomended{% endtrans %}</a>
+        <a href="/cpanel/collections/ai" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/collections/ai') }}">{% trans %}Generated{% endtrans %}</a>
+        <!--<a href="/cpanel/collections/my" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/collections/my') }}">{% trans %}My{% endtrans %}</a>-->
+    </div>
+</div>

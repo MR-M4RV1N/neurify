@@ -1,0 +1,63 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Ensemble
+{% endblock %}
+
+{% block body %}
+	<div
+		class="main-content-container container-fluid">
+		<!-- Page Header -->
+		<div class="page-header row no-gutters pb-3 pt-3">
+			<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+				<h3 class="page-title mb-2">
+					{% if power == 0 %}
+						{% trans %}Ordinary trials{% endtrans %}
+					{% elseif power == 1 %}
+						{% trans %}Memorable trials{% endtrans %}
+					{% elseif power == 2 %}
+						{% trans %}Difficult trials{% endtrans %}
+					{% elseif power == 3 %}
+						{% trans %}Jump above the head{% endtrans %}
+					{% endif %}
+				</h3>
+
+				<div class="mt-3">
+					<p class="text-justify text-muted">
+						{% if power == 0 %}
+							{% trans %}Ordinary trials.Text.{% endtrans %}
+						{% elseif power == 1 %}
+							{% trans %}Memorable trials.Text.{% endtrans %}
+						{% elseif power == 2 %}
+							{% trans %}Difficult trials.Text.{% endtrans %}
+						{% elseif power == 3 %}
+							{% trans %}Jump above the head.Text.{% endtrans %}
+						{% endif %}
+					</p>
+				</div>
+			</div>
+
+		</div>
+		<div class="container d-flex justify-content-center m-0 p-0">
+			<div class="row justify-content-center w-100">
+
+				{% for event in events %}
+					{% include 'cpanel/events/event/_event_card.html.twig' with {
+                        event: event,
+                        event_path: path('app_event_show', {'id': event.id})
+                    } %}
+				{% else %}
+					{% include 'cpanel/events/_common/_empty.html.twig' %}
+				{% endfor %}
+
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="d-flex justify-content-center pagination mt-2 mb-3">
+				{{ pagerfanta(pager, 'default') }}
+			</div>
+		</div>
+	</div>
+	<!-- Spacer -->
+	<div class="my-5"></div>
+{% endblock %}

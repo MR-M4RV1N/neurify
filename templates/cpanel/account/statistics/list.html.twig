@@ -1,0 +1,28 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Statistics
+{% endblock %}
+
+{% block body %}
+	{% include '/cpanel/account/_profile.html.twig' %}
+	<div class="text-center mt-3 mx-1">
+		{{ app.user.description }}
+	</div>
+	{% include '/cpanel/account/_tabs.html.twig' %}
+
+	<div class="container text-center mb-3">
+		<form method="get" action="{{ path('app_account_statistics') }}" class="d-inline-block">
+			<select name="year" class="form-control form-control-sm d-inline-block w-auto" onchange="this.form.submit()">
+				{% for y in range(currentYear, currentYear - 6) %}
+					<option value="{{ y }}" {{ y == selectedYear ? 'selected' : '' }}>
+						{{ y }}
+					</option>
+				{% endfor %}
+			</select>
+		</form>
+	</div>
+
+	{% include '/cpanel/activity/_body.html.twig' %}
+	<!-- /init/intro-init.js -->
+	<div id="intro-data" data-user-just-registered="{{ userJustRegistered ? 'true' : 'false' }}"></div>
+{% endblock %}

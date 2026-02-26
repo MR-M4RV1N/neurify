@@ -1,0 +1,52 @@
+<div class="col-lg-4 col-md-6 col-sm-12 mb-4 m-0 px-1">
+    <div class="card devstyle-card">
+        <!-- Header -->
+        <div class="devstyle-card-header mt-3 pl-3">
+            <a href="{{ path('app_users_user', {'id': map.user.id}) }}"
+               class="d-flex align-items-center">
+                <img src="/cpanel/profile/uploads/images/{{ map.user.image }}" alt="Avatar">
+            </a>
+            <div>
+                <a href="{{ path('app_users_user', {'id': map.user.id}) }}"
+                   class="text-decoration-none text-dark">
+                    <h6 class="mb-0">{{ map.user.firstname }} {{ map.user.lastname }}</h6>
+                </a>
+                <span class="text-muted">{{ map.createdAt|date('d.m.Y') }}</span>
+            </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            <p class="card-text">
+                <img src="{{ asset('/icons/grid.png') }}" class="pb-1" alt="Лавровый венок" width="28">
+                <a class="text-fiord-blue" href="{{ path('editor.show', {'id': map.id}) }}">
+                    {{ map.name }}
+                </a>
+            </p>
+
+            <div class="row devstyle-card-images one-row">
+                <div class="custom-col col-12">
+                    {% if map.filename is empty %}
+                        <a href="/cpanel/images/maps/default.jpg" data-fancybox="gallery">
+                            <img src="/cpanel/images/maps/default.jpg" alt="Image" class="img-fluid rounded">
+                        </a>
+                    {% else %}
+                        <a href="/cpanel/images/maps/{{ map.filename }}" data-fancybox="gallery">
+                            <img src="/cpanel/images/maps/{{ map.filename }}" alt="Image" class="img-fluid rounded">
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+        <!-- Footer -->
+        <div class="card-footer bg-white border-top">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-sm btn-outline-secondary" href="/cpanel/editor/show/{{ map.id }}">
+                        {% trans %}Show{% endtrans %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

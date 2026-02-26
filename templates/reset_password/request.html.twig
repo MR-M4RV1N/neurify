@@ -1,0 +1,48 @@
+{% extends 'security/base.html.twig' %}
+
+{% block title %}Reset your password
+{% endblock %}
+
+{% block body %}
+	<div class="w-100" style="max-width: 450px;">
+		<div class="card border-0 shadow-lg rounded-4 overflow-hidden mt-5 mb-5">
+			<div class="bg-primary text-white text-center py-4">
+				<i class="material-icons mb-2" style="font-size: 3rem; opacity: 0.9;">lock_reset</i>
+				<h4 class="mb-0 fw-bold">{% trans %}Reset your password{% endtrans %}</h4>
+			</div>
+
+			<div class="card-body p-4 p-md-5">
+				{% for flash_error in app.flashes('reset_password_error') %}
+					<div class="alert alert-danger rounded-3" role="alert">{{ flash_error }}</div>
+				{% endfor %}
+
+				{{ form_start(requestForm, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+
+				<p class="text-muted small mb-4 text-center">
+					{% trans %}Enter your email address and we will send you a link to reset your password.{% endtrans %}
+				</p>
+
+				<div class="form-floating mb-4">
+					{{ form_widget(requestForm.email, {'attr': {'class': 'form-control rounded-3', 'placeholder': 'name@example.com'}}) }}
+					{{ form_label(requestForm.email, null, {'label_attr': {'class': 'text-muted'}}) }}
+					<div class="invalid-feedback">
+						Обязательное поле
+					</div>
+				</div>
+
+				<div class="d-grid gap-2 mb-4">
+					<button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold">
+						{% trans %}Send password reset email{% endtrans %}
+					</button>
+				</div>
+
+				<div class="text-center mt-3">
+					<a href="{{ path('app_login') }}" class="text-decoration-none small text-muted">&larr;
+						{% trans %}Back to login{% endtrans %}</a>
+				</div>
+
+				{{ form_end(requestForm) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

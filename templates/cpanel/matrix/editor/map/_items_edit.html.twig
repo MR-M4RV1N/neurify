@@ -1,0 +1,29 @@
+<div>
+    <h6 class="text-center">Blocks editor</h6>
+    <table class="table text-center special-table-border devstyle-table">
+        {% if isEmpty == 0 %}
+        <tr>
+            <td class="td-empty">Empty</td>
+        </tr>
+        {% else %}
+        <tr>
+            {% for i in items %}
+            {% if i == null %}
+                <td class="td {{ loop.index|checkLoop }}"></td>
+            {% else %}
+                <td class="td {{ loop.index|checkLoop }}"><a href="{{ path('item.edit', {'id': i[0]}) }}">{{ i[1] }}</a></td>
+            {% endif %}
+
+            {% if loop.index == 3 or loop.index == 6 %}
+        </tr><tr>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endif %}
+    </table>
+    <div class="text-center">
+        {% if items|checkNull %}
+            <a href="{{ path('item.add', {'id': map.id}) }}" class="btn btn-sm btn-outline-primary">Add</a>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,12 @@
+.btn.active,
+.btn-white.active {
+  background-color: #d3a266 !important;
+  border-color: #d3a266 !important;
+  color: #fff !important;
+
+  &:hover {
+    background-color: #b98a4f !important;
+    border-color: #b98a4f !important;
+    color: #fff !important;
+  }
+}

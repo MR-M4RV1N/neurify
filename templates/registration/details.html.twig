@@ -1,0 +1,40 @@
+{% extends 'security/base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% form_theme registrationForm 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="d-flex justify-content-center mt-5 mb-5">
+        <div class="card shadow-lg" style="width: 550px; border-top: 5px solid #0275d8;">
+            <div class="card-body">
+                <div class="text-center">
+                    <img src="/cpanel/images/admin-panel-primary.png" style="width:50px; margin-bottom:20px;">
+                </div>
+
+                <h6 class="h6 mb-3 font-weight-light text-center">{% trans %}Details{% endtrans %}</h6>
+
+                {{ form_start(registrationForm) }}
+                <div>
+                    {{ form_row(registrationForm.firstname) }}
+                    {{ form_row(registrationForm.lastname) }}
+                    {{ form_row(registrationForm.age) }}
+                    {{ form_row(registrationForm.location) }}
+                    {{ form_row(registrationForm.profession) }}
+                    {{ form_row(registrationForm.interest) }}
+                </div>
+                <div>
+                    {{ form_row(registrationForm.image) }}
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">{% trans %}Save{% endtrans %}</button>
+                </div>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

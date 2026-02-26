@@ -1,0 +1,35 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Ensemble index{% endblock %}
+
+{% block body %}
+    {% include '/cpanel/resume/_profile.html.twig' %}
+
+    <div class="text-center mt-3 mx-1">
+        {{ app.user.description }}
+    </div>
+
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title mb-2">{% trans %}Portfolio{% endtrans %}</h3>
+                <span class="text-uppercase page-subtitle">
+                    {% trans %}Profession-related records{% endtrans %}
+                </span>
+            </div>
+        </div>
+
+        <div class="mb-4 text-center">
+            {% set path = app.request.pathinfo %}
+            <div class="btn-group btn-group-toggle d-inline-flex">
+                <a href="/cpanel/resume/events#navJump" class="btn btn-white btn-sm px-2 {{ path|area('/events') }}">{% trans %}Challenges{% endtrans %}</a>
+                <a href="/cpanel/resume/matrix#navJump" class="btn btn-white btn-sm px-2 {{ path|area('/matrix') }}">{% trans %}Matrices{% endtrans %}</a>
+                <a href="/cpanel/resume/simple#navJump" class="btn btn-white btn-sm px-2 {{ path|area('/simple') }}">{% trans %}Articles{% endtrans %}</a>
+                <a href="/cpanel/resume/picture#navJump" class="btn btn-white btn-sm px-2 {{ path|area('/picture') }}">{% trans %}Image{% endtrans %}</a>
+            </div>
+        </div>
+
+        {% include '/cpanel/events/_common/_iteration.html.twig' %}
+    </div>
+{% endblock %}

@@ -1,0 +1,135 @@
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom-0 pb-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-0 text-dark font-weight-bold">
+                <i class="fas fa-microchip text-warning mr-2"></i> Biohacking Analysis
+            </h5>
+            <small class="text-muted">
+                {{ weekStart|date('d.m.Y') }} - {{ weekEnd|date('d.m.Y') }}
+            </small>
+        </div>
+        <div class="text-right">
+            {% set overall = analysis.overall_score|default(0) %}
+            {% set badge_class = overall >= 80 ? 'badge-success' : (overall >= 50 ? 'badge-warning' : 'badge-danger') %}
+            <span class="badge {{ badge_class }} p-2" style="font-size: 1.1em;">
+                Рейтинг: {{ overall }}/100
+            </span>
+        </div>
+    </div>
+
+    <div class="card-body px-4">
+        
+        <div class="mb-4">
+            <p class="lead text-dark font-italic">
+                "{{ analysis.summary|default('Анализ завершен.') }}"
+            </p>
+            {% if styleDescription is defined and styleDescription %}
+                <p class="text-muted small">{{ styleDescription }}</p>
+            {% endif %}
+        </div>
+
+        {# ОПОРЫ БИОХАКИНГА (PILLARS) #}
+        <h6 class="font-weight-bold text-uppercase text-muted mb-3 mt-4">Четыре опоры:</h6>
+        
+        <div class="row">
+            {# Sleep #}
+            {% set sleep = analysis.pillars.sleep|default({}) %}
+            <div class="col-md-6 mb-3">
+                <div class="p-3 border rounded shadow-sm h-100 bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="m-0 font-weight-bold"><i class="fas fa-bed text-primary mr-1"></i> Сон</h6>
+                        <span class="badge badge-secondary">{{ sleep.score|default(0) }}/100</span>
+                    </div>
+                    {% set sleep_perc = sleep.score|default(0) %}
+                    <div class="progress mb-2" style="height: 6px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ sleep_perc }}%" aria-valuenow="{{ sleep_perc }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="small text-muted mb-0">{{ sleep.analysis|default('Нет данных') }}</p>
+                </div>
+            </div>
+
+            {# Nutrition #}
+            {% set nutrition = analysis.pillars.nutrition|default({}) %}
+            <div class="col-md-6 mb-3">
+                <div class="p-3 border rounded shadow-sm h-100 bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="m-0 font-weight-bold"><i class="fas fa-apple-alt text-success mr-1"></i> Питание</h6>
+                        <span class="badge badge-secondary">{{ nutrition.score|default(0) }}/100</span>
+                    </div>
+                    {% set nut_perc = nutrition.score|default(0) %}
+                    <div class="progress mb-2" style="height: 6px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ nut_perc }}%" aria-valuenow="{{ nut_perc }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="small text-muted mb-0">{{ nutrition.analysis|default('Нет данных') }}</p>
+                </div>
+            </div>
+
+            {# Activity #}
+            {% set activity = analysis.pillars.activity|default({}) %}
+            <div class="col-md-6 mb-3">
+                <div class="p-3 border rounded shadow-sm h-100 bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="m-0 font-weight-bold"><i class="fas fa-running text-warning mr-1"></i> Движение</h6>
+                        <span class="badge badge-secondary">{{ activity.score|default(0) }}/100</span>
+                    </div>
+                    {% set act_perc = activity.score|default(0) %}
+                    <div class="progress mb-2" style="height: 6px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ act_perc }}%" aria-valuenow="{{ act_perc }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="small text-muted mb-0">{{ activity.analysis|default('Нет данных') }}</p>
+                </div>
+            </div>
+
+            {# Mind State #}
+            {% set mind = analysis.pillars.mind_state|default({}) %}
+            <div class="col-md-6 mb-3">
+                <div class="p-3 border rounded shadow-sm h-100 bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="m-0 font-weight-bold"><i class="fas fa-brain text-info mr-1"></i> Разум и Работа</h6>
+                        <span class="badge badge-secondary">{{ mind.score|default(0) }}/100</span>
+                    </div>
+                    {% set mind_perc = mind.score|default(0) %}
+                    <div class="progress mb-2" style="height: 6px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ mind_perc }}%" aria-valuenow="{{ mind_perc }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="small text-muted mb-0">{{ mind.analysis|default('Нет данных') }}</p>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="font-weight-bold text-uppercase text-muted mb-3"><i class="fas fa-search text-secondary mr-1"></i> Наблюдения:</h6>
+                {% if analysis.key_observations is defined and analysis.key_observations|length > 0 %}
+                    <ul class="list-unstyled mb-0">
+                        {% for obs in analysis.key_observations %}
+                            <li class="mb-2 text-dark">
+                                <i class="fas fa-check-circle text-success mr-2" style="font-size: 0.9em;"></i> {{ obs }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted small">Нет ключевых наблюдений.</p>
+                {% endif %}
+            </div>
+            
+            <div class="col-md-6">
+                <h6 class="font-weight-bold text-uppercase text-muted mb-3"><i class="fas fa-lightbulb text-warning mr-1"></i> Рекомендации:</h6>
+                {% if analysis.recommendations is defined and analysis.recommendations|length > 0 %}
+                    <ul class="list-unstyled mb-0">
+                        {% for rec in analysis.recommendations %}
+                            <li class="mb-2 text-dark">
+                                <i class="fas fa-angle-right text-warning mr-2"></i> {{ rec }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted small">Нет рекомендаций.</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>

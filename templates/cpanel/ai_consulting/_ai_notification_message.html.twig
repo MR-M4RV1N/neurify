@@ -1,0 +1,19 @@
+{% if app.user %}
+    {# Получаем данные уведомления из сервиса #}
+    {% set ai = ai_consulting_notifier.getNotificationData(app.user) %}
+    {% set showAiNotification = ai.show %}
+    {% set daysSinceConsult = ai.days %}
+{% else %}
+    {% set showAiNotification = false %}
+    {% set daysSinceConsult = null %}
+{% endif %}
+    {% if showAiNotification %}
+        <!-- Danger Dismissible Alert -->
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="fa fa-exclamation-circle"></i>
+            {% trans %}You have not received a consultation from our AI assistant{% endtrans %}. {% trans %}Have passed{% endtrans %} <strong>{{ daysSinceConsult }}</strong> {% trans %}days{% endtrans %}
+        </div>
+    {% endif %}

@@ -1,0 +1,70 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block styles %}
+    <style>
+        .ratio-16x9 {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+        }
+
+        .ratio-16x9 img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <!--<span class="text-uppercase page-subtitle">Structure your thinking</span>-->
+                <h3 class="page-title">{% trans %}Post{% endtrans %}</h3>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+
+        <!-- CONTENT... -->
+        <div class="bg-white shadow border-top">
+            <div class="border-bottom p-3">
+                <div class="d-flex justify-content-start">
+                    <a href="javascript:history.back()" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-angle-left"></i> {% trans %}Back{% endtrans %}
+                    </a>
+                    {% if is_granted('ROLE_USER') %}
+                        {% if simple.user.id == app.user.id %}
+                            <a class="btn btn-sm btn-outline-secondary ml-2" href="/cpanel/simple/edit/{{ simple.id }}">
+                                <i class="fa fa-edit"></i> {% trans %}edit{% endtrans %}
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                {% include '/cpanel/simple/_images.html.twig' %}
+
+                {% if simple.title is not empty %}
+                    <div class="col col-md-6 mx-auto mt-3">
+                        <h6 class="m-0 text-center">{{ simple.title }}</h6>
+                    </div>
+                {% endif %}
+                {% if simple.content is not empty %}
+                    <div class="col col-md-6 mx-auto mt-3">
+                        <p class="text-justify devstyle-text-indent">{{ simple.content|raw }}</p>
+                        {% if simple.createdAt is not empty %}
+                            <p>{{ simple.createdAt|date('d-m-Y') }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <!-- ...CONTENT -->
+    </div>
+{% endblock %}

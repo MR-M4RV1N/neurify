@@ -1,0 +1,61 @@
+{{ form_start(form, {'attr': {'class': 'd-flex align-items-center justify-content-center message-form-container'}}) }}
+<div class="flex-grow-1">
+    {{ form_widget(form.message, {'attr': {'class': 'form-control auto-resize', 'placeholder': 'Message'}}) }}
+</div>
+<button type="submit" class="btn btn-primary btn-circle ml-2">
+    <i class="material-icons">send</i>
+</button>
+{{ form_end(form) }}
+
+<style>
+    /* Контейнер для формы сообщений */
+    .message-form-container {
+        width: 100%;
+        max-width: 600px; /* Ограничение ширины на больших экранах */
+        margin: 0 auto; /* Центрируем форму */
+        padding: 0 10px; /* Немного отступов по бокам для мобильных */
+    }
+
+    @media (min-width: 992px) {
+        .message-form-container {
+            max-width: 600px; /* Ограничение ширины на больших экранах */
+        }
+    }
+    /* Круглая кнопка отправки */
+    .btn-circle {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 20px;
+    }
+
+    /* Автоматическое изменение высоты текстового поля */
+    .auto-resize {
+        overflow: hidden;
+        resize: none; /* Убираем возможность ручного изменения размера */
+    }
+
+    /* Фиксируем расположение полей в одну строку */
+    .form-control {
+        min-height: 40px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const textarea = document.querySelector('.auto-resize');
+
+        // Функция для автоизменения высоты
+        function autoResize() {
+            this.style.height = 'auto';
+            this.style.height = `${this.scrollHeight}px`;
+        }
+
+        if (textarea) {
+            textarea.addEventListener('input', autoResize, false);
+        }
+    });
+</script>

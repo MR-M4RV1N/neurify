@@ -1,0 +1,61 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI-comment{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pt-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h5>{% trans %}Your challenge is saved successfully{% endtrans %}!</h5>
+                <span class="text-uppercase page-subtitle">{% trans %}Keep up the good work{% endtrans %}!</span>
+            </div>
+        </div>
+
+        <div class="card card-small card-post h-100 mt-4 mb-5">
+            <div>
+                <div class="text-center m-4">
+                    <table class="w-100 table-fixed mb-4">
+                        <tbody>
+                        <tr class="text-center">
+                            <td>{% trans %}Level{% endtrans %}</td>
+                            <td class="border-left border-right">{% trans %}Challenges{% endtrans %}</td>
+                            <td>{% trans %}Needed{% endtrans %}</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>{{ level }}</td>
+                            <td class="border-left border-right">{{ allEvents }}</td>
+                            <td>{{ remaining }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if comment %}
+                    <div class="text-center mb-3">
+                        <img src="{{ asset('/icons/artificial-intelligence.png') }}" alt="Icon" width="48">
+                    </div>
+                    <div class="text-center">
+                        <strong class="text-primary">SHERLOCK HOLMES STYLE</strong>
+                    </div>
+                    <div id="ai-comment-html" class="sherlock-flair m-2">
+                        {{ comment.content|raw }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning mt-3">
+                        {% trans %}AI has not yet commented on this event.{% endtrans %}
+                    </div>
+                {% endif %}
+
+            </div>
+            <div class="card-footer">
+                <div class="text-right">
+                    <a href="{{ path('app_account_statistics') }}" class="btn btn-sm btn-outline-secondary">
+                        {% trans %}Further{% endtrans %}
+                        <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

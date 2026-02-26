@@ -1,0 +1,74 @@
+{% set totalImages = simple.images|length %}
+<div class="row devstyle-card-images {% if totalImages == 3 %}three-images-layout{% elseif totalImages <= 3 %}one-row{% else %}two-rows{% endif %}">
+    {% if simple.images is not empty %}
+        {% for image in simple.images %}
+            {% if totalImages == 1 %}
+                <div class="custom-col col-12">
+                    <a href="/cpanel/images/simple/collections/{{ image.url }}" data-fancybox="gallery">
+                        <img src="/cpanel/images/simple/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                    </a>
+                </div>
+            {% elseif totalImages == 2 %}
+                <div class="custom-col col-6">
+                    <a href="/cpanel/images/simple/collections/{{ image.url }}" data-fancybox="gallery">
+                        <img src="/cpanel/images/simple/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                    </a>
+                </div>
+            {% elseif totalImages == 3 %}
+                {% if loop.index == 1 or loop.index == 2 %}
+                    <div class="custom-col col-6">
+                        <a href="/cpanel/images/simple/collections/{{ image.url }}" data-fancybox="gallery">
+                            <img src="/cpanel/images/simple/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                        </a>
+                    </div>
+                {% elseif loop.index == 3 %}
+                    <div class="custom-col col-12">
+                        <a href="/cpanel/images/simple/collections/{{ image.url }}" data-fancybox="gallery">
+                            <img src="/cpanel/images/simple/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                        </a>
+                    </div>
+                {% endif %}
+            {% elseif totalImages == 4 %}
+                {% if loop.index <= 3 %}
+                    <div class="custom-col col-4">
+                        <a href="/cpanel/images/simple/collections/{{ image.url }}" data-fancybox="gallery">
+                            <img src="/cpanel/images/simple/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="custom-col col-12">
+                        <a href="/cpanel/images/simple/collections/{{ image.url }}" data-fancybox="gallery">
+                            <img src="/cpanel/images/simple/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                        </a>
+                    </div>
+                {% endif %}
+            {% elseif totalImages == 5 %}
+                {% if loop.index <= 3 %}
+                    <div class="custom-col col-4">
+                        <a href="/cpanel/images/simple/collections/{{ image.url }}" data-fancybox="gallery">
+                            <img src="/cpanel/images/simple/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="custom-col col-6">
+                        <a href="/cpanel/images/simple/collections/{{ image.url }}" data-fancybox="gallery">
+                            <img src="/cpanel/images/simple/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                        </a>
+                    </div>
+                {% endif %}
+            {% elseif totalImages == 6 %}
+                <div class="custom-col col-4">
+                    <a href="/cpanel/images/simple/collections/{{ image.url }}" data-fancybox="gallery">
+                        <img src="/cpanel/images/simple/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="custom-col col-12">
+            <a href="/cpanel/images/simple/default.jpg" data-fancybox="gallery">
+                <img src="/cpanel/images/simple/default.jpg" alt="Image" class="img-fluid rounded">
+            </a>
+        </div>
+    {% endif %}
+</div>

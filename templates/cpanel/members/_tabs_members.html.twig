@@ -1,0 +1,7 @@
+<div class="mb-4 text-center">
+	{% set path = app.request.pathinfo %}
+	<div class="btn-group btn-group-toggle d-inline-flex">
+		<a href="/cpanel/users/all" class="btn btn-white btn-sm px-2 {{ path|area('/users/all') }}">{% trans %}New users{% endtrans %}</a>
+		<a href="/cpanel/rating/list" class="btn btn-white btn-sm px-2 {{ path|area('/rating') }}">{% trans %}Best{% endtrans %}</a>
+	</div>
+</div>

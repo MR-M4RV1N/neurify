@@ -1,0 +1,31 @@
+{# Блок "Make the first entry" отображается только если нет is_public и is_subscription #}
+    {% if events|length == 0 %}
+        {% if ensemble is defined and ensemble is not null and ensemble.author.id == app.user.id %}
+            <div class="col">
+                <div class="card card-small p-1 mt-2 mb-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Make the first entry{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="col col-md-6 mx-auto text-center mt-3">
+                            <img src="/images/perform_tasks.png" class="img-fluid w-50" alt="Responsive image">
+                        </div>
+                        <div class="col col-md-6 mx-auto text-justify mt-3">
+                            <h6 class="text-center mb-3">{% trans %}What quest can you brag about?{% endtrans %}</h6>
+                            <div class="text-center" id="output"
+                                 data-text="{% trans %}Register your quest by clicking the “Start” button{% endtrans %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mb-5">
+                        <a href="{{ path('app_event_new') }}"
+                           class="btn btn-outline-secondary">{% trans %}Start{% endtrans %}</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex justify-content-center w-100 mt-2 mb-4">
+                <p class="text-center m-0">{% trans %}No records found{% endtrans %}</p>
+            </div>
+        {% endif %}
+    {% endif %}

@@ -1,0 +1,84 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI-tasks result{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pt-4">
+            <div class="col-12 col-sm-6 text-center text-sm-left mb-0">
+                <h5>{% trans %}Your task list is ready{% endtrans %}!</h5>
+                <span class="text-uppercase page-subtitle">
+                {% trans %}Review and adjust if needed{% endtrans %}
+            </span>
+            </div>
+        </div>
+
+        <div class="card card-small card-post h-100 mt-4 mb-5">
+
+            <!-- AI Header -->
+            {% include '/cpanel/ai_task/_ai_header.html.twig' %}
+
+            <!-- Tasks -->
+            <form action="{{ path('ai_task_update', {'id': draft.id}) }}" method="post">
+                <div>
+                    <h6 class="mb-3 pt-3 text-center"><strong>{% trans %}Generated tasks{% endtrans %}</strong></h6>
+
+                    <div class="list-group mb-4">
+                        {% for task in tasks %}
+                            <div class="list-group-item border">
+                                {# ==== TITLE with arrow ==== #}
+                                <a class="d-flex justify-content-between align-items-center task-toggle"
+                                   data-toggle="collapse"
+                                   href="#task-{{ loop.index }}"
+                                   role="button"
+                                   aria-expanded="false">
+
+                                    <h6 class="m-0">{{ loop.index }}. {{ task.title }}</h6>
+
+                                    <span class="rotate-arrow ml-2">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </span>
+                                </a>
+
+                                {# ==== COLLAPSE SECTION ==== #}
+                                <div class="collapse mt-3" id="task-{{ loop.index }}">
+                                    <label class="text-muted small mb-1 d-block">{% trans %}Result{% endtrans %}</label>
+                                    <textarea name="tasks[{{ loop.index0 }}][description]"
+                                              class="form-control form-control-sm mb-3"
+                                              rows="4">{{ task.description }}</textarea>
+
+                                    <label class="text-muted small mb-1 d-block">{% trans %}Instruction{% endtrans %}</label>
+                                    <textarea name="tasks[{{ loop.index0 }}][instruction]"
+                                              class="form-control form-control-sm"
+                                              rows="12">{{ task.instruction }}</textarea>
+
+                                    <input type="hidden"
+                                           name="tasks[{{ loop.index0 }}][title]"
+                                           value="{{ task.title }}">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="d-flex justify-content-end">
+                        <!-- Save Events -->
+                        <button type="submit"
+                                class="btn btn-sm btn-outline-secondary"
+                                name="action"
+                                data-turbo="false"
+                                value="save">
+                            {% trans %}Save{% endtrans %}
+                            <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <input type="hidden" name="_token" value="{{ csrf_token('ai_task_update') }}">
+            </form>
+        </div>
+    </div>
+{% endblock %}

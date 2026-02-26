@@ -1,0 +1,117 @@
+{% set path = app.request.pathinfo %}
+{% if 'grouped' in path %}
+    {% set link = 'cpanel/editor' %}
+    {% set paginationPath = 'grouped.category' %}
+{% endif %}
+{% if 'blog' in path %}
+    {% set link = 'post' %}
+    {% set paginationPath = 'blog.category' %}
+{% endif %}
+{% if 'editor' in path %}
+    {% set link = 'cpanel/editor' %}
+    {% set paginationPath = 'editor.list' %}
+{% endif %}
+{% if 'blank' in path %}
+    {% set link = 'cpanel/pattern' %}
+    {% set paginationPath = 'pattern.list' %}
+{% endif %}
+
+<div class="row">
+    {% for m in maps %}
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="card card-small card-post card-post--1">
+                <div
+                        class="card-post__image"
+                        {% if m.filename is empty %}
+                            style="background-image: url('/cpanel/images/maps/default.jpg');"
+                        {% else %}
+                            style="background-image: url('/cpanel/images/maps/{{ m.filename }}');"
+                        {% endif %}
+                >
+                    <!-- {% if m.category.name is defined %}
+                        <a href="/cpanel/grouped/category/{{ m.category.id }}" class="card-post__category badge badge-pill badge-primary">{{ m.category.name }}</a>
+                    {% else %}
+                        <a href="/cpanel/grouped/category/0" class="card-post__category badge badge-pill badge-secondary">Without category</a>
+                    {% endif %} -->
+                    <div class="card-post__author d-flex">
+                        <a href="#"
+                           class="card-post__author-avatar card-post__author-avatar--small"
+                            {% if app.user.image is defined %}
+                                {% if app.user.image is empty %}
+                                    style="background-image: url('/cpanel/profile/uploads/images/defaul-user.jpg');"
+                                {% else %}
+                                    style="background-image: url('/cpanel/profile/uploads/images/{{ app.user.image }}');"
+                                {% endif %}
+                            {% else %}
+                                style="background-image: url('/cpanel/profile/uploads/images/defaul-user.jpg');"
+                            {% endif %}
+                        >Автор:
+                            {% if app.user.name is defined %}
+                                {{ app.user.name }} {{ app.user.surname }}
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="devstyle-blog-card-body">
+                        <h5 class="card-title">
+                            {% set path = app.request.pathinfo %}
+                            {% if 'blog' in path %}
+                                {% set link = 'post' %}
+                            {% endif %}
+                            {% if 'grouped' in path %}
+                                {% set link = 'cpanel/grouped/show' %}
+                            {% endif %}
+                            {% if 'editor' in path %}
+                                {% set link = 'cpanel/editor/show' %}
+                            {% endif %}
+                            {% if 'pattern' in path %}
+                                {% set link = 'cpanel/pattern/show' %}
+                            {% endif %}
+                            <a class="text-fiord-blue" href="/{{ link }}/{{ m.id }}">{{ m.name }}</a>
+                        </h5>
+                        <p class="card-text d-inline-block mb-3">
+                            {% if m.description|length > 155 %}
+                                {{ m.description|slice(0, 155) ~ '...' }}
+                            {% else %}
+                                {{ m.description }}
+                            {% endif %}
+                        </p>
+                        <br>
+                    </div>
+                </div>
+                <div class="card-footer border-top d-flex">
+                    <span class="text-muted">{{ m.createdAt|date("d/m/Y") }}</span>
+                    <div class="my-auto ml-auto">
+                        <a class="btn btn-sm btn-white devclass-show-button" href="/{{ link }}/{{ m.id }}">
+                            <i class="fa fa-book mr-1"></i>
+                            {% trans %}Read{% endtrans %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- PAGINATION... -->
+<div class="container">
+    <div class="d-flex justify-content-center pagination mt-2 mb-5">
+        {% if previous >= 0 %}
+            <a href="{{ path(paginationPath, { offset: previous, category: category }) }}"> << </a>
+        {% endif %}
+        {% if(mapsLength > 1) %}
+            {% for i in before..after %}
+                <a href="{{ path(paginationPath, { offset: per_page*i, category: category }) }}"
+                   {% if(app.request.get('offset') == i*per_page) %}class="active"{% endif %}
+                >
+                    {{ i+1 }}
+                </a>
+            {% endfor %}
+        {% endif %}
+        {% if next < maps|length %}
+            <a href="{{ path(paginationPath, { offset: next, category: category }) }}"> >> </a>
+        {% endif %}
+    </div>
+</div>
+<!-- ...PAGINATION -->

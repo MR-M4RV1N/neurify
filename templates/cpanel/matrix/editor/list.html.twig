@@ -1,0 +1,28 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <!-- <span class="text-uppercase page-subtitle">{% trans %}notes{% endtrans %}</span> -->
+                <!-- Это надо исправить -->
+                <span class="text-uppercase page-subtitle">Редактор матриц 3x3</span>
+                <h3 class="page-title mt-3">
+                    {% if category == 0 %}
+                        {% trans %}in development{% endtrans %}
+                    {% elseif category == 1 %}
+                        {% trans %}completed{% endtrans %}
+                    {% elseif category == 2 %}
+                        {% trans %}public{% endtrans %}
+                    {% endif %}
+                </h3>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+
+        <!-- POSTS... -->
+        {% include 'cpanel/matrix/editor/_templates/_list.html.twig' %}
+        <!-- ...POSTS -->
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI-комментарии{% endblock %}
+
+{% block body %}
+    {# Notification message #}
+    {% include '/cpanel/ai_consulting/_ai_notification_message.html.twig' %}
+
+    {% include '/cpanel/chat/_avatar.html.twig' %}
+
+    <!--<div class="pt-2">
+        {% include '/cpanel/chat/_tabs.html.twig' %}
+    </div>-->
+
+    {# Options #}
+    <!--{% include '/cpanel/ai_consulting/_options.html.twig' %}
+    <div class="text-center py-2">
+        <i class="material-icons">keyboard_arrow_down</i>
+    </div>-->
+
+    {# Consultation #}
+    <br>
+    {% include '/cpanel/ai_consulting/_consultation_options.html.twig' %}
+    <div class="text-center py-2">
+        <i class="material-icons">keyboard_arrow_down</i>
+    </div>
+
+    {# Records #}
+    {% include '/cpanel/ai_consulting/_generated_records.html.twig' %}
+
+    <div class="pb-5 pt-5"></div>
+{% endblock %}

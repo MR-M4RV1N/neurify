@@ -1,0 +1,36 @@
+<!-- Используется /components/_account-list.scss -->
+<div class="mb-2 mx-auto text-center mt-3">
+    <div class="profile-avatar-container">
+        <div class="avatar-wrapper">
+            <img class="rounded-circle" src="/cpanel/profile/uploads/images/{{ app.user.image }}" alt="User Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+            <a href="/cpanel/progress/{{ app.user.id }}">
+                <img src="/images/L{{ level }}.png" alt="About Neurify" class="mini-icon-level" id="user-level">
+            </a>
+            <!--<a href="/cpanel/progress/activity">
+                    <img src="{{ asset('/icons/statistics_9417343.png') }}"
+                         alt="Icon"
+                         class="mini-icon"
+                    >
+                </a>-->
+        </div>
+    </div>
+    <div class="pt-4">
+        <div class="text-center pb-1">
+            <!--<p>{{ app.user.description }}</p>-->
+            https://neurify.life/s/{{ app.user.username }}
+            <div class="d-flex justify-content-center">
+                <div data-share-button data-url="https://neurify.life/s/{{ app.user.username }}" class="position-relative text-center" style="line-height: 0;">
+                    <button class="btn btn-link m-0 p-0" style="font-weight: 400;">
+                        <i class="fas fa-copy mr-1"></i>
+                        <span class="text-uppercase page-subtitle">{% trans %}Copy{% endtrans %}</span>
+                    </button>
+                    <span data-share-message class="position-absolute w-100 text-success" style="top: 7px; font-size: 12px; display: none;">Скопировано!</span>
+                </div>
+            </div>
+        </div>
+        <h4 class="mb-0">{{ app.user.firstname }} {{ app.user.lastname }}</h4>
+        <a href="/cpanel/resume/events">
+            <span class="text-uppercase page-subtitle" id="user-selected-artisan">{{ app.user.artisan }}</span>
+        </a>
+    </div>
+</div>

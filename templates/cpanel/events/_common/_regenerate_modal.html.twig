@@ -1,0 +1,38 @@
+{# Regenerate modal #}
+<div class="modal fade" id="regenerateModal" tabindex="-1" role="dialog" aria-labelledby="regenerateModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="regenerateModalLabel">
+                    <span class="material-icons" style="vertical-align: middle; font-size: 20px;">autorenew</span>
+                    {% trans %}Regenerate task{% endtrans %}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                {% trans %}Are you sure you want to regenerate this task?{% endtrans %}
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    {% trans %}Cancel{% endtrans %}
+                </button>
+
+                <form method="post" action="{{ path('ai_task_regenerate_task', {'id': event.id}) }}"
+                      data-turbo="false">
+                    <button type="submit" class="btn btn-primary">
+                            <span class="material-icons"
+                                  style="vertical-align: middle; font-size: 18px;">autorenew</span>
+                        {% trans %}Regenerate{% endtrans %}
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

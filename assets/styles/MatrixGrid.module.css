@@ -1,0 +1,9 @@
+.matrix-grid td { /* Если у вашей таблицы есть класс "matrix-grid" */
+    height: 100px; /* Настройте желаемую высоту */
+    width: 100px;  /* Настройте желаемую ширину, если хотите квадратные блоки */
+    padding: 10px; /* Настройте желаемые внутренние отступы */
+    margin: 0;
+    box-sizing: border-box;
+    text-align: center; /* По желанию */
+    vertical-align: middle; /* По желанию */
+}

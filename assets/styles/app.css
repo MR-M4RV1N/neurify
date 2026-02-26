@@ -1,0 +1,12 @@
+.td {
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+tr > .td:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+.td:hover {
+    background-color: #e6e6e6;
+}

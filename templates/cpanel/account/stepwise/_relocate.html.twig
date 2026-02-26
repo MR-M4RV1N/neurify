@@ -1,0 +1,39 @@
+{% if stepwisedCategory.author.id == app.user.id %}
+    <div class="text-center mb-3">
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#newListModal">
+            <i class="material-icons mb-1" style="font-size:14px;vertical-align:middle;">autorenew</i>
+            Izveidot jaunu
+        </a>
+    </div>
+    <div class="modal fade" id="newListModal" tabindex="-1" role="dialog" aria-labelledby="newListModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newListModalLabel">{% trans %}Warning{% endtrans %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{% trans %}Close{% endtrans %}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form action="{{ path('ai_task_relocate', {'id': stepwisedCategory.id}) }}" method="post" data-turbo="false">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete_stepwise') }}">
+
+                    <div class="modal-body">
+                        {% trans %}To create a new task list, you need to move this one into drafts.{% endtrans %}<br><br>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            {% trans %}Cancel{% endtrans %}
+                        </button>
+
+                        <button type="submit" class="btn btn-danger">
+                            {% trans %}Relocate{% endtrans %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}

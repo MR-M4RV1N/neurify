@@ -1,0 +1,59 @@
+<div class="card card-small mb-4">
+	<div class="card-header border-bottom d-flex align-items-center justify-content-between">
+		<h6 class="m-0">{% trans %}Small steps of development{% endtrans %}</h6>
+
+		{% if smallStepsDescription is defined %}
+			<a href="#" class="text-warning" data-toggle="modal" data-target="#smallStepsMethodModal">
+				<i class="material-icons icon-help-large">help_outline</i>
+			</a>
+		{% endif %}
+	</div>
+	<div class="card-body pt-0">
+		<div class="row border-bottom py-2 bg-light">
+			<div class="col-12 col-sm-6">
+				<div id="small-steps-range" class="d-flex align-items-stretch input-group-sm my-auto ml-auto mr-auto ml-sm-auto mr-sm-0" style="max-width:350px; width:100%;">
+
+					<span class="input-group-text d-flex align-items-center">
+						<i class="material-icons"></i>
+					</span>
+
+					<div class="btn-group w-100">
+						<a href="{{ path('app_proposal_week', app.request.query.all|merge({'range':'weeks'})) }}#small-steps-range" class="btn btn-sm w-50 {{ range == 'weeks' ? 'btn-secondary active' : 'btn-white' }} btn-force-secondary">
+							12 weeks
+						</a>
+
+						<a href="{{ path('app_proposal_week', app.request.query.all|merge({'range':'days'})) }}#small-steps-range" class="btn btn-sm w-50 {{ range == 'days' ? 'btn-secondary active' : 'btn-white' }} btn-force-secondary">
+							12 days
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 d-flex mb-3 mb-sm-0">
+				<a href="{{ path('cpanel_small_step_index') }}" class="btn btn-sm btn-white ml-auto mr-auto ml-sm-auto mr-sm-0 mt-3 mt-sm-0">{% trans %}View Full Report{% endtrans %}
+					&rarr;</a>
+			</div>
+		</div>
+		<div class="chart-wrap" style="height:220px; width:100%; position:relative;">
+			<canvas id="smallStepsChart" data-range="{{ range }}" data-weeks='{{ (weeks ?? [])|json_encode|e("html_attr") }}' data-days='{{ (days ?? [])|json_encode|e("html_attr") }}' data-year="{{ year }}"></canvas>
+		</div>
+	</div>
+</div>
+
+{% if smallStepsDescription is defined %}
+	<div class="modal fade" id="smallStepsMethodModal" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 9999;">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">{% trans %}Small steps of development{% endtrans %}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-justify">
+					{{ smallStepsDescription|nl2br }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endif %}

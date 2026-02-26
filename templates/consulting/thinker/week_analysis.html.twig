@@ -1,0 +1,491 @@
+<div class="thinker-analysis mb-4">
+
+	{# ============================= #}
+	{# LAYOUT: ERIC BERNE            #}
+	{# ============================= #}
+		{% if analysis.thinker_style == 'berne' %}
+		{# ... berne layout ... #}
+		{# Ego States Bar Chart #}
+			<div class="analysis-panel mb-4"> <div class="analysis-header font-weight-bold">
+				{% trans %}Ego States Balance{% endtrans %}
+			</div>
+			<div class="analysis-body">
+				{% set parent = analysis.ego_states.parent %}
+				{% set adult = analysis.ego_states.adult %}
+				{% set child = analysis.ego_states.child %}
+
+				<div class="progress mb-2">
+					<div class="progress-bar bg-warning" role="progressbar" style="width: {{ parent }}%" aria-valuenow="{{ parent }}" aria-valuemin="0" aria-valuemax="100">
+						P:
+						{{ parent }}%
+					</div>
+					<div class="progress-bar bg-success" role="progressbar" style="width: {{ adult }}%" aria-valuenow="{{ adult }}" aria-valuemin="0" aria-valuemax="100">
+						A:
+						{{ adult }}%
+					</div>
+					<div class="progress-bar bg-info" role="progressbar" style="width: {{ child }}%" aria-valuenow="{{ child }}" aria-valuemin="0" aria-valuemax="100">
+						C:
+						{{ child }}%
+					</div>
+				</div>
+				<div class="small text-white d-flex justify-content-between">
+					<span>
+						<span class="text-warning">●</span>
+						Parent (Control/Care)</span>
+					<span>
+						<span class="text-success">●</span>
+						Adult (Logic/Facts)</span>
+					<span>
+						<span class="text-info">●</span>
+						Child (Emotion/Creativity)</span>
+				</div>
+			</div>
+		</div>
+
+		{# Games & Transactions #}
+		<div class="row">
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						<strong>{% trans %}Psychological Games{% endtrans %}</strong>
+					</div>
+					<div class="analysis-list">
+						{% for game in analysis.games_played %}
+							<div class="analysis-list-item text-danger">
+								<i class="fas fa-chess-pawn mr-2"></i>
+								{{ game }}
+							</div>
+						{% else %}
+							<div class="analysis-list-item text-muted">{% trans %}No games detected{% endtrans %}</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						<strong>{% trans %}Key Transactions{% endtrans %}</strong>
+					</div>
+					<div class="analysis-list">
+						{% for trans in analysis.key_transactions %}
+							<div class="analysis-list-item">
+								<i class="fas fa-exchange-alt mr-2 text-primary"></i>
+								{{ trans }}
+							</div>
+						{% else %}
+							<div class="analysis-list-item text-muted">{% trans %}No key transactions{% endtrans %}</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{# ============================= #}
+		{# LAYOUT: NASSIM TALEB          #}
+		{# ============================= #}
+	{% elseif analysis.thinker_style == 'taleb' %}
+		{# ... taleb layout ... #}
+		{# Antifragility Score #}
+			<div class="analysis-panel mb-4"> <div class="analysis-header font-weight-bold">
+				{% trans %}Antifragility Score{% endtrans %}
+			</div>
+			<div class="analysis-body text-center">
+				<h2 class="display-4 mb-0 text-white">{{ analysis.antifragility_score }}<span class="text-muted text-small">/10</span>
+				</h2>
+				<div class="small text-muted mb-2">
+					{% if analysis.antifragility_score < 4 %}
+						{% trans %}Fragile (Harmed by volatility){% endtrans %}
+					{% elseif analysis.antifragility_score < 8 %}
+						{% trans %}Robust (Resilient to volatility){% endtrans %}
+					{% else %}
+						{% trans %}Antifragile (Gains from volatility){% endtrans %}
+					{% endif %}
+				</div>
+				<div class="progress" style="height: 6px;">
+					<div class="progress-bar {% if analysis.antifragility_score >= 8 %}bg-success{% elseif analysis.antifragility_score >= 4 %}bg-warning{% else %}bg-danger{% endif %}" role="progressbar" style="width: {{ analysis.antifragility_score * 10 }}%"></div>
+				</div>
+			</div>
+		</div>
+
+		{# Barbell Strategy #}
+		<div class="analysis-panel mb-4">
+			<div class="analysis-header font-weight-bold">
+				{% trans %}Barbell Strategy{% endtrans %}
+			</div>
+			<div class="analysis-body">
+				<div class="small text-muted mb-2">{% trans %}Avoid the middle. Be safe + aggressive.{% endtrans %}</div>
+				<div
+					class="progress mb-2">
+					{# Conservative #}
+					<div class="progress-bar bg-success" role="progressbar" style="width: {{ analysis.barbell.conservative }}%">
+						{{ analysis.barbell.conservative }}%
+					</div>
+					{# Middle (Bad) #}
+					<div class="progress-bar bg-danger" role="progressbar" style="width: {{ analysis.barbell.middle }}%">
+						{{ analysis.barbell.middle }}%
+					</div>
+					{# Aggressive #}
+					<div class="progress-bar bg-warning" role="progressbar" style="width: {{ analysis.barbell.aggressive }}%">
+						{{ analysis.barbell.aggressive }}%
+					</div>
+				</div>
+				<div class="small text-white d-flex justify-content-between">
+					<span>
+						<span class="text-success">●</span>
+						{% trans %}Safe{% endtrans %}</span>
+					<span>
+						<span class="text-danger">●</span>
+						{% trans %}Middle (Vulnerable){% endtrans %}</span>
+					<span>
+						<span class="text-warning">●</span>
+						{% trans %}Aggressive{% endtrans %}</span>
+				</div>
+			</div>
+		</div>
+
+		{# Metrics & Black Swans #}
+		<div class="row">
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						<strong>{% trans %}Key Principles{% endtrans %}</strong>
+					</div>
+					<div class="analysis-body">
+						<div class="mb-2">
+							<div class="d-flex justify-content-between small text-muted">
+								<span>Via Negativa</span>
+								<span>{{ analysis.metrics.via_negativa }}%</span>
+							</div>
+							<div class="progress" style="height: 6px;">
+								<div class="progress-bar bg-info" style="width: {{ analysis.metrics.via_negativa }}%"></div>
+							</div>
+						</div>
+						<div class="mb-2">
+							<div class="d-flex justify-content-between small text-muted">
+								<span>Skin in the Game</span>
+								<span>{{ analysis.metrics.skin_in_the_game }}%</span>
+							</div>
+							<div class="progress" style="height: 6px;">
+								<div class="progress-bar bg-info" style="width: {{ analysis.metrics.skin_in_the_game }}%"></div>
+							</div>
+						</div>
+						<div class="mb-0">
+							<div class="d-flex justify-content-between small text-muted">
+								<span>Optionality</span>
+								<span>{{ analysis.metrics.optionality }}%</span>
+							</div>
+							<div class="progress" style="height: 6px;">
+								<div class="progress-bar bg-info" style="width: {{ analysis.metrics.optionality }}%"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						<strong>{% trans %}Black Swans{% endtrans %}</strong>
+					</div>
+					<div class="analysis-list">
+						{% for event in analysis.black_swans %}
+							<div class="analysis-list-item">
+								<i class="fas fa-bolt mr-2 text-white"></i>
+								{{ event }}
+							</div>
+						{% else %}
+							<div class="analysis-list-item text-muted">{% trans %}No black swans detected{% endtrans %}</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{# ============================= #}
+		{# LAYOUT: NAPOLEON HILL         #}
+		{# ============================= #}
+	{% elseif analysis.thinker_style == 'hill' %}
+		{# ... hill layout ... #}
+		{# Determination Score & Goal Alignment #}
+			<div class="row"> <div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						{% trans %}Determination Score{% endtrans %}
+					</div>
+					<div class="analysis-body text-center">
+						<h2 class="display-4 mb-0 text-white">{{ analysis.determination_score }}<span class="text-muted text-small">/10</span>
+						</h2>
+						<div class="small text-muted mb-2">
+							{% trans %}Burning Desire Intensity{% endtrans %}
+						</div>
+						<div class="progress" style="height: 6px;">
+							<div class="progress-bar bg-warning" role="progressbar" style="width: {{ analysis.determination_score * 10 }}%"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						{% trans %}Goal Alignment{% endtrans %}
+					</div>
+					<div class="analysis-body">
+						<div class="d-flex justify-content-between mb-2 small text-muted">
+							<span>{% trans %}Aligned w/ Purpose{% endtrans %}</span>
+							<span>{% trans %}Drifting{% endtrans %}</span>
+						</div>
+						<div class="progress">
+							<div class="progress-bar bg-success" style="width: {{ analysis.goal_alignment.aligned }}%">
+								{% if analysis.goal_alignment.aligned > 20 %}
+									{{ analysis.goal_alignment.aligned }}%
+								{% endif %}
+							</div>
+							<div class="progress-bar bg-danger" style="width: {{ analysis.goal_alignment.drift }}%">
+								{% if analysis.goal_alignment.drift > 20 %}
+									{{ analysis.goal_alignment.drift }}%
+								{% endif %}
+							</div>
+						</div>
+						<div class="mt-3 small text-muted">
+							<i class="fas fa-compass mr-1"></i>
+							{% trans %}Are your daily actions moving you towards your definite major purpose?{% endtrans %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{# Success Principles & Mastermind #}
+		<div class="row">
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						<strong>{% trans %}Success Principles{% endtrans %}</strong>
+					</div>
+					<div class="analysis-body">
+						<div class="mb-2">
+							<div class="d-flex justify-content-between small text-muted">
+								<span>Faith & Confidence</span>
+								<span>{{ analysis.principles.faith }}%</span>
+							</div>
+							<div class="progress" style="height: 6px;">
+								<div class="progress-bar bg-info" style="width: {{ analysis.principles.faith }}%"></div>
+							</div>
+						</div>
+						<div class="mb-2">
+							<div class="d-flex justify-content-between small text-muted">
+								<span>Auto-suggestion</span>
+								<span>{{ analysis.principles.auto_suggestion }}%</span>
+							</div>
+							<div class="progress" style="height: 6px;">
+								<div class="progress-bar bg-info" style="width: {{ analysis.principles.auto_suggestion }}%"></div>
+							</div>
+						</div>
+						<div class="mb-2">
+							<div class="d-flex justify-content-between small text-muted">
+								<span>Specialized Knowledge</span>
+								<span>{{ analysis.principles.specialized_knowledge }}%</span>
+							</div>
+							<div class="progress" style="height: 6px;">
+								<div class="progress-bar bg-info" style="width: {{ analysis.principles.specialized_knowledge }}%"></div>
+							</div>
+						</div>
+						<div class="mb-0">
+							<div class="d-flex justify-content-between small text-muted">
+								<span>Imagination</span>
+								<span>{{ analysis.principles.imagination }}%</span>
+							</div>
+							<div class="progress" style="height: 6px;">
+								<div class="progress-bar bg-info" style="width: {{ analysis.principles.imagination }}%"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						<strong>{% trans %}Mastermind Status{% endtrans %}</strong>
+					</div>
+					<div class="analysis-body">
+						<div class="d-flex align-items-start">
+							<i class="fas fa-users mr-3 mt-1 text-warning" style="font-size: 1.5em;"></i>
+							<p class="mb-0 text-light small" style="line-height: 1.6;">
+								{{ analysis.mastermind_status|default('No data available') }}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{# ============================= #}
+		{# LAYOUT: CARL JUNG             #}
+		{# ============================= #}
+	{% elseif analysis.thinker_style == 'jung' %}
+
+		{# Individuation & Balance #}
+		<div class="row">
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						{% trans %}Individuation Level{% endtrans %}
+					</div>
+					<div class="analysis-body text-center">
+						<h2 class="display-4 mb-0 text-white">{{ analysis.individuation_level }}<span class="text-muted text-small">/10</span>
+						</h2>
+						<div class="small text-muted mb-2">
+							{% trans %}Ego-Self Axis Integration{% endtrans %}
+						</div>
+						<!-- Circle progress metaphor using simple css -->
+						<div class="progress" style="height: 6px;">
+							<div class="progress-bar bg-primary" role="progressbar" style="width: {{ analysis.individuation_level * 10 }}%"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						{% trans %}World Balance{% endtrans %}
+					</div>
+					<div class="analysis-body">
+						<div class="d-flex justify-content-between mb-2 small text-muted">
+							<span>{% trans %}Inner World (Dreams/Intuition){% endtrans %}</span>
+							<span>{% trans %}Outer World (Action/Persona){% endtrans %}</span>
+						</div>
+						<div class="progress">
+							<div class="progress-bar bg-info" style="width: {{ analysis.balance.inner_world }}%">
+								{% if analysis.balance.inner_world > 20 %}
+									{{ analysis.balance.inner_world }}%
+								{% endif %}
+							</div>
+							<div class="progress-bar bg-warning mb-2" style="width: {{ analysis.balance.outer_world }}%">
+								{% if analysis.balance.outer_world > 20 %}
+									{{ analysis.balance.outer_world }}%
+								{% endif %}
+							</div>
+						</div>
+						<div class="mt-2 text-center small text-light font-italic">
+							{% if analysis.balance.inner_world > analysis.balance.outer_world + 20 %}
+								{% trans %}Introverted Focus{% endtrans %}
+							{% elseif analysis.balance.outer_world > analysis.balance.inner_world + 20 %}
+								{% trans %}Extroverted Focus{% endtrans %}
+							{% else %}
+								{% trans %}Balanced Energy{% endtrans %}
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{# Shadow & Archetypes #}
+		<div class="row">
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						<strong>{% trans %}Shadow Analysis{% endtrans %}</strong>
+					</div>
+					<div class="analysis-body">
+						<div class="d-flex justify-content-between small text-muted mb-1">
+							<span>Shadow Integration Score</span>
+							<span>{{ analysis.shadow_analysis.score }}%</span>
+						</div>
+						<div
+							class="progress mb-3" style="height: 6px;">
+							<!-- Darker color for shadow -->
+							<div class="progress-bar bg-secondary" style="width: {{ analysis.shadow_analysis.score }}%"></div>
+						</div>
+						<p class="small text-light mb-0" style="font-style: italic; border-left: 2px solid #6c757d; padding-left: 10px;">
+							{{ analysis.shadow_analysis.description|default('No shadow activity detected.') }}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-4">
+				<div class="analysis-panel h-100">
+					<div class="analysis-header font-weight-bold">
+						<strong>{% trans %}Active Archetypes{% endtrans %}</strong>
+						<span class="badge badge-light float-right text-dark">Top 1-2</span>
+					</div>
+					<div class="analysis-list">
+						{% for arch in analysis.archetypes %}
+							<div class="analysis-list-item mb-2">
+								<div class="d-flex align-items-center mb-1">
+									<i class="fas fa-mask mr-2 text-warning"></i>
+									<strong class="text-warning">{{ arch.name }}</strong>
+								</div>
+								<div class="small text-muted ml-4">
+									{{ arch.description }}
+								</div>
+							</div>
+						{% else %}
+							<div class="analysis-list-item text-muted">{% trans %}No archetypes detected{% endtrans %}</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% if analysis.synchronicity %}
+			<div class="analysis-panel mb-4">
+				<div class="analysis-header font-weight-bold">
+					<strong>{% trans %}Synchronicity & Symbols{% endtrans %}</strong>
+				</div>
+				<div class="analysis-body">
+					<div class="d-flex align-items-start">
+						<i class="fas fa-star mr-3 mt-1 text-info"></i>
+						<p class="mb-0 text-light small">
+							{{ analysis.synchronicity }}
+						</p>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+	{% endif %}
+
+	{# ============================= #}
+	{# COMMON BLOCKS (Summary, Recs) #}
+	{# ============================= #}
+
+		{% if analysis.thinker_style in ['berne', 'taleb', 'hill', 'jung'] %}
+		{# Summary #}
+			<div class="analysis-panel mb-4"> <div class="analysis-header font-weight-bold">
+				<strong>{% trans %}Summary{% endtrans %}</strong>
+			</div>
+			<div class="analysis-body">
+				<p class="mb-0">{{ analysis.summary|nl2br }}</p>
+			</div>
+		</div>
+
+		{# Recommendations #}
+		{% if analysis.recommendations is not empty %}
+			<div class="analysis-panel mb-4">
+				<div class="analysis-header font-weight-bold">
+					<strong>{% trans %}Recommendations{% endtrans %}</strong>
+				</div>
+				<div class="analysis-list">
+					{% for rec in analysis.recommendations %}
+						<div class="analysis-list-item">
+							<i class="fas fa-lightbulb text-warning mr-2"></i>
+							{{ rec }}
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+	{% else %}
+		{# Fallback for errors or unsupported styles #}
+		<div class="alert alert-dark">
+			{{ analysis.summary|nl2br }}
+		</div>
+	{% endif %}
+
+	<div class="text-right mt-2 text-muted small">
+		{% trans %}Period{% endtrans %}:
+		{{ weekStart|date('d.m.Y') }}
+		—
+		{{ weekEnd|date('d.m.Y') }}
+	</div>
+</div>

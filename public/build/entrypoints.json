@@ -1,0 +1,24 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors-node_modules_hotwired_turbo_dist_turbo_es2017-esm_js-node_modules_symfony_stimulus-br-dc91c4.js",
+        "/build/app.js"
+      ],
+      "css": [
+        "/build/app.css"
+      ]
+    },
+    "fancybox": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors-node_modules_fancyapps_ui_dist_index_esm_js-node_modules_fancyapps_ui_dist_fancybox_f-306b87.js",
+        "/build/fancybox.js"
+      ],
+      "css": [
+        "/build/vendors-node_modules_fancyapps_ui_dist_index_esm_js-node_modules_fancyapps_ui_dist_fancybox_f-306b87.css"
+      ]
+    }
+  }
+}

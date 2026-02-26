@@ -1,0 +1,26 @@
+.info-box {
+  width: 80px; /* Ширина квадрата */
+  height: 80px; /* Высота квадрата */
+  background-color: white; /* Белый цвет фона */
+  border-radius: 10px; /* Закругленные края */
+  display: flex;
+  border: 1px solid #ccc; /* Светло-серый цвет рамки */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: 25px; /* Смещение вниз от верхнего края контейнера */
+  left: 35px; /* Смещение от левого края контейнера */
+  z-index: 10; /* Поверх изображений */
+}
+
+.info-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 8px;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #666;
+}

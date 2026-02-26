@@ -1,0 +1,123 @@
+<div class="card card-small p-1 mt-4" id="target-element-id">
+    <div class="card-header border-bottom">
+        <h6 class="m-0 text-center">{% trans %}Cognitive Reframing Tools{% endtrans %}</h6>
+    </div>
+    <div class="card-body">
+        {% if reformulationRecord %}
+            {% set selectedIndex = reformulationRecord.userSelectedAlternativeId %}
+        {% else %}
+            {% set selectedIndex = null %}
+        {% endif %}
+
+        {% if alternatives %}
+            <details class="mt-3">
+                <summary class="fw-bold text-uppercase" style="cursor:pointer;">
+                    {% trans %}Problem alternative formulation{% endtrans %}
+                </summary>
+
+                <div class="mt-3">
+                    <div class="">
+                        <div class="text-center">
+                            <strong>{% trans %}Original focus{% endtrans %}</strong>
+                        </div>
+                        <p>{{ reformulationRecord.problem }}</p>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <strong>{% trans %}Alternatives{% endtrans %}</strong>
+                    </div>
+                    {% for alt in alternatives %}
+                        <div class="py-2">
+                            <div class="text-danger">
+                                {{ loop.index }}. {{ alt.focus }}
+                                <!--{% if loop.index0 == selectedIndex %}
+                                    <span class="badge bg-secondary">{% trans %}Recommended{% endtrans %}</span>
+                                {% endif %}-->
+                            </div>
+                            <p>{{ alt.formulation }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </details>
+            <hr>
+        {% endif %}
+
+        {% if critiques %}
+            <details class="mt-3">
+                <summary class="fw-bold text-uppercase" style="cursor:pointer;">
+                    {% trans %}Devil's Advocate critique{% endtrans %}
+                </summary>
+
+                <div class="mt-3">
+
+                    <!-- CRITIQUE LIST -->
+                    <div class="text-center">
+                        <strong>{% trans %}Critical objections{% endtrans %}</strong>
+                    </div>
+
+                    {% for item in critiques %}
+                        <div class="py-2">
+
+                            <div class="text-danger">
+                                {{ loop.index }}.
+                                {{ item.type|capitalize }}
+                            </div>
+
+                            <p class="fw-bold mb-1">{{ item.objection }}</p>
+                            <p class="mb-2 text-muted">{{ item.explanation }}</p>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </details>
+            <hr>
+        {% endif %}
+
+        {% if assumptions %}
+            <details class="mt-3">
+                <summary class="fw-bold text-uppercase" style="cursor:pointer;">
+                    {% trans %}Reverse Assumptions{% endtrans %}
+                </summary>
+
+                <div class="mt-3">
+                    <!-- ASSUMPTION LIST -->
+                    <div class="text-center">
+                        <strong>{% trans %}Reverse Assumptions{% endtrans %}</strong>
+                    </div>
+
+                    {% for item in assumptions %}
+                        <div class="py-2">
+                            <div class="fw-bold text-danger">
+                                {{ loop.index }}. {% trans %}Assumption{% endtrans %}
+                            </div>
+
+                            <p class="mb-1">
+                                <strong>{% trans %}Original:{% endtrans %}</strong>
+                                {{ item.original }}
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>{% trans %}Reversed:{% endtrans %}</strong>
+                                {{ item.reversed }}
+                            </p>
+
+                            <p class="text-muted">
+                                <strong>{% trans %}Insight:{% endtrans %}</strong>
+                                {{ item.insight }}
+                            </p>
+                        </div>
+
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+            </details>
+            <hr>
+        {% endif %}
+
+        {% include '/cpanel/events/_common/_regenerate.html.twig' %}
+    </div>
+</div>

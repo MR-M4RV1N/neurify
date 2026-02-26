@@ -1,0 +1,9 @@
+<div class="text-center my-3" id="target-activity">
+	{% set path = app.request.pathinfo %}
+	<div class="btn-group btn-group-toggle d-inline-flex">
+		<a href="/cpanel/users/stepwise/ensembles/{{ profile.id }}" class="btn btn-white btn-sm px-2 {{ path|area('/users/stepwise') }}">{% trans %}Collections{% endtrans %}</a>
+		<a href="/cpanel/users/statistics/{{ profile.id }}#target-activity" class="btn btn-white btn-sm px-2 {{ path|area('/users/statistics') }}">{% trans %}Challenges{% endtrans %}</a>
+		<a href="/cpanel/users/classification/{{ profile.id }}#target-section" class="btn btn-white btn-sm px-2 {{ path|area('/users/classification') }}">{% trans %}Classification{% endtrans %}</a>
+		<a href="/cpanel/users/categories/{{ profile.id }}#target-section" class="btn btn-white btn-sm px-2 {{ path|area('/users/categories') }}">{% trans %}Categories{% endtrans %}</a>
+	</div>
+</div>

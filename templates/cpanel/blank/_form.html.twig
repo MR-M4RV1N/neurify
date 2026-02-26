@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="d-flex mt-5">
+        <a href="{{ path('app_blank_index', {'id': 1}) }}" class="btn btn-sm btn-outline-secondary mr-2"><i class="fas fa-arrow-left"></i> {% trans %}back{% endtrans %}</a>
+        <button class="btn btn-sm btn-outline-primary"><i class="fas fa-save"></i> {{ button_label|default('Save'|trans) }}</button>
+    </div>
+{{ form_end(form) }}

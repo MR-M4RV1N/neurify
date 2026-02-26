@@ -1,0 +1,55 @@
+<div class="col-lg-4 col-md-6 col-sm-12 mb-4 m-0 px-1">
+    <div class="card card-small card-post card-post--1">
+        <div
+                class="card-post__image"
+                {% if map.filename is empty %}
+                    style="background-image: url('/cpanel/images/maps/default.jpg');"
+                {% else %}
+                    style="background-image: url('/cpanel/images/maps/{{ map.filename }}');"
+                {% endif %}
+        >
+            <div class="card-post__author d-flex">
+                <a href="#"
+                   class="card-post__author-avatar card-post__author-avatar--small"
+                        {% if app.user.image is defined %}
+                            {% if app.user.image is empty %}
+                                style="background-image: url('/cpanel/profile/uploads/images/defaul-user.jpg');"
+                            {% else %}
+                                style="background-image: url('/cpanel/profile/uploads/images/{{ app.user.image }}');"
+                            {% endif %}
+                        {% else %}
+                            style="background-image: url('/cpanel/profile/uploads/images/defaul-user.jpg');"
+                        {% endif %}
+                >Автор:
+                    {% if app.user.name is defined %}
+                        {{ app.user.name }} {{ app.user.surname }}
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="devstyle-blog-card-body" style="margin-bottom: 10px">
+                <h5 class="card-title">
+                    <img src="{{ asset('/icons/goods.png') }}" alt="Лавровый венок" width="24" style="margin-bottom: 5px;">
+                    <a class="text-fiord-blue" href="/cpanel/editor/show/{{ map.id }}">{{ map.name }}</a>
+                </h5>
+                <p class="card-text d-inline-block mb-3">
+                    {% if map.description|length > 155 %}
+                        {{ map.description|slice(0, 155) ~ '...' }}
+                    {% else %}
+                        {{ map.description }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <div class="card-footer border-top d-flex">
+            <span class="text-muted">{{ map.createdAt|date("d/m/Y") }}</span>
+            <div class="my-auto ml-auto">
+                <a class="btn btn-sm btn-white devclass-show-button" href="/cpanel/editor/show/{{ map.id }}">
+                    <i class="fa fa-book mr-1"></i>
+                    {% trans %}Read{% endtrans %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

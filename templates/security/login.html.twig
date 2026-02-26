@@ -1,0 +1,74 @@
+{% extends 'security/base.html.twig' %}
+
+{% block title %}Log in
+{% endblock %}
+
+{% block body %}
+	<div class="w-100" style="max-width: 450px;">
+		<div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+			<div class="bg-primary text-white text-center py-4">
+				<h4 class="mb-0 fw-bold">{% trans %}Please sign in{% endtrans %}</h4>
+			</div>
+			<div class="card-body p-4 p-md-5">
+				<form method="post">
+					{% if error %}
+						<div class="alert alert-danger rounded-3">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% endif %}
+
+					{% if app.user %}
+						<div class="alert alert-info rounded-3 mb-4">
+							You are logged in as
+							{{ app.user.userIdentifier }},
+							<a href="{{ path('app_logout') }}" class="alert-link">Logout</a>
+						</div>
+					{% endif %}
+
+					<div class="form-floating mb-3">
+						<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control rounded-3" autocomplete="email" placeholder="name@example.com" required autofocus>
+						<label for="inputEmail" class="text-muted">{% trans %}Email{% endtrans %}</label>
+					</div>
+
+					<div class="form-floating mb-3">
+						<input type="password" name="password" id="inputPassword" class="form-control rounded-3" autocomplete="current-password" placeholder="Password" required>
+						<label for="inputPassword" class="text-muted">{% trans %}Password{% endtrans %}</label>
+					</div>
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+					<div class="d-flex justify-content-between align-items-center mb-4">
+						<div class="form-check">
+							<input type="checkbox" name="_remember_me" id="rememberMe" class="form-check-input" checked>
+							<label class="form-check-label text-muted" for="rememberMe">{% trans %}Remember me{% endtrans %}</label>
+						</div>
+						<a href="{{ path('app_forgot_password_request') }}" class="text-decoration-none small">{% trans %}Forgot Password?{% endtrans %}</a>
+					</div>
+
+					<div class="d-grid gap-2">
+						<button class="btn btn-primary btn-lg rounded-pill fw-bold" type="submit">
+							{% trans %}Enter{% endtrans %}
+						</button>
+					</div>
+				</form>
+
+				<div class="position-relative mt-4 mb-4">
+					<hr class="text-muted">
+					<div class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">{% trans %}or{% endtrans %}</div>
+				</div>
+
+				<div class="d-grid gap-2">
+					<a href="{{ path('connect_google_start') }}" class="btn btn-outline-danger btn-lg rounded-pill fw-bold d-flex align-items-center justify-content-center">
+						<i class="fab fa-google fs-5 me-2"></i>
+						{% trans %}Login with Google{% endtrans %}
+					</a>
+				</div>
+
+				<div class="text-center mt-4">
+					<p class="text-muted small mb-0">
+						{% trans %}Don't have an account?{% endtrans %}
+						<a href="{{ path('app_register') }}" class="text-decoration-none fw-bold">{% trans %}Register{% endtrans %}</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">{% trans %}Subscriptions{% endtrans %}</span>
+            <h3 class="page-title mb-2">{% trans %}Users{% endtrans %}</h3>
+        </div>
+    </div>
+    {% include '/cpanel/members/_tabs_members.html.twig' %}
+    {% include '/cpanel/members/_for_members_small_list.html.twig' %}
+    {# Отображение пагинации #}
+    <div class="container">
+        <div class="d-flex justify-content-center pagination mt-2 mb-5">
+            <div class="pagination">
+                {{ pagerfanta(users, 'default') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

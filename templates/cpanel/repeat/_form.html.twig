@@ -1,0 +1,131 @@
+{{ form_start(form, {
+    attr: {
+        'data-form-type': form_type|default('edit'),
+        'data-form-context': 'event',
+        'id': 'event-form'
+    }
+}) }}
+
+{% do form.image.setRendered() %}
+
+{% if existing_images is defined and existing_images|length > 0 %}
+    <!-- Existing Images -->
+    <div class="mb-4">
+        <label>{{ 'Existing Images'|trans }}</label>
+        <div class="row">
+            {% for image in existing_images %}
+                <div class="col-md-4 mb-3 position-relative">
+                    <div class="devstyle-image-container position-relative" style="overflow: hidden; border-radius: 8px;">
+                        <img src="/cpanel/images/events/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                        <button type="button" class="btn btn-sm btn-danger position-absolute devstyle-remove-image-btn"
+                                data-id="{{ image.id }}" style="top: 10px; right: 10px;">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </div>
+                </div>
+            {% else %}
+                <p>{{ 'No images uploaded yet'|trans }}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<!-- Dropzone for New Images -->
+<div class="form-group">
+    <label for="file-dropzone">{{ 'Upload New Images'|trans }}</label>
+    <div id="file-dropzone" class="dropzone" data-upload-url="{{ path('app_event_dropzone') }}"></div>
+</div>
+{% do form.images.setRendered() %}
+<style>
+    .dropzone {
+        border: 2px dashed #007bff;
+        border-radius: 5px;
+        padding: 20px;
+        background: #f8f9fa;
+        cursor: pointer;
+    }
+    .dropzone .dz-preview .dz-remove {
+        color: #dc3545;
+        text-decoration: none;
+    }
+</style>
+
+<div class="mb-3">
+    {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }} <span class="text-danger">*</span>
+    {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    {{ form_help(form.title) }}
+    {{ form_errors(form.title) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.date) }}
+</div>
+
+<div>
+    {{ form_label(form.description, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+    {{ form_widget(form.description, {'attr': {
+        'class': 'form-control',
+        'data-ckeditor': 'true'
+    }}) }}
+    {{ form_help(form.description) }}
+    {{ form_errors(form.description) }}
+</div>
+
+{% do form.instruction.setRendered() %}
+{% do form.instructionFileUpload.setRendered() %}
+
+<div>
+    {{ form_label(form.ensemble, null, {'label_attr': {'class': 'form-label mt-5'}}) }}
+    {{ form_widget(form.ensemble, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.ensemble) }}
+</div>
+<div class="mb-5">
+    {{ form_row(form.priority) }}
+</div>
+
+<div class="mb-5">
+    {{ form_label(form.type, null, {'label_attr': {'class': 'form-label mt-1'}}) }}
+    {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.type) }}
+</div>
+
+<div>
+    {{ form_widget(form.public, {'attr': {'class': 'form-select mr-2'}}) }}
+    {{ form_label(form.public, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+    {{ form_errors(form.public) }}
+</div>
+<div>
+    {{ form_widget(form.pinned, {'attr': {'class': 'form-select mr-2'}}) }}
+    {{ form_label(form.pinned, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+    {{ form_errors(form.pinned) }}
+</div>
+<div>
+    {{ form_widget(form.portfolio, {'attr': {'class': 'form-select mr-2'}}) }}
+    {{ form_label(form.portfolio, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+    {{ form_errors(form.portfolio) }}
+</div>
+<div>
+    {{ form_widget(form.task, {'attr': {'class': 'form-select mr-2'}}) }}
+    {{ form_label(form.task, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+    {{ form_errors(form.task) }}
+</div>
+
+<div class="mb-5">
+    {{ form_label(form.power, null, {'label_attr': {'class': 'form-label mt-5'}}) }}
+    {{ form_widget(form.power, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.power) }}
+</div>
+
+<div class="text-center position-relative mt-3">
+    <button
+            id="saveButton"
+            class="btn btn-sm btn-outline-primary"
+            type="submit"
+    >
+        <i class="material-icons">save</i>
+        {{ button_label|default('Сохранить') }}
+    </button>
+</div>
+{{ form_end(form) }}

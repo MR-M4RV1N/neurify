@@ -1,0 +1,80 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке
+{% endblock %}
+
+{% block styles %}
+	<style>
+		@media(min-width: 768px) {
+			.custom-img {
+				width: 25%;
+			}
+		}
+		@media(max-width: 768px) {
+			.custom-img {
+				width: 75%;
+			}
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<div class="main-content-container container-fluid">
+		<div class="row">
+			<div class="col">
+				<div class="card card-small p-1 mt-4 mb-5">
+					<div class="card-header border-bottom">
+						<h6 class="m-0 text-center">{% trans %}Download the app{% endtrans %}</h6>
+					</div>
+					<div class="card-body">
+						<div
+							class="mt-4 mb-5">
+							<!-- 1. Иллюстрация (перенесли наверх для визуальной композиции) -->
+							<div class="text-center mb-5">
+								<img src="/cpanel/images/mobile_screen.png" class="img-fluid custom-img">
+							</div>
+
+							<!-- 2. Группа кнопок по центру -->
+							<div
+								class="text-center d-flex justify-content-center flex-column align-items-center">
+
+								<!-- Кнопка вызова установки (ГЛАВНАЯ, яркая и большая) -->
+								<button id="installAppBtn" class="btn btn-primary btn-lg px-5 shadow-sm mb-3" style="border-radius: 30px;">
+									<i class="material-icons mr-2 align-middle">&#xE2C4;</i>
+									<span class="align-middle">{% trans %}Download{% endtrans %}</span>
+								</button>
+
+								<!-- Кнопка ДАЛЕЕ (ВТОРОСТЕПЕННАЯ, нейтральная, для пропуска шага) -->
+								<a href="{{ path('app_proposal_week') }}" class="btn btn-light px-4 text-secondary mt-2" style="border-radius: 30px;">
+									{% trans %}action.next{% endtrans %}
+									&rarr;
+								</a>
+
+								<!-- Сам компонент PWA Install (скрыт, пока не вызовем showDialog) -->
+								<pwa-install id="pwaInstallComponent" manifest-url="/manifest.json" name="Neurify" description="{% trans %}Приложение будет всегда под рукой{% endtrans %}" manual-apple="true" manual-chrome="true"></pwa-install>
+							</div>
+
+							<!-- Скрипт инициализации окна -->
+							<script>
+								function initPwaButton() {
+const btn = document.getElementById('installAppBtn');
+const pwaComponent = document.getElementById('pwaInstallComponent');
+
+if (btn && pwaComponent && ! btn.dataset.bound) {
+btn.addEventListener('click', () => {
+pwaComponent.showDialog(true);
+});
+btn.dataset.bound = 'true';
+}
+}
+
+document.addEventListener('DOMContentLoaded', initPwaButton);
+document.addEventListener('turbo:load', initPwaButton);
+							</script>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

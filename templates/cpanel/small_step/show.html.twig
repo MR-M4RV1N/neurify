@@ -1,0 +1,53 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}
+	{{ step.title }}
+{% endblock %}
+
+{% block body %}
+	<div
+		class="main-content-container container-fluid mb-5">
+		<!-- Page Header -->
+		<div class="page-header row no-gutters py-4">
+			<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+				<h3 class="page-title">{{ step.title }}</h3>
+				<span class="text-uppercase page-subtitle">
+					{% if step.draft %}
+						{% trans %}Small idea{% endtrans %}
+					{% else %}
+						{% trans %}Small step{% endtrans %}
+					{% endif %}
+				</span>
+			</div>
+		</div>
+
+		<div class="card card-small mb-4">
+			<div class="card-header border-bottom d-flex align-items-center">
+				<a href="{{ path(step.draft ? 'cpanel_small_step_ideas' : 'cpanel_small_step_index') }}" class="btn btn-sm btn-outline-secondary">
+					<i class="material-icons">chevron_left</i>
+				</a>
+				<div class="ml-auto">
+					<a class="btn btn-sm btn-warning" href="{{ path('cpanel_small_step_edit', {id: step.id}) }}">
+						<i class="material-icons">edit</i>
+						{% trans %}Edit{% endtrans %}
+					</a>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="mb-3">
+					<span class="text-muted">
+						{{ step.date ? step.date|date('d.m.Y') : '' }}
+					</span>
+				</div>
+				{% if step.category %}
+					<div class="mb-3">
+						<span class="badge badge-pill badge-info">{{ step.category.title }}</span>
+					</div>
+				{% endif %}
+				<div class="step-description">
+					{{ step.description|nl2br }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

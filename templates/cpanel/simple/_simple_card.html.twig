@@ -1,0 +1,38 @@
+<div class="col-lg-4 col-md-6 col-sm-12 mb-4 m-0 px-1">
+    <div class="card devstyle-card">
+        <!-- Header -->
+        <div class="devstyle-card-header mt-3 pl-3">
+            <a href="{{ path('app_users_user', {'id': simple.user.id}) }}"
+               class="d-flex align-items-center">
+                <img src="/cpanel/profile/uploads/images/{{ simple.user.image }}" alt="Avatar">
+            </a>
+            <div>
+                <a href="{{ path('app_users_user', {'id': simple.user.id}) }}"
+                   class="text-decoration-none text-dark">
+                    <h6 class="mb-0">{{ simple.user.firstname }} {{ simple.user.lastname }}</h6>
+                </a>
+                <span class="text-muted">{{ simple.createdAt|date('d.m.Y') }}</span>
+            </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            <p class="card-text">
+                <img src="{{ asset('/icons/fountain-pen-close-up.png') }}" alt="Лавровый венок" width="28">
+                <a class="text-fiord-blue" href="{{ path('app_simple_show', {'id': simple.id}) }}">
+                    {{ simple.title }}
+                </a>
+            </p>
+            {% include '/cpanel/simple/_images.html.twig' %}
+        </div>
+        <!-- Footer -->
+        <div class="card-footer bg-white border-top">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_simple_show', {'id': simple.id}) }}">
+                        {% trans %}Show{% endtrans %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid mb-5 pb-5">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4" id="calendar">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title">
+                    {% trans %}Diary{% endtrans %}
+                </h3>
+                <span class="text-uppercase page-subtitle">
+                {% trans %}Describe your day in{% endtrans %} 300 {% trans %}characters{% endtrans %}
+            </span>
+            </div>
+        </div>
+        {% set path = app.request.pathinfo %}
+
+        {% include '/cpanel/journal/_week.html.twig' %}
+
+        {% include '/cpanel/proposal/_neurify_master.html.twig' %}
+
+        {% include '/cpanel/proposal/_small_steps_stat.html.twig' %}
+
+        {% include '/cpanel/proposal/_classification.html.twig' %}
+    </div>
+{% endblock %}

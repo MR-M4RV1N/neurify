@@ -1,0 +1,622 @@
+<!doctype html>
+<html class="no-js" lang="lv" data-turbo="false">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<link rel="manifest" href="{{ asset('manifest.json') }}">
+		<meta
+		name="theme-color" content="#654ea3">
+		<!-- iOS -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png">
+
+		<title>Neurify</title>
+		<meta name="description" content="Ej piedzīvojumos">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta
+		name="google" content="notranslate">
+
+		<!-- CSS Dependencies -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/client/css/shards.min.css?v=3.0.0">
+		<link
+		rel="stylesheet" href="/client/css/shards-extras.min.css?version=3.0.0">
+
+		<!-- Custom styles for this template -->
+		<link
+		href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+		<!-- Swiper CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" crossorigin="anonymous"/>
+
+		<style>
+			.diagonal-box {
+				background-image: linear-gradient(45deg, #654ea3, #eaafc8);
+				transform: skewY(-11deg);
+			}
+
+			.content {
+				max-width: 50em;
+				margin: 0 auto;
+				transform: skewY(11deg);
+			}
+
+			.responsive {
+				width: 100%;
+				max-width: 400px;
+				height: auto;
+			}
+
+			/* h1, h2, h3, h4 {
+            font-family: Comic Sans MS;
+        }
+        p {
+            font-family: Comic Sans MS;
+            text-indent: 30px;
+        } */
+			.p-indent {
+				text-indent: 30px;
+				text-align: justify;
+			}
+
+			/* MARKETING CONTENT ------- */
+			/* Center align the text within the three columns below the carousel */
+			.marketing .col-lg-4 {
+				margin-bottom: 1.5rem;
+				text-align: center;
+			}
+
+			.marketing h2 {
+				font-weight: 400;
+			}
+
+			.marketing .col-lg-4 p {
+				margin-right: 0.75rem;
+				margin-left: 0.75rem;
+			}
+
+			/* Featurettes------------------------- */
+			.featurette-divider {
+				margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+			}
+
+			/* Thin out the marketing headings */
+			.featurette-heading {
+				font-weight: 300;
+				line-height: 1;
+				letter-spacing: -0.05rem;
+			}
+
+			/* RESPONSIVE CSS-------------------------------------------------- */
+
+			@media(min-width: 40em) {
+				/* Bump up size of carousel content */
+				.carousel-caption p {
+					margin-bottom: 1.25rem;
+					font-size: 1.25rem;
+					line-height: 1.4;
+				}
+
+				.featurette-heading {
+					font-size: 50px;
+				}
+			}
+
+			@media(min-width: 62em) {
+				.featurette-heading {
+					margin-top: 7rem;
+				}
+			}
+		</style>
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6QHFJ41MT"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+
+function gtag() {
+dataLayer.push(arguments);
+}
+
+gtag('js', new Date());
+
+gtag('config', 'G-R6QHFJ41MT');
+		</script>
+
+		<script defer src="/js/pwa-install.js"></script>
+	</head>
+	<body
+		class="shards-app-promo-page--1">
+
+		<!-- Welcome Section -->
+		<div class="welcome d-flex justify-content-center flex-column">
+			<div
+				class="container">
+				<!-- Navigation -->
+				<nav class="navbar navbar-expand-lg navbar-dark pt-4 px-0">
+					<a
+						class="navbar-brand mr-5" href="https://neriumbiedriba.home.blog/">
+						<!--<img src="/client/images/app-promo/shards-logo-green.svg" class="mr-2" alt="Shards - Agency Landing Page">-->
+						CREATED BY NERIUM
+					</a>
+					<ul class="nav mr-auto">
+						<li class="nav-item">
+							<a href="/lv/" class="text-light">LV</a>
+						</li>
+						<li class="nav-item mr-2 ml-2 text-muted">|</li>
+						<li class="nav-item">
+							<a href="/en/" class="text-light">EN</a>
+						</li>
+						<li class="nav-item mr-2 ml-2 text-muted">|</li>
+						<li class="nav-item">
+							<a href="/ru/" class="text-light">RU</a>
+						</li>
+					</ul>
+				</nav>
+				<!-- / Navigation -->
+			</div>
+			<!-- .container -->
+
+			<!-- Inner Wrapper -->
+			<div class="inner-wrapper mt-auto mb-auto container">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-12 mt-auto mb-auto mr-3">
+						<h1 class="welcome-heading display-4 text-white" style="font-weight: 700; line-height: 1.1;">Neurify.life</h1>
+						<p class="text-white mt-4 lead" style="text-indent: 0px; font-weight: 400;">
+							{% trans %}Your personal AI-mentor.{% endtrans %}<br>
+							<span style="font-size: 1.25rem; font-weight: 300;">{% trans %}Look at your week through the eyes of Carl Gustav Jung, Napoleon Hill, and other thinkers{% endtrans %}</span>
+						</p>
+						<a href="{{ path('app_login') }}" class="btn btn-lg btn-warning btn-pill align-self-start mt-4 mb-3 shadow">
+							{% trans %}Start{% endtrans %}
+						</a>
+					</div>
+
+					<div class="col-lg-4 col-md-5 col-sm-12 ml-auto mb-5">
+						<img class="iphone-mockup ml-auto" style="color: white" src="/client/images/logo-hex-mountain-white.png" alt="iPhone App Mockup - Shards App Promo Demo">
+					</div>
+					<div class="text-white mb-5 mx-3" style="font-size: 0.95rem; opacity: 0.9;">
+						<div class="d-flex align-items-center">
+							<div class="avatar-group mr-2 d-flex">
+								{% for user in avatar_users %}
+									<img src="/cpanel/profile/uploads/images/{{ user.image }}" class="rounded-circle border border-white shadow-sm" style="width: 25px; height: 25px; object-fit: cover; {% if not loop.first %}margin-left: -10px;{% endif %}" alt="user avatar">
+								{% endfor %}
+							</div>
+							<span>{{ total_users }}
+								{% trans %}users already with us{% endtrans %}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- / Inner Wrapper -->
+		</div>
+		<!-- / Welcome Section -->
+
+		<!-- Swiper Section -->
+		<div class="mb-3">
+			<div class="swiper-container landing-swiper position-relative mx-auto" style="max-width: 800px; overflow: hidden;">
+				<div class="my-5 text-center">
+					<h3>{% trans %}How it works{% endtrans %}</h4>
+				</div>
+
+				<div class="swiper-wrapper bg-white">
+					<div class="swiper-slide p-5 d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 500px;">
+						<div class="card-icon mb-4">
+							<img src="/cpanel/images/presentation/undraw_key-points_iiic.png" class="img-fluid" style="height: 150px;">
+						</div>
+						<h4 class="font-weight-bold mb-3">{% trans %}Describe how your day went{% endtrans %}</h4>
+						<p class="text-muted lead px-md-5">{% trans %}Collect 7 entries (one week) and review the results{% endtrans %}</p>
+					</div>
+
+					<div class="swiper-slide p-5 d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 500px;">
+						<div class="card-icon mb-4">
+							<img src="/cpanel/images/presentation/undraw_artificial-intelligence_43qa.png" class="img-fluid" style="height: 150px;">
+						</div>
+						<h4 class="font-weight-bold mb-3">{% trans %}Let AI analyze your entries{% endtrans %}</h4>
+						<p class="text-muted lead px-md-5">{% trans %}Choose an analysis mode and receive recommendations from a specially trained AI{% endtrans %}</p>
+					</div>
+
+					<div class="swiper-slide p-5 d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 500px;">
+						<div class="card-icon mb-4">
+							<img src="/cpanel/images/presentation/undraw_bull-market_4a8e.png" class="img-fluid" style="height: 150px;">
+						</div>
+						<h4 class="font-weight-bold mb-3">{% trans %}Accumulate small steps{% endtrans %}</h4>
+						<p class="text-muted lead px-md-5">{% trans %}Set a timer for 10 minutes and think about the smallest possible step to improve your situation{% endtrans %}</p>
+					</div>
+
+					<div class="swiper-slide p-5 d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 500px;">
+						<div class="card-icon mb-4">
+							<img src="/cpanel/images/presentation/undraw_fun_moments_2vha.png" class="img-fluid" style="height: 150px;">
+						</div>
+						<h4 class="font-weight-bold mb-3">{% trans %}Publish completed challenges{% endtrans %}</h4>
+						<p class="text-muted lead px-md-5 mb-4">{% trans %}It’s not about how many days are in your life, but how much life is in your days{% endtrans %}</p>
+						<a href="/register" class="btn btn-warning btn-lg btn-pill shadow">{% trans %}Start{% endtrans %}</a>
+					</div>
+				</div>
+
+				<!-- Add Pagination -->
+				<div class="swiper-pagination pb-2"></div>
+				<!-- Add Navigation Arrows -->
+				<div class="swiper-button-next" style="color: #654ea3;"></div>
+				<div class="swiper-button-prev" style="color: #654ea3;"></div>
+			</div>
+		</div>
+		<!-- / Swiper Section -->
+
+		<!-- Testimonials Section -->
+		<div class="testimonials section py-5 bg-light w-100">
+			<h3 class="section-title text-center m-5" style="font-weight: 300;">{% trans %}What our users say{% endtrans %}</h3>
+			<div class="container py-4">
+				<div class="row">
+					{% for testimonial in landing_testimonials %}
+						<div class="col-md-4 testimonial text-center mb-4">
+							<div class="avatar rounded-circle with-shadows mb-3 ml-auto mr-auto bg-white" style="width: 80px; height: 80px; overflow: hidden; border: 3px solid white;">
+								<img src="{{ testimonial.avatar }}" class="w-100 h-100" style="object-fit: cover;" alt="{{ testimonial.name }}"/>
+							</div>
+							<h5 class="mb-1">{{ testimonial.name }}</h5>
+							<span class="text-warning d-block mb-2">
+								<i class="material-icons" style="font-size: 1.2rem;">star</i>
+								<i class="material-icons" style="font-size: 1.2rem;">star</i>
+								<i class="material-icons" style="font-size: 1.2rem;">star</i>
+								<i class="material-icons" style="font-size: 1.2rem;">star</i>
+								<i class="material-icons" style="font-size: 1.2rem;">star</i>
+							</span>
+							<p class="text-muted font-italic">"{{ testimonial.text }}"</p>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<!-- / Testimonials Section -->
+
+		<!-- Screenshot Placeholder Section -->
+		<div class="container my-5 py-5 text-center">
+			<h3 class="mb-4" style="font-weight: 300;">{% trans %}See a real example of the AI analysis{% endtrans %}</h3>
+			<p class="text-muted mb-5">{% trans %}Here is what you get after 7 days of journaling.{% endtrans %}</p>
+			<div
+				class="screenshot-placeholder mx-auto shadow-lg" style="max-width: 900px; height: 500px; background: #e9ecef; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 1px solid #dee2e6;">
+				<!-- Placeholder for future screenshot -->
+				<div class="text-muted">
+					<i class="material-icons mb-3" style="font-size: 4rem; color: #adb5bd;">insert_photo</i>
+					<h5 class="text-secondary">{% trans %}Analysis Result Screenshot{% endtrans %}</h5>
+					<p class="small text-secondary">{% trans %}Add a high-quality screenshot here{% endtrans %}</p>
+				</div>
+			</div>
+		</div>
+		<!-- Screenshot Placeholder Section -->
+
+		<!-- Choose Mentor Section (New Layout) -->
+		<div class="container-fluid px-0 mb-5">
+			<h3 class="text-center mb-5 mt-5" style="font-weight: 300;">{% trans %}Choose your AI mentor{% endtrans %}</h3>
+
+			{% set batched_mentors = mentors|batch(2) %}
+			{% for row in batched_mentors %}
+				{% if row|length == 1 %}
+					{% set single_mentor = row|first %}
+					<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3 justify-content-center">
+						<div class="{{ single_mentor.theme_container }} mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" style="max-width: 800px; width: 100%;">
+							<div class="my-3 p-3">
+								<h2 class="display-5 {{ single_mentor.theme_title }}" style="font-weight: 300;">{{ single_mentor.title }}</h2>
+								<p class="lead {{ single_mentor.theme_text }}" style="font-weight: 300;">{{ single_mentor.description }}</p>
+							</div>
+							{% if single_mentor.theme_image_container != '' %}
+								<div class="{{ single_mentor.theme_image_container }} shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; display: flex; align-items: center; justify-content: center; {% if single_mentor.bg_image %}background-image: url('/client/images/{{ single_mentor.bg_image }}'); background-size: cover; background-position: center;{% endif %} {% if 'bg-white' in single_mentor.theme_image_container %}border: 1px solid #dee2e6;{% endif %}">
+									{% if single_mentor.icon and not single_mentor.bg_image %}
+										<i class="material-icons {{ single_mentor.icon_class }}" style="font-size: 8rem; opacity: 0.2;">{{ single_mentor.icon }}</i>
+									{% endif %}
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				{% else %}
+					<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+						{% for mentor in row %}
+							<div class="{{ mentor.theme_container }} mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+								<div class="my-3 py-3">
+									<h2 class="display-5 {{ mentor.theme_title }}" style="font-weight: 300;">{{ mentor.title }}</h2>
+									<p class="lead {{ mentor.theme_text }}" style="font-weight: 300;">{{ mentor.description }}</p>
+								</div>
+								{% if mentor.theme_image_container != '' %}
+									<div class="{{ mentor.theme_image_container }} shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; display: flex; align-items: center; justify-content: center; {% if mentor.bg_image %}background-image: url('/client/images/{{ mentor.bg_image }}'); background-size: cover; background-position: center;{% endif %} {% if 'bg-white' in mentor.theme_image_container %}border: 1px solid #dee2e6;{% endif %}">
+										{% if mentor.icon and not mentor.bg_image %}
+											<i class="material-icons {{ mentor.icon_class }}" style="font-size: 8rem; opacity: 0.2;">{{ mentor.icon }}</i>
+										{% endif %}
+									</div>
+								{% endif %}
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+		<!-- / Choose Mentor Section -->
+
+		<!-- Download App Section -->
+		<div class="bg-light py-5 mb-5 w-100">
+			<div class="container pb-4 pt-4">
+				<div class="row justify-content-center">
+					<div class="col-md-8 text-center">
+						<div class="text-center mb-5">
+							<img src="/cpanel/images/mobile_screen.png" class="img-fluid custom-img w-50">
+						</div>
+						<h3 class="mb-4">{% trans %}Download the app{% endtrans %}</h3>
+						<p class="text-muted mb-4">
+							{% trans %}Приложение будет всегда под рукой{% endtrans %}
+						</p>
+
+						<!-- Кнопка вызова установки (ГЛАВНАЯ, яркая и большая) -->
+						<button id="installAppBtn" class="btn btn-primary btn-lg px-5 shadow mb-3" style="border-radius: 30px;">
+							<i class="material-icons mr-2 align-middle">&#xE2C4;</i>
+							<span class="align-middle">{% trans %}Download{% endtrans %}</span>
+						</button>
+
+						<!-- Сам компонент PWA Install (скрыт, пока не вызовем showDialog) -->
+						<pwa-install id="pwaInstallComponent" manifest-url="/manifest.json" name="Neurify" description="{% trans %}Приложение будет всегда под рукой{% endtrans %}" manual-apple="true" manual-chrome="true"></pwa-install>
+
+						<script>
+							function initPwaButton() {
+const btn = document.getElementById('installAppBtn');
+const pwaComponent = document.getElementById('pwaInstallComponent');
+
+if (btn && pwaComponent && ! btn.dataset.bound) {
+btn.addEventListener('click', () => {
+pwaComponent.showDialog(true);
+});
+btn.dataset.bound = 'true';
+}
+}
+
+document.addEventListener('DOMContentLoaded', initPwaButton);
+document.addEventListener('turbo:load', initPwaButton);
+						</script>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- / Download App Section -->
+
+
+		<!-- Features Section -->
+		<div id="app-features" class="app-features section">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="app-screenshot col-lg-4 col-md-12 col-sm-12 px-0 py-5">
+						<img class="mt-auto mb-auto" src="/images/home.png" alt="App Screenshot - Shards App Promo Demo Page">
+					</div>
+
+					<!-- App Features Wrapper -->
+					<div class="app-features-wrapper col-lg-4 col-md-6 col-sm-12 py-5 mx-auto">
+						<div class="container">
+							<h3 class="my-5" style="">{% trans %}Deep insights into your life{% endtrans %}</h3>
+							<div class="feature py-4 d-flex">
+								<div class="icon text-white bg-warning mr-5 font-weight-bold">1</div>
+								<div>
+									<h5>{% trans %}Visualized Statistics{% endtrans %}</h5>
+									<p>{% trans %}It's not just text. See your weekly progress through dynamic charts and graphs.{% endtrans %}</p>
+								</div>
+							</div>
+
+							<div class="feature py-4 d-flex">
+								<div class="icon text-white bg-warning mr-5 font-weight-bold">2</div>
+								<div>
+									<h5>{% trans %}Wheel of Life Balance{% endtrans %}</h5>
+									<p>{% trans %}Log 7 days and unlock a complete visual representation of your life balance.{% endtrans %}</p>
+								</div>
+							</div>
+
+							<div class="feature py-4 d-flex">
+								<div class="icon text-white bg-warning mr-5 font-weight-bold">3</div>
+								<div>
+									<h5>{% trans %}Neurify Master Chat{% endtrans %}</h5>
+									<p>{% trans %}Get real-time advice from our smart AI assistant whenever you need guidance.{% endtrans %}</p>
+								</div>
+							</div>
+
+							<div class="feature py-4 d-flex">
+								<div class="icon text-white bg-warning mr-5 font-weight-bold">4</div>
+								<div>
+									<h5>{% trans %}Achievements Gallery{% endtrans %}</h5>
+									<p>{% trans %}Complete challenges, earn badges, and build a unique profile of your personality.{% endtrans %}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- / Features Section -->
+
+		<!-- Features Section -->
+		{% for feature in landing_features %}
+			<div class="container marketing my-5">
+				<div class="row featurette">
+					<div class="col-md-7 {{ feature.order_md }} d-flex flex-column justify-content-center">
+						<h3>{{ feature.title }}
+							<span class="text-muted">{{ feature.subtitle }}</span>
+						</h3>
+						<p>{{ feature.text }}</p>
+					</div>
+					<div class="col-md-5 text-center">
+						<img class="featurette-image img-fluid mx-auto w-75 border-light {% if loop.first %}mt-5{% else %}mt-4{% endif %} shadow" alt="500x500" src="{{ feature.image }}" data-holder-rendered="true">
+					</div>
+				</div>
+				{% if not loop.last %}
+					<hr class="featurette-divider">
+				{% endif %}
+			</div>
+		{% endfor %}
+		<hr class="featurette-divider">
+		<!-- / Features Section -->
+
+		<!-- Footer CTA -->
+			<div class="footer-cta bg-dark"> <div class="container mb-3">
+				<div class="py-5">
+					<div class="m-5">
+						<div class="text-center">
+							<h2 class="text-white">{% trans %}Lets try{% endtrans %}</h2>
+							<p class="text-muted col-lg-8 col-md-10 ml-auto mr-auto">{{ lets_try|raw }}</p>
+						</div>
+
+						<div class="share d-table d-sm-flex mx-auto justify-content-center mt-5">
+							<a href="/cpanel/index" class="btn btn-lg btn-warning btn-pill align-self-center">
+								<i class="fa fa-sign-in" aria-hidden="true"></i>
+								{% trans %}Open{% endtrans %}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!-- Contact Section --><div class="contact section-invert py-4">
+			<h3 class="section-title text-center m-5">{% trans %}Contact the developer{% endtrans %}</h3>
+			<div class="container py-4">
+				<div class="row justify-content-md-center px-4">
+					<div class="contact-form col-sm-12 col-md-10 col-lg-7 p-4 mb-4 card">
+						<form action="/client/send" method="post">
+							<input type="hidden" name="token" value="{{ csrf_token('write-us') }}"/>
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="form-group">
+										<label for="contactFormFullName">{% trans %}Full name{% endtrans %}</label>
+										<input type="text" name="fullname" class="form-control" id="contactFormFullName" placeholder="{% trans %}Enter your name...{% endtrans %}">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-12">
+									<div class="form-group">
+										<label for="contactFormEmail">{% trans %}E-mail address{% endtrans %}</label>
+										<input type="email" name="email" class="form-control" id="contactFormEmail" placeholder="{% trans %}Enter your email address...{% endtrans %}">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-group">
+										<label for="exampleInputEmail1">{% trans %}Message{% endtrans %}</label>
+										<textarea id="exampleInputEmail1" name="message" class="form-control mb-4" rows="10" placeholder="{% trans %}Enter your message...{% endtrans %}" name="message"></textarea>
+									</div>
+								</div>
+							</div>
+							<input class="btn btn-warning btn-pill d-flex ml-auto mr-auto" type="submit" value="{% trans %}Send a message{% endtrans %}">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div><!-- / Contact Section --><!-- Footer Section --><footer class="main-footer py-5">
+			<p class="text-muted text-center small p-0 mb-4">&copy; Copyright 2024 — NERIUM</p>
+			<div class="social d-table mx-auto"></div>
+		</footer><!-- / Footer Section --><!-- Уведомление о куки --><div id="cookie-consent" style="position: fixed; bottom: 0; background: #000; color: #fff; width: 100%; text-align: center; padding: 10px; display: none;">
+			Мы используем куки для улучшения вашего опыта. Продолжая использовать наш сайт, вы соглашаетесь с нашей
+			<a href="/privacy-policy" style="color: #0af;">политикой использования куки</a>.
+			<button id="accept-cookies" style="margin-left: 20px; padding: 5px 10px;">Принять</button>
+		</div>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+if (!getCookie('cookie_consent')) {
+document.getElementById('cookie-consent').style.display = 'block';
+}
+
+document.getElementById('accept-cookies').addEventListener('click', function () {
+setCookie('cookie_consent', '1', 365);
+document.getElementById('cookie-consent').style.display = 'none';
+});
+});
+
+function setCookie(name, value, days) {
+var expires = "";
+if (days) {
+var date = new Date();
+date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+expires = "; expires=" + date.toUTCString();
+}
+document.cookie = name + "=" + (
+value || ""
+) + expires + "; path=/";
+}
+
+function getCookie(name) {
+var nameEQ = name + "=";
+var ca = document.cookie.split(';');
+for (var i = 0; i < ca.length; i++) {
+var c = ca[i];
+while (c.charAt(0) == ' ') 
+c = c.substring(1, c.length);
+
+
+
+if (c.indexOf(nameEQ) == 0) 
+return c.substring(nameEQ.length, c.length);
+
+
+
+}
+return null;
+}
+		</script><!-- Yandex.Metrika counter --><script type="text/javascript">
+			(function (m, e, t, r, i, k, a) {
+m[i] = m[i] || function () {
+(m[i].a = m[i].a || []).push(arguments)
+};
+m[i].l = 1 * new Date();
+for (var j = 0; j < document.scripts.length; j++) {
+if (document.scripts[j].src === r) {
+return;
+}
+}
+k = e.createElement(t),
+a = e.getElementsByTagName(t)[0],
+k.async = 1,
+k.src = r,
+a.parentNode.insertBefore(k, a)
+})(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+ym(97678373, "init", {
+clickmap: true,
+trackLinks: true,
+accurateTrackBounce: true,
+webvisor: true
+});
+		</script>
+		<noscript>
+			<div><img src="https://mc.yandex.ru/watch/97678373" style="position:absolute; left:-9999px;" alt=""/></div>
+		</noscript><!-- /Yandex.Metrika counter --><script>
+			if ('serviceWorker' in navigator) {
+window.addEventListener('load', function () {
+navigator.serviceWorker.register('/service-worker.js').then(reg => console.log('[SW] registered with scope:', reg.scope)).catch(err => console.warn('[SW] registration failed:', err));
+});
+}
+		</script>
+		<!-- Добавление Bootstrap JS и Popper.js -->
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+		<!-- Swiper JS -->
+		<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" crossorigin="anonymous"></script>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+const swiper = new Swiper('.landing-swiper', {
+autoHeight: true,
+pagination: {
+el: '.swiper-pagination',
+type: 'bullets'
+},
+navigation: {
+nextEl: '.swiper-button-next',
+prevEl: '.swiper-button-prev'
+},
+on: {
+init: function () {
+document.getElementById('presentation-total-steps').textContent = this.slides.length;
+document.getElementById('presentation-current-step').textContent = this.activeIndex + 1;
+},
+slideChange: function () {
+document.getElementById('presentation-current-step').textContent = this.activeIndex + 1;
+}
+}
+});
+});
+		</script>
+	</body>
+</html>

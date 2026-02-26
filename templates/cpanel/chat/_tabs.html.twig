@@ -1,0 +1,8 @@
+<div class="text-center my-3" id="target-activity">
+    {% set path = app.request.pathinfo %}
+    <div class="btn-group btn-group-toggle d-inline-flex">
+        <a href="/cpanel/chat/neurify" class="btn btn-white btn-sm px-2 {{ path|area('/chat/neurify') }}">{% trans %}Chat{% endtrans %} <i class="material-icons">keyboard_arrow_right</i></a>
+        <a href="/cpanel/all" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/all') }}">{% trans %}Advice{% endtrans %} <i class="material-icons">keyboard_arrow_right</i></a>
+        <a href="/cpanel/ai-task/open" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/ai-task/open') }}">{% trans %}Challenges{% endtrans %}</a>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<!-- Completed challenges -->
+<div class="bg-white border-top border-bottom">
+    <div class="bg-white border-top border-bottom">
+        <h6 class="m-0 text-center mt-2 mb-4">
+            {% trans %}Completed challenges{% endtrans %}: {{ eventsCount }}
+        </h6>
+
+        <div class="chart-wrapper">
+            <canvas
+                    id="eventsChart"
+                    data-profile-id="{{ profile.id }}"
+                    data-year="{{ selectedYear }}">
+            </canvas>
+        </div>
+    </div>
+    <div class="mt-2 mb-2 text-center">
+        <form method="get" action="{{ path('app_account_statistics') }}"
+              class="d-inline-block">
+            <select name="year"
+                    class="form-control form-control-sm d-inline-block w-auto"
+                    onchange="this.form.submit()">
+
+                {% for y in range(currentYear, currentYear - 6) %}
+                    <option value="{{ y }}"
+                            {{ y == selectedYear ? 'selected' : '' }}>
+                        {{ y }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+.swiper-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 80px; /* Добавлено, чтобы пагинация и контент не перекрывались нижним меню */
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  text-align: center;
+}
+
+.responsive-img, .responsive-image {
+  width: 100%;
+  height: auto;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #007bff; // стиль стрелок
+  z-index: 10;
+}
+

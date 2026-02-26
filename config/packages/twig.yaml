@@ -1,0 +1,10 @@
+twig:
+    debug: true
+    strict_variables: true
+    default_path: '%kernel.project_dir%/templates'
+    globals:
+        ai_consulting_notifier: '@App\Service\AiConsultingNotificationService'
+
+when@test:
+    twig:
+        strict_variables: true

@@ -1,0 +1,241 @@
+<style>
+    /* Класс для анимации загрузки */
+    .fa-spinner.fa-spin {
+        animation: fa-spin 1s infinite linear;
+    }
+
+    /* Пример стилизации для скрытия иконки */
+    .d-none {
+        display: none;
+    }
+</style>
+
+<div class="row px-2">
+    {% set is_ensemble = 'ensemble' in app.request.uri %}
+    {% set is_default = 'default' in app.request.uri %}
+    {% set is_events = 'events' in app.request.uri %}
+    {% set is_public = 'public' in app.request.uri %}
+    {% set is_subscription = 'subscription' in app.request.uri %}
+    {% set is_user = '/users/user' in app.request.uri %}
+    {% set is_bookmark = '/bookmark/' in app.request.uri %}
+
+    {% for event in events %}
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            {% if is_ensemble %}
+                {% set event_path = path('app_ensemble_show', {'id': event.id}) %}
+            {% elseif is_default %}
+                {% set event_path = path('app_default_show', {'id': event.id}) %}
+            {% elseif is_events %}
+                {% set event_path = path('app_event_show', {'id': event.id}) %}
+            {% elseif is_public %}
+                {% set event_path = path('app_public_show', {'id': event.id}) %}
+            {% elseif is_subscription %}
+                {% set event_path = path('app_subscription_show', {'id': event.id}) %}
+            {% elseif is_user %}
+                {% set event_path = path('app_user_events_show', {'id': event.id}) %}
+            {% elseif is_bookmark %}
+                {% set event_path = path('app_bookmark_show', {'id': event.id}) %}
+            {% endif %}
+
+            <div class="card card-small card-post card-post--1 h-100">
+                <div class="card-post__image" style="background-image: url('/cpanel/images/events/{{ event.image }}');">
+                    <div class="card-post__author d-flex">
+                        <a href="{{ path('app_users_user', {'id': event.user.id}) }}"
+                           class="card-post__author-avatar card-post__author-avatar--small"
+                           style="background-image: url('/cpanel/profile/uploads/images/{{ event.user.image }}');">
+                            Written by {{ event.user.firstname }} {{ event.user.lastname }}
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="text-right">
+                        {% if event.pinned and (is_ensemble or is_default or is_events) %}
+                            <i class="material-icons">push_pin</i>
+                        {% endif %}
+                    </div>
+                    <h5 class="card-title">
+                        <a class="text-fiord-blue" href="{{ event_path }}">
+                            {{ event.title }}
+                        </a>
+                    </h5>
+                    <div class="mb-1">{{ event.date|date('Y-m-d') }}</div>
+                    <p class="card-text">
+                        {{ event.description|length > 155 ? event.description|slice(0, 155) ~ '...' : event.description }}
+                    </p>
+                </div>
+                <div class="card-footer text-muted border-top py-3">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-start">
+                            {% if is_public or is_subscription or is_user %}
+                                {% set isLiked = event.id in likedEvents %} {# Проверяем, есть ли событие в массиве likedEvents #}
+                                <div class="like-button mr-3" data-event-id="{{ event.id }}"
+                                     data-csrf-token="{{ csrf_token('like' ~ event.id) }}">
+                                    <button type="button" class="btn btn-link p-0 like-toggle" style="font-size: 24px;">
+                                        <!-- Иконка сердца, устанавливаем цвет на основе состояния лайка -->
+                                        <i class="fa fa-heart {% if isLiked %}text-primary{% else %}text-muted{% endif %} heart-icon"></i>
+                                    </button>
+                                </div>
+                                <div class="comment-button mr-3" data-event-id="{{ event.id }}" data-event-path="{{ event_path }}">
+                                    <button type="button" class="btn btn-link p-0 comment-toggle" style="font-size: 24px;">
+                                        <i class="fa fa-comments text-muted comment-icon"></i>
+                                    </button>
+                                </div>
+                                <div class="bookmark-button mr-3" data-event-id="{{ event.id }}"
+                                     data-csrf-token="{{ csrf_token('bookmark' ~ event.id) }}">
+                                    <button type="button" class="btn btn-link p-0 bookmark-toggle" style="font-size: 24px;">
+                                        <!-- Иконка закладки, устанавливаем цвет на основе состояния закладки -->
+                                        <i class="fa fa-bookmark {% if event.id in bookmarkedEvents %}text-primary{% else %}text-muted{% endif %} bookmark-icon"></i>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            {% if is_bookmark %}
+                                <a class="btn btn-sm btn-primary mr-2" href="{{ path('app_bookmark_complete', {'id': event.id}) }}">
+                                    {% trans %}Complete{% endtrans %}
+                                </a>
+                            {% endif %}
+                            <a class="btn btn-sm btn-outline-secondary" href="{{ event_path }}">
+                                {% trans %}Show{% endtrans %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {# Блок "Make the first entry" отображается только если нет is_public и is_subscription #}
+
+    {% if events|length == 0 %}
+        {% if ensemble is defined and ensemble is not null and ensemble.author.id == app.user.id %}
+            <div class="col">
+                <div class="card card-small p-1 mt-2 mb-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Make the first entry{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="col col-md-6 mx-auto text-center mt-3">
+                            <img src="/images/perform_tasks.png" class="img-fluid w-50" alt="Responsive image">
+                        </div>
+                        <div class="col col-md-6 mx-auto text-justify mt-3">
+                            <h6 class="text-center mb-3">{% trans %}What quest can you brag about?{% endtrans %}</h6>
+                            <div class="text-center" id="output"></div>
+                            <script>
+                                const text = "{% trans %}Register your quest by clicking the “Start” button{% endtrans %}";
+                                let index = 0;
+                                const speed = 100;
+
+                                function typeText() {
+                                    if (index < text.length) {
+                                        document.getElementById("output").innerHTML += text.charAt(index);
+                                        index++;
+                                        setTimeout(typeText, speed);
+                                    }
+                                }
+
+                                typeText();
+                            </script>
+                        </div>
+                    </div>
+                    <div class="text-center mb-5">
+                        <a href="{{ path('app_event_new') }}"
+                           class="btn btn-outline-secondary">{% trans %}Start{% endtrans %}</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex justify-content-center w-100 mt-2 mb-4">
+                <p class="text-center m-0">{% trans %}No records found{% endtrans %}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {# Отображение пагинации #}
+    <div class="container">
+        <div class="d-flex justify-content-center pagination mt-2 mb-3">
+            <div class="pagination">
+                {{ pagerfanta(events, 'default') }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const likeButtons = document.querySelectorAll(".like-button");
+
+        likeButtons.forEach(likeButton => {
+            const eventId = likeButton.getAttribute("data-event-id");
+            const csrfToken = likeButton.getAttribute("data-csrf-token");
+            const heartIcon = likeButton.querySelector(".heart-icon");
+
+            likeButton.addEventListener("click", function () {
+                fetch(`/cpanel/like/${eventId}`, {
+                    method: "POST",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": csrfToken
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.result) {
+                            heartIcon.classList.remove("text-muted");
+                            heartIcon.classList.add("text-primary");
+                        } else {
+                            heartIcon.classList.remove("text-primary");
+                            heartIcon.classList.add("text-muted");
+                        }
+                    })
+                    .catch(error => console.error(`Error toggling like for event ${eventId}:`, error));
+            });
+        });
+    });
+
+    document.querySelectorAll('.bookmark-toggle').forEach(button => {
+        button.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            const buttonContainer = button.closest('.bookmark-button');
+            const eventId = buttonContainer.dataset.eventId;
+            const csrfToken = buttonContainer.dataset.csrfToken;
+
+            const isBookmarked = button.querySelector('.bookmark-icon').classList.contains('text-primary');
+            const url = isBookmarked
+                ? `/cpanel/bookmark/remove/${eventId}`
+                : `/cpanel/bookmark/add/${eventId}`;
+            const method = isBookmarked ? 'DELETE' : 'POST';
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                }
+            });
+
+            if (response.ok) {
+                button.querySelector('.bookmark-icon').classList.toggle('text-primary');
+                button.querySelector('.bookmark-icon').classList.toggle('text-muted');
+            } else {
+                alert('Произошла ошибка, попробуйте позже.');
+            }
+        });
+    });
+
+    document.querySelectorAll('.comment-toggle').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            // Получаем путь из data-event-path
+            const eventPath = button.closest('.comment-button').dataset.eventPath;
+
+            // Добавляем якорь, если нужно
+            const targetElementId = 'target-element-id';
+
+            // Перенаправляем на путь с якорем
+            window.location.href = `${eventPath}#${targetElementId}`;
+        });
+    });
+</script>

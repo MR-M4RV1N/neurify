@@ -1,0 +1,66 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}{% trans %}New achievement{% endtrans %}{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title mb-2">SWOT</h3>
+                <span class="text-uppercase page-subtitle">
+
+                </span>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+        <!-- CONTENT... -->
+        <div class="row border bg-white p-2">
+            <a href="{{ path('ai_consulting')}}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-angle-left"></i> back</a>
+        </div>
+        <div class="row border bg-white mb-5">
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-4 mb-4">
+                {% if swot and swot.updatedAt %}
+                    <p class="text-muted text-right">
+                        Обновлено: {{ swot.updatedAt|date('Y-m-d H:i') }}
+                    </p>
+                {% endif %}
+                {{ form_start(form) }}
+
+                    {{ form_label(form.strengths, 'Strengths', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.strengths, {'attr': {
+                        'class': 'form-control',
+                        'rows': 10,
+                        'data-ckeditor': 'true',
+                        'placeholder': 'Describe your resource map…'
+                    }}) }}<br>
+                    {{ form_label(form.weaknesses, 'Weaknesses', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.weaknesses, {'attr': {
+                        'class': 'form-control',
+                        'rows': 10,
+                        'data-ckeditor': 'true',
+                        'placeholder': 'Describe your resource map…'
+                    }}) }}<br>
+                    {{ form_label(form.opportunities, 'Opportunities', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.opportunities, {'attr': {
+                        'class': 'form-control',
+                        'rows': 10,
+                        'data-ckeditor': 'true',
+                        'placeholder': 'Describe your resource map…'
+                    }}) }}<br>
+                    {{ form_label(form.threats, 'Threats', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.threats, {'attr': {
+                        'class': 'form-control',
+                        'rows': 10,
+                        'data-ckeditor': 'true',
+                        'placeholder': 'Describe your resource map…'
+                    }}) }}
+                    <div class="text-center mt-2">
+                        {{ form_row(form.save) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <!-- ...CONTENT -->
+    </div>
+{% endblock %}

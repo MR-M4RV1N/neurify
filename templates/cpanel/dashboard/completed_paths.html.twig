@@ -1,0 +1,14 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}NEURIFY.LIFE{% endblock %}
+
+{% block body %}
+    {% include '/cpanel/chat/_avatar.html.twig' %}
+
+    <div class="pt-2">
+        {% include '/cpanel/chat/_tabs.html.twig' %}
+    </div>
+
+    {# Ai generated categories #}
+    {% include '/cpanel/dashboard/_completed_ensembles.html.twig' %}
+{% endblock %}

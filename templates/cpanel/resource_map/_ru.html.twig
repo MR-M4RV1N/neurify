@@ -1,0 +1,24 @@
+<div>
+    <p>
+        Ресурсная карта - это структурированный список или схема доступных возможностей и опор: организаций, учебных заведений, сообществ, мероприятий, специалистов и инициатив, которые можно использовать для достижения конкретной цели.
+    </p>
+    <p>
+        Составить ресурсную карту поможет:
+        <a href="https://www.perplexity.ai/" target="_blank" rel="noopener noreferrer">Perplexity</a>
+    </p>
+    <strong>Пример промпта:</strong>
+    <div data-controller="clipboard">
+        <pre data-clipboard-target="source" id="promptText" style="white-space: pre-wrap; word-wrap: break-word;">
+        Описание моего профиля: "{{ app.user.description }}".
+        Помоги составить ресурсную карту учитывая это описание.Найди организации, учебные заведения, сообщества, мероприятия, специалистов и инициативы, которые могут помочь. Для каждого укажи название, краткое описание, ссылку или контакт.
+        Верни результат в структурированном виде, список из 10-ти мест в таком формате - [Заглавие]. [Короткое описание]. [Почему может помочь]. Место должно быть конкретное а не абстрактное.</pre>
+        <div class="text-center mb-2">
+            <button data-action="clipboard#copy" class="btn btn-sm btn-outline-secondary">
+                <i class="far fa-copy"></i> Скопировать промпт
+            </button>
+            <span data-clipboard-target="feedback"
+                  class="text-success small ms-2 d-none"
+                  aria-live="polite"></span>
+        </div>
+    </div>
+</div>

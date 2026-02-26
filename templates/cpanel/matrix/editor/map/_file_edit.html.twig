@@ -1,0 +1,12 @@
+<div class="form-group">
+    <label class="form-label">{% trans %}Image{% endtrans %}:</label>
+
+    <!-- Отображаем если есть -->
+    {% if map.getFilename is defined and map.getFilename is not empty %}
+        <img style="width:100px;" id="previewImage" src="/cpanel/images/maps/{{ map.getFilename }}" />
+    {% endif %}
+
+    <!-- Форма загрузки файла -->
+    <input type="file" name="file" id="filename" class="form-control" />
+    <!-- И скрипт обновления отображённой картинки на странице (после загрузки файла) -->
+</div>

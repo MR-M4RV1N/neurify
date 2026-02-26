@@ -1,0 +1,82 @@
+<div class="main-content-container container-fluid mb-5 mt-4">
+    <!-- Page Header -->
+    <div class="page-header row no-gutters mb-3">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <h3 class="page-title mb-2">{% trans %}Awards{% endtrans %}</h3>
+        </div>
+    </div>
+    {% for c in completedEnsembles %}
+        <!--<div class="bg-white border-top border-bottom shadow mb-5">
+            <div class="card-body border-bottom">
+                <table class="table table-light">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <img src="{{ asset('/icons/cup_11918887.png') }}" alt="Icon" width="24" style="margin-right: 7px;">
+                            <a class="text-fiord-blue" href="{{ path('users_stepwise_ensembles', { id: c.author.id }) }}">
+                                {{ c.title }}: {{ c.createdAt|date('d.m.Y') }}
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>-->
+        <div class="bg-white border-top border-bottom shadow mb-3">
+            <div class="mx-4 mt-4 text-center border-bottom mb-1 pb-2">
+                <div>
+                    <!--<img src="{{ asset('/icons/cup_11918887.png') }}" alt="Icon" width="24" style="margin-right: 7px;">-->
+                    <strong style="text-transform: uppercase;">{% trans %}Achievement{% endtrans %}</strong>
+                </div>
+                <div class="mt-2 mb-3">
+                    <div>
+                        <a class="text-fiord-blue" href="{{ path('users_stepwise_ensembles', { id: c.author.id }) }}">
+                            <span class="lead">{{ c.title }}</span>
+                        </a>
+                    </div>
+                    <div>
+                        {{ app.user.firstname }} {{ app.user.lastname }}
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <div class="mt-2">
+                        NEURIFY.LIFE
+                    </div>
+                    <div>
+                        <!--<img class="rounded-circle mr-3" src="/cpanel/profile/uploads/images/{{ c.author.image }}" alt="Icon"
+                             width="48" style="margin-right: 7px;">-->
+                        <img src="{{ asset('/images/trophy-cup_18315060.png') }}" class="mr-3" alt="Icon"
+                             width="48" style="margin-right: 7px;">
+                    </div>
+                    <div class="mt-2">
+                        {{ c.createdAt|date('d.m.Y') }}
+                    </div>
+
+                </div>
+            </div>
+            <div class="text-center mb-2">
+                <a href="">
+                    <i class="fa fa-share" aria-hidden="true"></i>
+                    {% trans %}Share{% endtrans %}
+                </a>
+            </div>
+
+        </div>
+    {% else %}
+        <div class="bg-white border-top border-bottom shadow mb-5">
+            <div class="card-body border-bottom">
+                <!-- Таблица -->
+                <table class="table table-light">
+                    <tbody>
+                    <tr class="text-center">
+                        <td>
+                            Пока что нет событий с AI-комментариями.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+</div>

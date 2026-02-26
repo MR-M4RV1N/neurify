@@ -1,0 +1,74 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}
+	{% trans %}AI Insight{% endtrans %}
+{% endblock %}
+
+{% block body %}
+	<div
+		class="">
+		<!-- Page Header -->
+		<div class="page-header row no-gutters pt-4">
+			<div class="col-12 text-center text-sm-left mb-0">
+				<h5>
+					{% trans %}AI analysis completed{% endtrans %}
+				</h5>
+				<span class="text-uppercase page-subtitle">
+					{% trans %}A new perspective on your development{% endtrans %}
+				</span>
+			</div>
+		</div>
+
+		<div class="card card-small card-post h-100 mt-4 mb-5">
+			<div class="mx-2">
+
+				{% if insight %}
+
+					<!-- ICON -->
+					<div class="text-center mb-3 mt-3">
+						<img src="{{ asset('/icons/artificial-intelligence.png') }}" alt="AI" width="48">
+					</div>
+
+					{# ============================= #}
+					{# AI RESULT (UNIVERSAL)         #}
+					{# ============================= #}
+						{% if styleDescription is defined and styleDescription is not empty %}
+							<div class="alert alert-light border mb-3"> <em>{{ styleDescription }}</em>
+						</div>
+					{% endif %}
+
+					<div class="sherlock-flair">
+						{{ insight.html|raw }}
+					</div>
+
+					{# ============================= #}
+					{# ADD TASKS BUTTON              #}
+					{# ============================= #}
+						{% if not insight.generatedTasks %}
+						<br>
+						<br>
+					{% else %}
+						<div class="text-center pt-2 pb-4 px-4 text-muted">
+							{% trans %}Recommendations have already been added to your task list.{% endtrans %}
+						</div>
+					{% endif %}
+
+				{% else %}
+					<div class="alert alert-warning mt-3">
+						{% trans %}AI has not generated any insight yet.{% endtrans %}
+					</div>
+				{% endif %}
+
+			</div>
+
+			<div class="card-footer">
+				<div class="text-right">
+					<a href="{{ path('app_account_statistics') }}" class="btn btn-sm btn-outline-secondary">
+						{% trans %}Further{% endtrans %}
+						<i class="fas fa-arrow-right ml-1"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,6 @@
+<form class="ml-2" method="post" action="{{ path('app_simple_delete', {'id': simple.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ simple.id) }}">
+    <div>
+        <button class="btn btn-sm btn-outline-danger"><i class="material-icons">delete</i> {% trans %}Delete{% endtrans %}</button>
+    </div>
+</form>

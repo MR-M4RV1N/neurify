@@ -1,0 +1,136 @@
+@media (max-width: 768px) {
+  .bottom-nav-custom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    background-color: #2e2e2e;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    overflow: hidden;
+    .nav-item.spacer {
+      flex: 0.5; // можно регулировать
+      pointer-events: none; // чтобы не кликалось
+    }
+    .nav-item {
+      flex: 1;
+      text-align: center;
+      color: #888888;
+      font-size: 24px;
+      position: relative;
+      transition: color 0.3s;
+
+      i {
+        font-size: 28px;
+      }
+
+      &.active {
+        color: #ffffff;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: -10px; // остаётся на верхней границе панели
+          left: 50%;
+          transform: translateX(-50%);
+          width: 50px; // ширина полоски (регулируй по вкусу)
+          height: 3px;
+          background-color: #d3a266;
+          border-radius: 2px;
+        }
+      }
+    }
+
+    .center-button {
+      flex: 0;
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 30px; // если нужно чуть-чуть отодвинуть кнопки вручную
+
+      // Серый круг позади кнопки
+      &::before {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: rgba(82, 82, 82, 0.3); // серый цвет
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .circle-button {
+        position: relative;
+        z-index: 1;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(to bottom, #d9a76a, #a46c3d);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: box-shadow 0.3s;
+
+        i {
+          color: white;
+          font-size: 32px;
+        }
+
+        &:hover {
+          box-shadow: 0 0 10px rgba(255, 215, 130, 0.8);
+        }
+      }
+    }
+  }
+
+
+  .add-menu-overlay {
+    position: fixed;
+    bottom: 70px; /* ← отступ равен высоте нижнего меню */
+    left: 0;
+    width: 100vw;
+    height: 30vh;
+    background: linear-gradient(to top, #e0a15d, #c58c54);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 20px;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease-in-out;
+  }
+  .add-menu-overlay.hidden {
+    display: none;
+  }
+  .menu-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  .add-menu-overlay .item {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .add-menu-overlay .item:hover {
+    transform: scale(1.1);
+  }
+  .add-menu-overlay.hidden {
+    display: none;
+  }
+}

@@ -1,0 +1,56 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}
+	{% trans %}Events by power{% endtrans %}
+{% endblock %}
+
+{% block body %}
+	{% include '/cpanel/events/user/_profile.html.twig' %}
+
+	{% include '/cpanel/events/user/_tabs.html.twig' %}
+
+	<div class="main-content-container container-fluid px-4">
+		<div class="row">
+			<div class="col-12 map-header">
+				<h5 class="ml-0 text-center">
+					{% if power == 0 %}
+						{% trans %}Small moments{% endtrans %}
+					{% elseif power == 1 %}
+						{% trans %}Bright{% endtrans %}
+					{% elseif power == 2 %}
+						{% trans %}Difficult to repeat{% endtrans %}
+					{% elseif power == 3 %}
+						{% trans %}Main event of the year{% endtrans %}
+					{% endif %}
+				</h5>
+			</div>
+		</div>
+
+		<!-- Используем общий список событий, так как мы передаем 'events' -->
+		<div class="row">
+			{% for event in events %}
+				{% include 'cpanel/events/event/_event_card.html.twig' with {
+					'event': event,
+					'is_user': true,
+					'is_ensemble': false,
+					'is_default': false,
+					'is_featured': false,
+					'is_events': false,
+					'is_public': false,
+					'is_subscription': false,
+					'is_bookmark': false
+				} %}
+			{% else %}
+				{% include 'cpanel/events/_common/_empty.html.twig' %}
+			{% endfor %}
+		</div>
+
+		<div class="container">
+			<div class="d-flex justify-content-center pagination mt-2 mb-3">
+				<div class="pagination">
+					{{ pagerfanta(pager, 'default') }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+security:
+    # Включает новую систему аутентификации (требуется для Symfony 5+)
+    enable_authenticator_manager: true
+
+    # Настройки для хеширования паролей (оптимальный вариант с автоматическим выбором)
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # Конфигурация провайдеров пользователей
+    providers:
+        app_user_provider: # Название провайдера
+            entity:
+                class: App\Entity\User # Класс вашей сущности пользователя
+                property: email        # Поле для поиска пользователя
+
+    # Конфигурация файрволов
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/ # Для профайлеров, статических файлов
+            security: false
+
+        main:
+            lazy: true # Включение ленивой инициализации, улучшает производительность
+            provider: app_user_provider # Используемый провайдер пользователей
+
+            # Аутентификаторы
+            custom_authenticator:
+                - App\Security\GoogleAuthenticator
+                - App\Security\AppCustomAuthenticator
+            entry_point: App\Security\AppCustomAuthenticator
+
+            # Настройки выхода из системы
+            logout:
+                path: app_logout # Маршрут для выхода
+                target: /        # Куда перенаправить после выхода
+
+            # Настройки "Запомнить меня"
+            remember_me:
+                secret: '%kernel.secret%' # Секретный ключ для токенов "Запомнить меня"
+                lifetime: 604800 # 1 неделя (в секундах)
+                path: /          # Применяется ко всему приложению
+                secure: true   # Для разработки, установить true на продакшене
+                httponly: true   # Указывает, что куки доступны только через HTTP
+                always_remember_me: true # Гарантирует, что "Запомнить меня" всегда включено
+                name: REMEMBERME # Имя куки (можете задать любое)
+
+    # Правила доступа
+    access_control:
+        - { path: ^/cpanel, roles: ROLE_USER }                 # Доступ только для пользователей с ROLE_USER
+        - { path: ^/cpanel/admin, roles: ROLE_ADMIN }          # Доступ только для ROLE_ADMIN
+        - { path: ^/connect/google, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Анонимный доступ для подключения Google
+        - { path: ^/connect/google/check, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Проверка Google входа
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Регистрация доступна всем
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }    # Вход доступен всем
+        - { path: ^/logintest, roles: ROLE_USER }                   # Для тестирования "Запомнить меня"
+
+# Тестовая конфигурация для уменьшения затрат на хеширование паролей
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4       # Минимальные параметры для bcrypt
+                time_cost: 3  # Минимальные параметры для argon
+                memory_cost: 10 # Минимальные параметры для argon

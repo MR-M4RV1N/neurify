@@ -1,0 +1,66 @@
+<div
+	class="main-content-container container-fluid">
+	<!-- Page Header -->
+	<div class="page-header row no-gutters pb-2">
+		<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+			<span class="text-uppercase page-subtitle">
+				{% trans %}Last records{% endtrans %}
+			</span>
+		</div>
+	</div>
+
+	<div class="bg-white border-top border-bottom shadow">
+		<div
+			class="card-body border-bottom">
+			<!-- Таблица -->
+			<table class="table table-light">
+				<tbody>
+					{% for l in lastConsulting %}
+						<tr>
+							<td>
+								<a class="text-fiord-blue" href="{{ path('ai_consulting_show', { id: l.id }) }}">
+									{{ l.createdAt|date('d.m.Y H:i') }}
+								</a>
+								<div class="small text-muted">
+									{% if l.model == 'thinker_week' %}
+										{% trans %}Thinkers{% endtrans %}
+									{% elseif l.model == 'public_service_week' %}
+										{% trans %}Social activities{% endtrans %}
+									{% elseif l.model == 'wealth_week' %}
+										{% trans %}Wealth{% endtrans %}
+									{% elseif l.model == 'biohacking_week' %}
+										{% trans %}Health{% endtrans %}
+									{% else %}
+										{{ l.model|trans }}
+									{% endif %}
+								</div>
+							</td>
+							<td class="text-right align-middle">
+								{% if l.model == 'mbti_week' and l.analysisJson.mbti_style is defined %}
+									<span class="badge badge-outline-warning" style="width: 30px;">{{ l.analysisJson.mbti_style }}</span>
+								{% elseif l.model == 'disc_week' and l.analysisJson.disc_style is defined %}
+									<span class="badge badge-outline-warning" style="width: 30px;">{{ l.analysisJson.disc_style }}</span>
+								{% elseif l.model == 'thinker_week' and l.analysisJson.thinker_style is defined %}
+									{% set initial = l.analysisJson.thinker_style|first|upper %}
+									<span class="badge badge-outline-warning" style="width: 30px;" title="{{ l.analysisJson.thinker_style }}">{{ initial }}</span>
+								{% elseif l.model == 'wealth_week' and l.analysisJson.wealth_style is defined %}
+									{% set initial = l.analysisJson.wealth_style|first|upper %}
+									<span class="badge badge-outline-warning" style="width: 30px;" title="{{ l.analysisJson.wealth_style }}">{{ initial }}</span>
+								{% elseif l.model == 'public_service_week' and l.analysisJson.public_service_style is defined %}
+									{% set initial = l.analysisJson.public_service_style|first|upper %}
+									<span class="badge badge-outline-warning" style="width: 30px;" title="{{ l.analysisJson.public_service_style }}">{{ initial }}</span>
+								{% endif %}
+							</td>
+						</tr>
+					{% else %}
+						<tr class="text-center">
+							<td colspan="2">
+								Пока что нет событий с AI-комментариями.
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

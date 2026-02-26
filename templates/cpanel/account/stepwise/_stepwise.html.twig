@@ -1,0 +1,27 @@
+<div class="main-content-container container-fluid mt-4 mb-5 pb-5">
+    <div class="row">
+        {# Доступное испытание #}
+        <div class="col-md-4 mb-3">
+            <div class="card border-primary">
+                <ul class="list-group list-group-flush">
+                    {% for quest in quests %}
+                        <li class="list-group-item text-muted border">
+                            <i class="far fa-circle text-muted"></i>
+                            <a href="{{ path('app_event_edit', {'id': quest.id}) }}">{{ quest.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% if ensemble is defined %}
+        <div class="text-center mb-3">
+            <a href="{{ path('app_ensemble_edit', {'id': ensemble.id}) }}">
+                <i class="material-icons mb-1" style="font-size:14px;vertical-align:middle;">autorenew</i>
+                {% trans %}Edit{% endtrans %}
+            </a>
+        </div>
+    {% endif %}
+</div>
+

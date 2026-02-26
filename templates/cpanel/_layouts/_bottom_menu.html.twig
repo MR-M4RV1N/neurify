@@ -1,0 +1,93 @@
+<!--<div id="addMenuOverlay" class="add-menu-overlay hidden">
+    <div class="menu-items">
+        <div class="item">
+            <a href="/cpanel/picture/new">
+                <img src="{{ asset('/icons/social-media.png') }}" alt="Icon" width="24" style="filter: brightness(0) invert(1);">
+            </a>
+        </div>
+        <div class="item">
+            <a href="/cpanel/simple/new">
+                <img src="{{ asset('/icons/fountain-pen-close-up.png') }}" alt="Icon" width="24" style="filter: brightness(0) invert(1);">
+            </a>
+        </div>
+        <div class="item">
+            <a href="/cpanel/matrix/editor/map/add">
+                <img src="{{ asset('/icons/grid.png') }}" alt="Icon" width="24" style="filter: brightness(0) invert(1);">
+            </a>
+        </div>
+        <div class="item">
+            <a href="/cpanel/editor/events/new">
+                <img src="{{ asset('/icons/wreath.png') }}" alt="Icon" width="24" style="filter: brightness(0) invert(1);">
+            </a>
+        </div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+</div>-->
+
+<div class="add-menu-wrapper d-none" id="addMenu">
+    <div class="add-menu-lux">
+        <a href="{{ path('journal_edit', {date: "now"|date('Y-m-d')}) }}">
+            <img src="{{ asset('/icons/notepad_9625716.png') }}" alt="Icon" width="24" style="margin-bottom: 5px; filter: brightness(0) invert(1); margin-right: 7px; margin-top:7px;">
+            <span>{% trans %}Record{% endtrans %}</span>
+        </a>
+        <div class="border-bottom"></div>
+
+        <a href="{{ path('cpanel_small_step_new', { type: 'idea' }) }}">
+            <img src="{{ asset('/icons/light-bulb_2667427.png') }}" alt="Icon" width="24"
+                 style="margin-bottom: 5px; filter: brightness(0) invert(1); margin-right: 7px; margin-top:7px;">
+            <span>{% trans %}Idea{% endtrans %}</span>
+        </a>
+        <div class="border-bottom"></div>
+
+        <a href="{{ path('cpanel_small_step_new', { type: 'step' }) }}">
+            <img src="{{ asset('/icons/footprints_6027133.png') }}" alt="Icon" width="24"
+                 style="margin-bottom: 5px; filter: brightness(0) invert(1); margin-right: 7px; margin-top:7px;">
+            <span>{% trans %}Small step{% endtrans %}</span>
+        </a>
+        <div class="border-bottom"></div>
+
+        <a href="/cpanel/editor/events/new?type=1">
+            <img src="{{ asset('/icons/star_7588772_t5px.png') }}" alt="Icon" width="24" style="margin-bottom: 5px; filter: brightness(0) invert(1); margin-right: 7px;">
+            <span>{% trans %}Memorable event{% endtrans %}</span>
+        </a>
+    </div>
+    <div class="menu-arrow-lux"></div>
+</div>
+
+<div class="bottom-nav-custom">
+    {% set path = app.request.pathinfo %}
+    <a class="nav-item {{ path|area('/cpanel/proposal/week') }}" href="/cpanel/proposal/week">
+        <img src="{{ asset('/icons/home.png') }}" alt="Icon" width="40" style="filter: brightness(0) invert(1); padding: 9px;">
+    </a>
+
+    <a class="nav-item {{ path|area('/cpanel/collections') }}" href="/cpanel/collections/platform">
+        <img src="{{ asset('/icons/teach_10690911.png') }}" alt="Icon" width="40" style="filter: brightness(0) invert(1); padding: 12px 7px 7px 7px;">
+    </a>
+
+    <a class="nav-item center-button" href="#" id="addMenuToggle">
+        <div class="circle-button">
+            <i class="material-icons">add</i>
+        </div>
+    </a>
+
+    <a class="nav-item {{ path|area('/cpanel/rating/') }} {{ path|area('/cpanel/users/') }} {{ path|area('/cpanel/collections/users') }} {{ path|area('/cpanel/public/') }}" href="/cpanel/public/list">
+        <img src="{{ asset('/icons/group_13466492.png') }}" alt="Icon" width="40" style="filter: brightness(0) invert(1); padding: 9px;">
+    </a>
+
+    <!--<a class="nav-item {{ path|area('/cpanel/chat/neurify') }}" href="/cpanel/chat/neurify">
+        <img src="{{ asset('/icons/artificial-intelligence_17810358.png') }}" alt="Icon" width="45" style="filter: brightness(0) invert(1); padding: 9px;">
+    </a>-->
+
+    <!--<a class="nav-item {{ path|area('/cpanel/chat/') }}" href="/cpanel/chat/chat_list">
+        <img src="{{ asset('/icons/inbox.png') }}" alt="Icon" width="40" style="filter: brightness(0) invert(1); padding: 7px;">
+    </a>-->
+
+    <a class="nav-item {{ path|area('/cpanel/account/') }}" href="/cpanel/account/statistics">
+        <img src="/cpanel/profile/uploads/images/{{ app.user.image }}"
+             alt="Icon"
+             width="40" height="40"
+             style="border-radius: 50%; border: 4px solid rgba(161,161,161,0.3); object-fit: cover;"
+        >
+    </a>
+</div>

@@ -1,0 +1,20 @@
+.sherlock-flair {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: sherlockFadeIn 1.5s ease-out forwards;
+  border-left: 4px solid #19E3B8;
+  background: #0f0f0f;
+  color: #f1f1f1;
+  padding: 0.7rem 0.7rem;
+  margin-top: 1rem;
+  border-radius: 12px;
+  font-family: 'Georgia', serif;
+  box-shadow: 0 0 20px rgba(25, 227, 184, 0.2);
+}
+
+@keyframes sherlockFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

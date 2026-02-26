@@ -1,0 +1,63 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">
+                    Pašvērtējums cieši saistās ar turpmāko ekonomisko mobilitāti un labklājību
+                </span>
+                <h3 class="page-title">{% trans %}About the project{% endtrans %}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {# --- БЛОК 1. Projekta pamatojums --- #}
+                <div class="card card-small p-1 mb-5">
+                    <div class="card-body">
+                        <div class="col col-md-8 mx-auto">
+
+                            {# Лид-абзац #}
+                            <p class="lead mb-3">
+                            </p>
+
+                            <div class="text-justify fs-6 lh-base">
+                                <p class="devstyle-text-indent">
+                                    Pašvērtējuma un ekonomiskās labklājības saikne ir plaši dokumentēta zinātniskajā literatūrā.
+                                    Piemēram, Francesco Drago (2011) pētījumā “Self-esteem and earnings” analizēti ilgtermiņa dati, kas parāda:
+                                    pašvērtējums pusaudžu vecumā būtiski prognozē ienākumu līmeni pieaugušo dzīvē. Drago secināja, ka jaunieši ar
+                                    augstāku pašvērtējumu pēc vairākiem gadiem nopelna statistiski nozīmīgi vairāk, pat kontrolējot tādus faktorus kā
+                                    izglītība vai ģimenes sociālekonomiskais stāvoklis. Tas nozīmē, ka pašvērtējums ir viens no ekonomiskās mobilitātes priekšnosacījumiem.
+                                </p>
+
+                                <p class="devstyle-text-indent">
+                                    Līdzīgus secinājumus apstiprina arī citi pētījumi. Dienvidkorejas zinātnieku darbs (Lee &amp; Lee, 2018) parāda,
+                                    ka zemāks pašvērtējums korelē ar zemākiem ienākumiem un lielāku bezdarba risku. John T. Cacioppo (2008) grāmatā
+                                    “Loneliness: Human Nature and the Need for Social Connection” uzsvēris, ka sociālā izolācija un zems pašvērtējums
+                                    palielina risku ne tikai mentālās veselības problēmām, bet arī ekonomiskajai ievainojamībai.
+                                </p>
+
+                                <p class="devstyle-text-indent">
+                                    Šie dati tieši saistās ar Latvijā aktuālo sociālās atstumtības problēmu. Saskaņā ar Latvijas Centrālās statistikas
+                                    pārvaldes datiem vairāk nekā 20% iedzīvotāju atrodas sociālās izolācijas riskā, un Pasaules Veselības organizācija norāda,
+                                    ka sociālā izolācija palielina depresijas risku par 40% un sirds slimību risku par 30%.
+                                </p>
+                            </div>
+
+                            {# Серая подпись-источники (без ссылок) #}
+                            <div class="mt-3 small text-muted">
+                                <strong>Atsauces:</strong>
+                                Drago F. (2011) “Self-esteem and earnings”; Lee &amp; Lee (2018);
+                                Cacioppo J.T. (2008) “Loneliness”; CSP dati; PVO ziņojumi.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

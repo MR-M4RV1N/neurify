@@ -1,0 +1,37 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}
+	{% trans %}New achievement{% endtrans %}
+{% endblock %}
+
+{% block body %}
+	<div
+		class="main-content-container container-fluid">
+		<!-- HEADER... -->
+		<div class="page-header row no-gutters py-4">
+			<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+				<h3 class="page-title mb-2">{% trans %}New record{% endtrans %}</h3>
+				<span class="text-uppercase page-subtitle">
+					{% trans %}What difficult task did you complete last time{% endtrans %}?
+				</span>
+			</div>
+		</div>
+		<!-- ...HEADER -->
+		<!-- CONTENT... -->
+		<div class="row border bg-white p-2">
+			<a href="{{ path('app_events_list')}}" class="btn btn-sm btn-outline-secondary">
+				<i class="fas fa-angle-left"></i>
+				back</a>
+		</div>
+		<div class="row border bg-white mb-5">
+			<div class="col-lg-12 col-md-12 col-sm-12 mt-4 mb-4">
+				{{ include('/cpanel/events/event/_form.html.twig', {
+                    form: form,
+                    button_label: 'Save'|trans,
+                    form_type: 'create'
+                }) }}
+			</div>
+		</div>
+		<!-- ...CONTENT -->
+	</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}{% trans %}New note{% endtrans %}{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-6 text-center text-sm-left mb-0">
+                <h3 class="page-title mb-2">{% trans %}New note{% endtrans %}</h3>
+                <span class="text-uppercase page-subtitle">
+                    {% trans %}AI analysis record{% endtrans %}
+                </span>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+
+        <!-- BACK BUTTON -->
+        <div class="row border bg-white p-2">
+            <a href="" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-angle-left"></i> {% trans %}Back{% endtrans %}
+            </a>
+        </div>
+
+        <!-- FORM CONTAINER -->
+        <div class="row border bg-white mb-5">
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-4 mb-4">
+                {{ include('cpanel/think_master/_form.html.twig', {
+                    form: form,
+                    button_label: 'Save'|trans,
+                    form_type: 'create'
+                }) }}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

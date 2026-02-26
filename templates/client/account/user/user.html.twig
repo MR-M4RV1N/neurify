@@ -1,0 +1,13 @@
+{% extends 'client/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+    {% include '/client/account/user/_profile.html.twig' %}
+
+    {% include '/client/account/user/_tabs.html.twig' %}
+
+    <div class="main-content-container container-fluid">
+        {% include '/cpanel/events/_common/_iteration.html.twig' %}
+    </div>
+{% endblock %}

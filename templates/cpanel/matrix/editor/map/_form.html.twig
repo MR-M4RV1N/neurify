@@ -1,0 +1,47 @@
+<form action="{{ path('map.update', {'id': map.id}) }}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>{% trans %}Title{% endtrans %}:</label>
+        <input type="text" class="form-control" name="name" value="{{ map.name }}">
+    </div>
+    <div class="form-group">
+        <label>{% trans %}Category{% endtrans %}:</label>
+        <select class="custom-select" name="category">
+            <option value="empty">{% trans %}Choose a category{% endtrans %}</option>
+            <option value="0" {% if map.ensemble is null %}selected{% endif %}>Without</option>
+            {% for e in ensembles %}
+                <option value="{{ e.id }}" {% if map.ensemble and e.id == map.ensemble.id %}selected{% endif %}>
+                    {{ e.title }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{% trans %}Description{% endtrans %}:</label>
+        <textarea class="form-control" name="description" data-ckeditor rows="3">{{ map.description }}</textarea>
+    </div>
+
+    <div class="m-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="public" value="1" id="flexCheckChecked" {{ (map.public == 1) ? 'checked' }}>
+            <label class="form-check-label" for="flexCheckChecked">
+                {% trans %}To public{% endtrans %}
+            </label>
+        </div>
+    </div>
+
+    <div class="m-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="portfolio" value="1" id="flexPortfolioCheckChecked" {{ (map.portfolio == 1) ? 'checked' }}>
+            <label class="form-check-label" for="flexPortfolioCheckChecked">
+                {% trans %}Display in portfolio{% endtrans %}
+            </label>
+        </div>
+    </div>
+
+    <!-- Работа с файлом (картинкой) -->
+    {% include 'cpanel/matrix/editor/map/_file_edit.html.twig' %}
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-sm btn-outline-primary">{% trans %}Save{% endtrans %}</button>
+    </div>
+</form>

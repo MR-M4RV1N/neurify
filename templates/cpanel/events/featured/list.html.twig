@@ -1,0 +1,21 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Ensemble{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pb-3 pt-3">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title mb-2">{% trans %}Featured{% endtrans %}</h3>
+            </div>
+        </div>
+
+        {% include '/cpanel/events/_common/_iteration.html.twig' %}
+    </div>
+
+    <!-- ADD FLOATING BUTTON -->
+    <div class="devstyle-floating-button" onclick="location.href='{{ path('app_default_new') }}'">+</div>
+{% endblock %}
+

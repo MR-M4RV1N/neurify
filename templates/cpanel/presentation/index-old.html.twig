@@ -1,0 +1,155 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Seek challenges{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="col col-md-6 mx-auto text-center mt-3">
+                            <img src="/images/about_neurify(1).png" class="img-fluid w-50" alt="Responsive image">
+                        </div>
+
+                        <div class="col col-md-6 mx-auto text-justify mt-3">
+                            <p class="devstyle-text-indent">
+                                {{ about_project }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <div class="text-center" id="startButtonContainer">
+                            <a href="/cpanel/editor/draft" class="btn btn-outline-secondary">{% trans %}Start{% endtrans %}</a>
+                        </div>
+                        <div id="installButton" style="display: none;">
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-outline-secondary">
+                                    <i class="material-icons">&#xE2C4;</i>
+                                    {% trans %}Download{% endtrans %}
+                                </button>
+                            </div>
+                        </div>
+
+                        <script src="{{ asset('js/install.js') }}"></script>
+                        <script>
+                            let deferredPrompt;
+
+                            window.addEventListener('beforeinstallprompt', (e) => {
+                                e.preventDefault();
+                                deferredPrompt = e;
+                                // Проверяем, установлено ли уже приложение
+                                if (!isAppInstalled()) {
+                                    document.getElementById('installButton').style.display = 'block';
+                                    document.getElementById('downloadButton').addEventListener('click', handleDownloadClick);
+                                }
+                            });
+
+                            function handleDownloadClick() {
+                                document.getElementById('installButton').style.display = 'none';
+                                deferredPrompt.prompt();
+                                deferredPrompt.userChoice.then((choiceResult) => {
+                                    if (choiceResult.outcome === 'accepted') {
+                                        console.log('User accepted the A2HS prompt');
+                                    } else {
+                                        console.log('User dismissed the A2HS prompt');
+                                    }
+                                    deferredPrompt = null;
+                                });
+                            }
+
+                            function isAppInstalled() {
+                                // Проверка на наличие установленного приложения
+                                // Например, для iOS
+                                if (window.navigator.standalone) {
+                                    return true;
+                                }
+                                // Для других платформ можно использовать другие методы проверки
+                                // Например, проверка с помощью сервисного работника
+                                if (window.matchMedia('(display-mode: standalone)').matches) {
+                                    return true;
+                                }
+                                // Дополнительные методы проверки, если необходимо
+                                return false;
+                            }
+                        </script>
+                    </div>
+                </div>
+
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Perform tasks{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="col col-md-6 mx-auto text-center mt-3">
+                            <img src="/images/perform_tasks.png" class="img-fluid w-50" alt="Responsive image">
+                        </div>
+                        <div class="col col-md-6 mx-auto text-justify mt-3">
+                            <p class="devstyle-text-indent">
+                                {{ about_the_project }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-center mb-5">
+                        <a href="/cpanel/sets/exercises" class="btn btn-outline-secondary">{% trans %}Open{% endtrans %}</a>
+                    </div>
+                </div>
+
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Enjoy the results{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="col col-md-6 mx-auto text-center mt-3">
+                            <img src="/images/enjoy_the_results.png" class="img-fluid w-50" alt="Responsive image">
+                        </div>
+                        <div class="col col-md-6 mx-auto text-justify mt-3">
+                            <p class="devstyle-text-indent">
+                                {{ enjoy_the_results }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-center mb-5">
+                        <a href="/cpanel/progress" class="btn btn-outline-secondary">{% trans %}Open{% endtrans %}</a>
+                    </div>
+                </div>
+
+                <div class="card card-small p-1 mt-4 mb-5">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Share your results{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="col col-md-6 mx-auto text-center mt-3">
+                            <img src="/images/share_results_2.png" class="img-fluid w-50" alt="Responsive image">
+                        </div>
+                        <div class="col col-md-6 mx-auto text-justify mt-3">
+                            <p class="devstyle-text-indent">
+                                {{ share_results }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-center mb-5">
+                        <a href="/cpanel/users/username/{{ app.user.username }}" class="btn btn-outline-secondary">{% trans %}Open{% endtrans %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Проверяем, установлено ли приложение при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const installButton = document.getElementById('installButton');
+            const startButtonContainer = document.getElementById('startButtonContainer');
+
+            if (installButton && installButton.style.display === 'none') {
+                startButtonContainer.style.display = 'block';
+            } else {
+                startButtonContainer.style.display = 'none';
+            }
+        });
+    </script>
+{% endblock %}

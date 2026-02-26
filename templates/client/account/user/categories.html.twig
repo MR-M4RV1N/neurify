@@ -1,0 +1,18 @@
+{% extends 'client/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+    {% include '/client/account/user/_profile.html.twig' %}
+
+    {% include '/client/account/user/_tabs.html.twig' %}
+
+    {% if ensembles is not empty %}
+        {% set userId = profile.id %}
+        {% include '/cpanel/account/ensembles/_ensembles.html.twig' %}
+    {% else %}
+        <div class="text-center pb-5">
+            {% trans %}No records found{% endtrans %}
+        </div>
+    {% endif %}
+{% endblock %}

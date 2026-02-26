@@ -1,0 +1,147 @@
+<div
+	class="main-navbar sticky-top bg-white">
+	<!-- Main Navbar -->
+	<nav class="navbar align-items-stretch navbar-light p-0">
+		<form action="#" class="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+			<div class="input-group input-group-seamless ml-3">
+				<div class="input-group-prepend">
+					<div class="input-group-text">
+						<i class="fas fa-search"></i>
+					</div>
+				</div>
+				<input class="navbar-search form-control" type="text" placeholder="Найти..." aria-label="Search">
+			</div>
+		</form>
+
+		<ul class="navbar-nav border-left flex-row">
+			<!--<li class="nav-item border-right">
+			                <a class="nav-link nav-link-icon text-center" href="/cpanel/proposal/list" id="progress-and-activity">
+			                    <div class="nav-link-icon__wrapper">
+			                        <img src="{{ asset('/icons/notepad_9625716.png') }}"
+			                             alt="Icon"
+			                             width="24"
+			                             style="margin-top: 5px; filter: brightness(0.7) grayscale(100%); opacity: 0.7;">
+			                    </div>
+			                </a>
+			            </li>-->
+			<!--<li class="nav-item border-right">
+			                <a class="nav-link nav-link-icon text-center" href="/cpanel/proposal/list" id="mentors">
+			                    <div class="nav-link-icon__wrapper">
+			                        <img src="{{ asset('/icons/teacher_11802895.png') }}"
+			                             alt="Icon"
+			                             width="24"
+			                             style="margin-top: 5px; filter: brightness(0.7) grayscale(100%); opacity: 0.7;">
+			                    </div>
+			                </a>
+			            </li>-->
+			<!--<li class="nav-item border-right">
+			                <a class="nav-link nav-link-icon text-center" href="/cpanel/dashboard" role="button" id="week-challenge">
+			                    <div class="nav-link-icon__wrapper">
+			                        <img src="{{ asset('/icons/calendar(1).png') }}"
+			                             alt="Icon"
+			                             width="24"
+			                             style="margin-top: 5px;">
+			                       <img src="/client/images/logo-hex-brain-black-50px.png">
+			                    </div>
+			                </a>
+			            </li>-->
+			<!--<li class="nav-item border-right">
+			                <a class="nav-link nav-link-icon text-center"
+			                        {% if app.environment == 'dev' %}
+			                            {% if app.user.lang == 'ru' %}
+			                                href="/cpanel/ensemble/open/11"
+			                            {% elseif app.user.lang == 'lv' %}
+			                                href="/cpanel/ensemble/open/11"
+			                            {% elseif app.user.lang == 'en' %}
+			                                href="/cpanel/ensemble/open/11"
+			                            {% endif %}
+			                        {% elseif app.environment == 'prod' %}
+			                            {% if app.user.lang == 'ru' %}
+			                                href="/cpanel/ensemble/open/89"
+			                            {% elseif app.user.lang == 'lv' %}
+			                                href="/cpanel/ensemble/open/90"
+			                            {% elseif app.user.lang == 'en' %}
+			                                href="/cpanel/ensemble/open/91"
+			                            {% endif %}
+			                        {% endif %}
+			                   class="text-reset"
+			                   id="platform-challenges"
+			                >
+			                    <img class="devstyle-profile-image rounded-circle" src="/client/images/logo-hex-mountain-black.png" alt="User Avatar">
+			                    <img src="{{ asset('/icons/goal-white.png') }}"
+			                         alt="Icon"
+			                         width="24"
+			                         style="margin-top: 5px; filter: brightness(0.7) grayscale(100%); opacity: 0.7;">
+			                    <span class="d-none d-md-inline-block"></span>
+			                </a>
+			            </li>-->
+			<!--<li class="nav-item dropdown border-right">
+			                https://chatgpt.com/g/g-680600acff80819186c2915fddede529-neurify-gpt -->
+			<!--<a class="nav-link nav-link-icon text-center" href="{{ path('event_with_ai_comments') }}" id="neurify-gpt">
+			                    <div class="nav-link-icon__wrapper">
+			                        <img src="{{ asset('/icons/artificial-intelligence(1).png') }}"
+			                             alt="Icon"
+			                             width="24"
+			                             style="margin-top: 5px;">
+			                    </div>
+			                </a>
+			            </li>-->
+			<!--<li class="nav-item border-right notifications">
+			                <a class="nav-link nav-link-icon text-center" href="/cpanel/notification/list">
+			                    <div class="nav-link-icon__wrapper">
+			                        <img src="{{ asset('/icons/bell(1).png') }}"
+			                             alt="Icon"
+			                             width="24"
+			                             style="margin-top: 5px;">
+			                        {% if unread_notifications_count() > 0 %}
+			                            <span class="badge badge-pill badge-danger">{{ unread_notifications_count() }}</span>
+			                        {% endif %}
+			                    </div>
+			                </a>
+			            </li>-->
+				<li class="nav-item notifications"> <a class="nav-link nav-link-icon text-center" href="/cpanel/users/stepwise/102">
+					<div class="nav-link-icon__wrapper">
+						<img class="devstyle-profile-image rounded-circle" src="/client/images/logo-hex-mountain-black.png" alt="User Avatar">
+
+					</div>
+				</a>
+			</li>
+			<li class="nav-item notifications">
+				<a class="nav-link nav-link-icon text-center d-flex align-items-center" href="{{ path('app_project_description') }}">
+					<span class="font-weight-bold">NEURIFY.LIFE</span>
+				</a>
+			</li>
+		</ul>
+
+
+		<nav class="nav">
+			{% if app.user %}
+				{# Получаем данные уведомления из сервиса #}
+				{% set ai = ai_consulting_notifier.getNotificationData(app.user) %}
+				{% set showAiNotification = ai.show %}
+				{% set daysSinceConsult = ai.days %}
+			{% else %}
+				{% set showAiNotification = false %}
+				{% set daysSinceConsult = null %}
+			{% endif %}
+			{% if showAiNotification %}
+				<ul class="navbar-nav border-left flex-row justify-content-end">
+					<li class="nav-item border-right dropdown notifications">
+						<a class="nav-link nav-link-icon text-center" href="/cpanel/all">
+							<div class="nav-link-icon__wrapper">
+								<i class="material-icons">&#xE7F4;</i>
+								<span class="badge badge-pill badge-danger">1</span>
+							</div>
+						</a>
+					</li>
+				</ul>
+			{% endif %}
+
+			<a href="#" id="download-app" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left" data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
+				<i class="material-icons">&#xE5D2;</i>
+			</a>
+		</nav>
+	</nav>
+</div>
+<!-- Loading bar -->
+<div class="loading-bar" id="loading-bar"></div>

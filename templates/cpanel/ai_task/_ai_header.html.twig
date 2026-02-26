@@ -1,0 +1,11 @@
+<!-- Comment -->
+<div class="mt-3 px-3">
+    <div class="text-center mb-3 mt-3">
+        <img src="{{ asset('/images/nf-ai.png') }}" alt="Icon" width="72">
+    </div>
+
+    <h6 class="text-primary mb-3 text-center"><strong>{% trans %}Description of the task list{% endtrans %}</strong></h6>
+    <div id="ai-comment-html" class="sherlock-flair m-2">
+        {{ comment|raw }}
+    </div>
+</div>

@@ -1,0 +1,218 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid mb-5 pb-5">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4" id="calendar">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title">
+                    {% trans %}Diary{% endtrans %}
+                </h3>
+                <span class="text-uppercase page-subtitle">
+                {% trans %}Describe your day in{% endtrans %} 300 {% trans %}characters{% endtrans %}
+            </span>
+            </div>
+        </div>
+        {% set path = app.request.pathinfo %}
+
+        <!-- Если path = /cpanel/proposal/list то подключить /cpanel/journal/_calendar.html.twig -->
+        {% if path == '/cpanel/proposal/list' %}
+            {% include '/cpanel/journal/_calendar.html.twig' %}
+        {% elseif path == '/cpanel/proposal/week' %}
+            {% include '/cpanel/journal/_week.html.twig' %}
+        {% endif %}
+
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pb-3 pt-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title">{% trans %}Advisor{% endtrans %}</h3>
+            </div>
+        </div>
+        <div class="card card-small">
+            <div class="card-body p-0">
+                {# Individual tasks #}
+                <div class="d-flex align-items-center justify-content-between border p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="blog-comments__avatar mr-3">
+                            <img class="devstyle-user-avatar" src="{{ asset('/images/nf-ai.png') }}"
+                                 alt="User avatar"/>
+                        </div>
+                        <div>
+                            <div class="blog-comments__meta text-muted">
+                                <a class="text-secondary" href="/cpanel/chat/neurify">
+                                    NEURIFY MASTER
+                                </a>
+                            </div>
+                            <p class="m-0 my-1 mb-2 text-muted">{% trans %}Tips for Challenges{% endtrans %}</p>
+                        </div>
+                    </div>
+                    <span class="material-icons text-warning" style="font-size:20px;">
+                            workspace_premium
+                        </span>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="page-header row no-gutters pb-1 pt-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title">
+                    {% trans %}Balance{% endtrans %}
+                </h3>
+            </div>
+        </div>
+        <div class="mt-2 mb-4">
+            {% include '/cpanel/proposal/_zones.html.twig' %}
+        </div>-->
+
+        <!--<div class="page-header row no-gutters pb-1">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title">
+                    {% trans %}Challenges{% endtrans %}
+                </h3>
+            </div>
+        </div>
+        <div class="mt-2 mb-4">
+            {% include '/cpanel/account/classification/_classification.html.twig' %}
+        </div>-->
+
+        <!--<div class="page-header row no-gutters pb-1">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title">
+                    {% trans %}Balance score{% endtrans %}
+                </h3>
+            </div>
+        </div>
+        <div class="mt-2 mb-4">
+            {% include '/cpanel/proposal/_chart.html.twig' %}
+        </div>-->
+        <!--<div class="col-lg col-md-4 col-sm-6 mb-4">
+        <div class="card card-small">
+            <div class="card-body p-0">
+                {# Platform challenges #}
+                <div class="d-flex align-items-center justify-content-between mt-1 p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="blog-comments__avatar mr-3">
+                            <img class="devstyle-profile-image"
+                                 src="/cpanel/profile/uploads/images/{{ platform.image }}"
+                                 alt="User avatar"
+                                 style="border: 2px solid black"
+                            />
+                        </div>
+                        <div>
+                            <div class="blog-comments__meta text-muted">
+                                {% set route =
+            platform.type == 3
+            ? path('users_stepwise_ensembles', {'id': platform.id})
+            : (platform.type == 4
+            ? path('users_stepwise_single', {'id': platform.id})
+            : path('app_users_user', {'id': platform.id})
+            ) %}
+
+                                <a class="text-secondary" href="{{ route }}">
+                                    {{ platform.firstname }} {{ platform.lastname }}
+                                </a>
+                            </div>
+                            <p class="m-0 my-1 mb-2 text-muted">{{ platform.artisan }}</p>
+                        </div>
+                    </div>
+                </div>
+                {# Monthly challenges #}
+                <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <div class="blog-comments__avatar mr-3">
+                            <img class="devstyle-profile-image" src="/cpanel/profile/uploads/images/{{ monthly.image }}"
+                                 alt="User avatar"/>
+                        </div>
+                        <div>
+                            <div class="blog-comments__meta text-muted">
+                                {% set route =
+            monthly.type == 3
+            ? path('users_stepwise_ensembles', {'id': monthly.id})
+            : (monthly.type == 4
+            ? path('users_stepwise_single', {'id': monthly.id})
+            : path('app_users_user', {'id': monthly.id})
+            ) %}
+
+                                <a class="text-secondary" href="{{ route }}">
+                                    {{ monthly.firstname }} {{ monthly.lastname }}
+                                </a>
+                            </div>
+                            <p class="m-0 my-1 mb-2 text-muted">{{ monthly.artisan }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include '/cpanel/members/_for_members_small_list_body.html.twig' %}
+        </div>
+    </div>-->
+
+        <!--<div class="page-header row no-gutters">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <h3 class="page-title">
+                {% trans %}Other{% endtrans %}
+            </h3>
+            <span class="text-uppercase page-subtitle">
+                {% trans %}Complete tasks and earn rewards{% endtrans %}
+            </span>
+        </div>
+    </div>
+    <div>
+        <a href="{{ path('dashboard_consultations') }}" style="text-decoration: none; color: inherit;">
+            <div class="col-lg col-md-6 col-sm-6 mb-2 mt-4">
+                <div class="stats-small stats-small--1 card card-small">
+                    <div class="card-body p-0 d-flex">
+                        <div class="d-flex flex-column m-auto">
+                            <div class="stats-small__data text-center">
+                                <span class="stats-small__label text-uppercase">{% trans %}Consultations received{% endtrans %}</span>
+                                <h6 class="stats-small__value count my-3">{{ consultations }}</h6>
+                            </div>
+                            <div class="stats-small__data">
+                                <span class="stats-small__percentage stats-small__percentage--increase">4.7%</span>
+                            </div>
+                        </div>
+                        <canvas height="120" class="blog-overview-stats-small-1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="{{ path('dashboard_completed_tasks') }}" style="text-decoration: none; color: inherit;">
+            <div class="col-lg col-md-4 col-sm-6 mb-2">
+                <div class="stats-small stats-small--1 card card-small">
+                    <div class="card-body p-0 d-flex">
+                        <div class="d-flex flex-column m-auto">
+                            <div class="stats-small__data text-center">
+                                <span class="stats-small__label text-uppercase">{% trans %}Completed tasks{% endtrans %}</span>
+                                <h6 class="stats-small__value count my-3">{{ completed }}</h6>
+                            </div>
+                            <div class="stats-small__data">
+                                <span class="stats-small__percentage stats-small__percentage--decrease">3.8%</span>
+                            </div>
+                        </div>
+                        <canvas height="120" class="blog-overview-stats-small-3"></canvas>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="{{ path('dashboard_completed_paths') }}" style="text-decoration: none; color: inherit;">
+            <div class="col-lg col-md-4 col-sm-6 mb-3">
+                <div class="stats-small stats-small--1 card card-small">
+                    <div class="card-body p-0 d-flex">
+                        <div class="d-flex flex-column m-auto">
+                            <div class="stats-small__data text-center">
+                                <span class="stats-small__label text-uppercase">{% trans %}Awards{% endtrans %}</span>
+                                <h6 class="stats-small__value count my-3">{{ awards }}</h6>
+                            </div>
+                            <div class="stats-small__data">
+                                <span class="stats-small__percentage stats-small__percentage--increase">12.4%</span>
+                            </div>
+                        </div>
+                        <canvas height="120" class="blog-overview-stats-small-4"></canvas>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>-->
+    </div>
+{% endblock %}

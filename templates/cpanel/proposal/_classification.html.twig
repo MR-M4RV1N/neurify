@@ -1,0 +1,54 @@
+{% set userId = profile.id %}
+<div class="card card-small mt-2 mb-4">
+    <div class="card-header">
+        <h6 class="m-0">{% trans %}Bright events{% endtrans %}</h6>
+    </div>
+    <div class="card-body p-0 text-center">
+        <table class="table mb-0">
+            <tbody>
+            {% for power, count in classification %}
+                <tr>
+                    <td class="text-left clickable"
+                        role="button"
+                        style="cursor:pointer"
+                        data-url="{{ path('app_event_list_by_power', { power: power }) }}">
+                        <div class="px-2">
+                        {% if power == 0 %}
+                            <img src="{{ asset('/icons/star_7588772_b5px.png') }}" alt="Icon" width="18">
+                            {% trans %}Events{% endtrans %} / {% trans %}Challenges{% endtrans %}
+                        {% elseif power == 1 %}
+                            <img src="{{ asset('/icons/star_5650306.png') }}" alt="Icon" width="18">
+                            {% trans %}Bright events{% endtrans %}
+                        {% elseif power == 2 %}
+                            <img src="{{ asset('/icons/challenge_17584513.png') }}" alt="Icon" width="18">
+                            {% trans %}Difficult to repeat{% endtrans %}
+                        {% elseif power == 3 %}
+                            <img src="{{ asset('/icons/cup_11918887.png') }}" alt="Icon" width="18">
+                            {% trans %}Main event of the year{% endtrans %}
+                        {% else %}
+                            {% trans %}Unknown{% endtrans %}
+                        {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        {{ count }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3" class="text-center">
+                        {% trans %}No events{% endtrans %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer border-top">
+        <div class="row">
+            <div class="col text-right view-report">
+                <a href="{{ path('app_account_statistics') }}">{% trans %}Full report{% endtrans %} &rarr;</a>
+            </div>
+        </div>
+    </div>
+</div>

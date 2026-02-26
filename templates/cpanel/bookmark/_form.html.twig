@@ -1,0 +1,157 @@
+{{ form_start(form) }}
+
+<div class="mb-3">
+    {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    {{ form_help(form.title) }}
+    {{ form_errors(form.title) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.date) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.description, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+    {{ form_help(form.description) }}
+    {{ form_errors(form.description) }}
+</div>
+<script>
+    CKEDITOR.replace('event_description');
+</script>
+
+{% do form.image.setRendered() %}
+
+{% if existing_images is defined and existing_images|length > 0 %}
+    <!-- Existing Images -->
+    <div class="mb-4">
+        <label>{{ 'Existing Images'|trans }}</label>
+        <div class="row">
+            {% for image in existing_images %}
+                <div class="col-md-4 mb-3 position-relative">
+                    <div class="devstyle-image-container position-relative" style="overflow: hidden; border-radius: 8px;">
+                        <img src="/cpanel/images/events/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+                        <button type="button" class="btn btn-sm btn-danger position-absolute devstyle-remove-image-btn"
+                                data-id="{{ image.id }}" style="top: 10px; right: 10px;">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </div>
+                </div>
+            {% else %}
+                <p>{{ 'No images uploaded yet'|trans }}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<!-- Dropzone for New Images -->
+<div class="form-group">
+    <label for="file-dropzone">{{ 'Upload New Images'|trans }}</label>
+    <div id="file-dropzone" class="dropzone"></div>
+</div>
+{% do form.images.setRendered() %}
+<style>
+    .dropzone {
+        border: 2px dashed #007bff;
+        border-radius: 5px;
+        padding: 20px;
+        background: #f8f9fa;
+        cursor: pointer;
+    }
+    .dropzone .dz-preview .dz-remove {
+        color: #dc3545;
+        text-decoration: none;
+    }
+</style>
+
+<div>
+    {{ form_label(form.ensemble, null, {'label_attr': {'class': 'form-label mt-5'}}) }}
+    {{ form_widget(form.ensemble, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.ensemble) }}
+</div>
+<div class="mb-5">
+    {{ form_row(form.priority) }}
+</div>
+
+<div>
+    {{ form_widget(form.public, {'attr': {'class': 'form-select mr-2'}}) }}
+    {{ form_label(form.public, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+    {{ form_errors(form.public) }}
+</div>
+<div class="mb-3">
+    {{ form_widget(form.pinned, {'attr': {'class': 'form-select mr-2'}}) }}
+    {{ form_label(form.pinned, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+    {{ form_errors(form.pinned) }}
+</div>
+
+<div class="text-center">
+    <button class="btn btn-sm btn-outline-primary mt-5">
+        <i class="material-icons">save</i> {{ button_label|default('Save'|trans) }}
+    </button>
+</div>
+{{ form_end(form) }}
+
+<!-- JavaScript for handling image deletion -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const removeButtons = document.querySelectorAll('.devstyle-remove-image-btn');
+
+        removeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                console.log("Кнопка нажата"); // Проверяем, что событие работает
+                const imageId = this.dataset.id;
+
+                if (confirm('{{ "Are you sure you want to delete this image?"|trans }}')) {
+                    fetch(`/cpanel/editor/events/images/${imageId}/delete`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                    })
+                        .then(response => {
+                            console.log("Ответ сервера:", response); // Проверяем ответ сервера
+                            if (response.ok) {
+                                console.log("Изображение успешно удалено");
+                                this.closest('.col-md-4').remove();
+                            } else {
+                                console.error("Ошибка удаления изображения:", response.status);
+                                alert('{{ "Failed to delete the image"|trans }}');
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Ошибка при запросе:", error);
+                            alert('{{ "Error deleting the image"|trans }}');
+                        });
+                }
+            });
+        });
+    });
+
+    // Dropzone for uploading new images
+    document.addEventListener('DOMContentLoaded', function () {
+        Dropzone.autoDiscover = false;
+
+        const dropzone = new Dropzone("#file-dropzone", {
+            url: "/cpanel/editor/events/dropzone",
+            paramName: "images",
+            maxFiles: 6,
+            maxFilesize: 5,
+            acceptedFiles: "image/*",
+            addRemoveLinks: true,
+            dictDefaultMessage: "{{ 'Drag files here or click to upload'|trans }}",
+            dictRemoveFile: "{{ 'Remove file'|trans }}",
+            dictMaxFilesExceeded: "{{ 'You can upload a maximum of 6 files'|trans }}",
+            init: function () {
+                this.on("success", function (file, response) {
+                    console.log("File uploaded:", response);
+                });
+                this.on("error", function (file, errorMessage) {
+                    console.error("Upload error:", errorMessage);
+                });
+            }
+        });
+    });
+</script>

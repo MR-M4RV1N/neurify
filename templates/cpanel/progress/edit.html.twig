@@ -1,0 +1,62 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Edit Progress{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">Edit progress</h6>
+                    </div>
+                    <div class="card-body">
+                        {{ include('cpanel/progress/_form.html.twig', {'button_label': 'Update'}) }}
+
+                        <!-- <div class="mt-2">
+                            <a href="#" class="btn btm-sm btn-outline-primary" data-url="{{ path('app_progress_active', {'id': progress.id}) }}" data-toggle="modal" data-target="#confirmationModal">active</a>
+                            --><!-- Модальное окно Bootstrap 4 -->
+                            <!-- <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabel">Подтверждение</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Вы уверены?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                                            <button type="button" class="btn btn-primary" id="confirmYes">Да</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#confirmationModal').on('show.bs.modal', function (event) {
+                                        var button = $(event.relatedTarget); // Кнопка, которая вызвала модальное окно
+                                        var url = button.data('url'); // Извлечение информации из атрибутов data-*
+
+                                        // При нажатии на кнопку "Да", перенаправляем пользователя
+                                        var confirmButton = $(this).find('#confirmYes');
+                                        confirmButton.off('click').on('click', function() {
+                                            window.location.href = url;
+                                        });
+                                    });
+                                });
+                            </script>
+                        </div>-->
+
+                        <!-- <div class="mt-2">
+                            {{ include('cpanel/progress/_delete_form.html.twig') }}
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

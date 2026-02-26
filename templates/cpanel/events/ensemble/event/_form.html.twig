@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="text-center">
+        <button class="btn btn-sm btn-outline-primary mt-5"><i class="material-icons">save</i> {{ button_label|default('Save'|trans) }}</button>
+    </div>
+{{ form_end(form) }}

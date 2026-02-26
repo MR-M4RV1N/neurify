@@ -1,0 +1,130 @@
+{% include '/cpanel/account/statistics/_chart.html.twig' %}
+
+<div class="main-content-container container-fluid">
+	<div class="row mb-5">
+		<div class="col">
+			<div class="page-header row no-gutters py-2">
+				<div class="col-12 col-sm-4 text-center text-sm-left mb-0"></div>
+			</div>
+
+			{% if eventsByMonth|length > 0 %}
+				{% for month, events in eventsByMonth %}
+					<div class="card card-small mb-3">
+						<div class="card-header border-bottom">
+							<h6 class="m-0 text-center">{{ month }}</h6>
+						</div>
+						<div class="card-body">
+							<ul class="list-group list-group-flush">
+								{% for item in events %}
+									{% if profile and profile.id != app.user.id %}
+										{% if item.event.public == 0 %}
+											<li class="list-group-item" style="padding: 7px 0px 7px 0px;">
+												<div class="d-flex">
+													<div>
+														<img class="devstyle-circle-image mr-3" src="/cpanel/images/events/collections/default-min.jpg">
+													</div>
+													<div>
+														{% trans %}Hidden record{% endtrans %}
+														<div class="small text-muted">{{ item.event.date|date('d M Y') }}</div>
+													</div>
+												</div>
+											</li>
+										{% else %}
+											<li class="list-group-item" style="padding: 7px 0px 7px 0px;">
+												<div class="d-flex">
+													<div>
+														<img class="devstyle-circle-image mr-3" src="/cpanel/images/events/collections/{{ item.image }}">
+													</div>
+													<div>
+														<a href="{{ path('app_event_show', {'id': item.event.id}) }}" class="text-force-blue">
+															{{ item.event.title }}
+														</a>
+														<div class="small text-muted">{{ item.event.date|date('d M Y') }}</div>
+													</div>
+												</div>
+											</li>
+										{% endif %}
+									{% else %}
+										<li class="list-group-item" style="padding: 7px 0px 7px 0px;">
+											<div
+												class="d-flex">
+												{# Image #}
+												<div>
+													<img class="devstyle-circle-image mr-3" src="/cpanel/images/events/collections/{{ item.image }}">
+												</div>
+												{# Title and Date+Power+Public #}
+												<div
+													class="w-100">
+													{# Title #}
+													<a href="{{ path('app_event_show', {'id': item.event.id}) }}" class="text-force-blue">
+														{{ item.event.title }}
+													</a>
+													{# Date+Power+Public #}
+													<div
+														class="d-flex justify-content-between">
+														{# Date + Power #}
+														<div
+															class="d-flex small text-muted">
+															{# Date #}
+															<div>
+																{{ item.event.date|date('d M Y') }}
+															</div>
+															{# Power #}
+															<div class="ml-2">
+																{% set starColor = item.event.power == 3 ? 'crimson' : 'gold' %}
+
+																{% for i in 1..3 %}
+																	{% if i <= item.event.power %}
+																		<i class="material-icons" style="color: {{ starColor }};">star</i>
+																	{% endif %}
+																{% endfor %}
+															</div>
+														</div>
+														{# Public #}
+														<div class="d-flex justify-content-end small text-muted">
+															{% if not item.event.public %}
+																<div class="ml-1">
+																	<i class="material-icons text-muted" title="Не публичное событие">lock_outline</i>
+																</div>
+															{% else %}
+																{# --- Статус шеринга (EventShared) --- #}
+																{% if item.isPublished %}
+																	<div class="ml-1">
+																		<i class="material-icons" title="{% trans %}Published on social network{% endtrans %}">
+																			public
+																		</i>
+																	</div>
+																{% elseif item.isShared %}
+																	<div class="ml-1">
+																		<i class="material-icons" title="{% trans %}Generated but not published{% endtrans %}">
+																			schedule
+																		</i>
+																	</div>
+																{% else %}
+																	<div class="ml-1">
+																		<i class="material-icons text-white" title="Не публичное событие">lock_outline</i>
+																	</div>
+																{% endif %}
+															{% endif %}
+														</div>
+													</div>
+
+												</div>
+											</div>
+										</li>
+									{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				{% endfor %}
+			{% else %}
+				{% if profile.id == app.user.id %}
+					<p class="text-center">{% trans %}Your completed records will be displayed here by month{% endtrans %}</p>
+				{% else %}
+					<p class="text-center">{% trans %}No records found{% endtrans %}</p>
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+</div>

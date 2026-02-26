@@ -1,0 +1,226 @@
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom-0 pb-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-0 text-dark font-weight-bold">
+                <i class="fas fa-coins text-warning mr-2"></i> Wealth & Success: {{ analysis.wealth_style|capitalize }}
+            </h5>
+            <small class="text-muted">
+                {{ weekStart|date('d.m.Y') }} - {{ weekEnd|date('d.m.Y') }}
+            </small>
+        </div>
+        <div class="text-right">
+            {% set rating = analysis.rating|default(0) %}
+            {% set badge_class = rating >= 8 ? 'badge-success' : (rating >= 5 ? 'badge-warning' : 'badge-danger') %}
+            <span class="badge {{ badge_class }} p-2" style="font-size: 1.1em;">
+                Рейтинг: {{ rating }}/10
+            </span>
+        </div>
+    </div>
+
+    <div class="card-body px-4">
+        
+        <div class="mb-4">
+            <p class="lead text-dark font-italic">
+                "{{ analysis.summary|default('Анализ завершен.') }}"
+            </p>
+            {% if styleDescription is defined and styleDescription %}
+                <p class="text-muted small">{{ styleDescription }}</p>
+            {% endif %}
+        </div>
+
+        {% if analysis.wealth_style == 'hill' %}
+            
+            <h6 class="font-weight-bold text-uppercase text-muted mb-3 mt-4">13 Принципов Наполеона Хилла:</h6>
+            
+            <div class="row">
+                {# Жгучее желание (Determination) #}
+                <div class="col-md-12 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="font-weight-bold"><i class="fas fa-fire text-danger mr-1"></i> Жгучее желание (Настойчивость)</span>
+                        <span class="badge badge-secondary">{{ analysis.determination_score|default(0) }}/10</span>
+                    </div>
+                    {% set det_perc = (analysis.determination_score|default(0)) * 10 %}
+                    <div class="progress mb-2" style="height: 6px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ det_perc }}%" aria-valuenow="{{ det_perc }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+
+                {# Goal Alignment (Aligned vs Drift) #}
+                {% set ga = analysis.goal_alignment|default({}) %}
+                <div class="col-md-12 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="font-weight-bold"><i class="fas fa-bullseye text-primary mr-1"></i> Фокус на Главной Цели</span>
+                        <span class="small text-muted">Дрейф: {{ ga.drift|default(0) }}% | Вектор: {{ ga.aligned|default(0) }}%</span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ ga.drift|default(0) }}%" title="Дрейф (Впустую)"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ ga.aligned|default(0) }}%" title="Вектор к цели"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                {% set pr = analysis.principles|default({}) %}
+                
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="p-2 border rounded text-center bg-light h-100">
+                        <i class="fas fa-praying-hands text-info mb-2"></i>
+                        <h6 class="small font-weight-bold mb-1">Вера</h6>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ pr.faith|default(0) }}%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="p-2 border rounded text-center bg-light h-100">
+                        <i class="fas fa-brain text-success mb-2"></i>
+                        <h6 class="small font-weight-bold mb-1">Самовнушение</h6>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ pr.auto_suggestion|default(0) }}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="p-2 border rounded text-center bg-light h-100">
+                        <i class="fas fa-book-reader text-warning mb-2"></i>
+                        <h6 class="small font-weight-bold mb-1">Знания</h6>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ pr.specialized_knowledge|default(0) }}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="p-2 border rounded text-center bg-light h-100">
+                        <i class="fas fa-lightbulb text-primary mb-2"></i>
+                        <h6 class="small font-weight-bold mb-1">Воображение</h6>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ pr.imagination|default(0) }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-3 bg-light border rounded mb-4 mt-2">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-users fa-2x text-secondary mr-3"></i>
+                    <div>
+                        <h6 class="font-weight-bold mb-1">Мастер-группа (Mastermind)</h6>
+                        <p class="mb-0 text-dark small">{{ analysis.mastermind_status|default('Нет данных') }}</p>
+                    </div>
+                </div>
+            </div>
+
+        {% elseif analysis.wealth_style == 'clason' %}
+            
+            <h6 class="font-weight-bold text-uppercase text-muted mb-3 mt-4">Законы Вавилона:</h6>
+            
+            <div class="row">
+                {# Индекс богатства #}
+                <div class="col-md-12 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="font-weight-bold"><i class="fas fa-coins text-warning mr-1"></i> Накопление богатства</span>
+                        <span class="badge badge-secondary">{{ analysis.wealth_building_score|default(0) }}/10</span>
+                    </div>
+                    {% set wb_perc = (analysis.wealth_building_score|default(0)) * 10 %}
+                    <div class="progress mb-2" style="height: 6px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ wb_perc }}%" aria-valuenow="{{ wb_perc }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h6 class="font-weight-bold small text-muted mb-2 mt-2">7 лекарств от тощего кошелька:</h6>
+            <div class="row mt-2">
+                {% set cures = analysis.cures_assessment|default({}) %}
+                
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="p-2 border rounded text-center bg-light h-100">
+                        <i class="fas fa-piggy-bank text-info mb-2"></i>
+                        <h6 class="small font-weight-bold mb-1">Плати себе</h6>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ cures.pay_yourself_first|default(0) }}%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="p-2 border rounded text-center bg-light h-100">
+                        <i class="fas fa-wallet text-danger mb-2"></i>
+                        <h6 class="small font-weight-bold mb-1">Контроль трат</h6>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{ cures.control_expenses|default(0) }}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="p-2 border rounded text-center bg-light h-100">
+                        <i class="fas fa-chart-line text-success mb-2"></i>
+                        <h6 class="small font-weight-bold mb-1">Умножай</h6>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ cures.multiply_gold|default(0) }}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="p-2 border rounded text-center bg-light h-100">
+                        <i class="fas fa-graduation-cap text-primary mb-2"></i>
+                        <h6 class="small font-weight-bold mb-1">Обучение</h6>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ cures.increase_ability|default(0) }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 bg-light border rounded h-100">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-hammer fa-2x text-secondary mr-3 mt-1"></i>
+                            <div>
+                                <h6 class="font-weight-bold mb-1 small">Отношение к труду</h6>
+                                <p class="mb-0 text-dark small" style="line-height: 1.2;">{{ analysis.work_attitude|default('Нет данных') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 bg-light border rounded h-100">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-link fa-2x text-secondary mr-3 mt-1"></i>
+                            <div>
+                                <h6 class="font-weight-bold mb-1 small">Свобода от долгов</h6>
+                                <p class="mb-0 text-dark small" style="line-height: 1.2;">{{ analysis.debt_status|default('Нет данных') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+            <div class="alert alert-info">
+                Анализ для данного автора находится в разработке или не поддерживается расширенным шаблоном.
+            </div>
+        {% endif %}
+
+        <hr class="my-4">
+
+        <h6 class="font-weight-bold text-uppercase text-muted mb-3"><i class="fas fa-clipboard-list text-warning mr-1"></i> Рекомендации:</h6>
+        {% if analysis.recommendations is defined and analysis.recommendations|length > 0 %}
+            <ul class="list-unstyled mb-0">
+                {% for rec in analysis.recommendations %}
+                    <li class="mb-2 text-dark">
+                        <i class="fas fa-check text-success mr-2"></i> {{ rec }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted small">Нет рекомендаций.</p>
+        {% endif %}
+
+    </div>
+</div>

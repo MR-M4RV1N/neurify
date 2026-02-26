@@ -1,0 +1,80 @@
+<form id="regen-form" action="{{ path('ai_task_regenerate_task', {'id': event.id}) }}" method="post" data-turbo="false">
+
+	<input type="hidden" name="_token" value="{{ csrf_token('ai_task_regenerate_task') }}">
+
+	<div class="p-3">
+
+		<label class="small text-muted d-block mb-2">
+			{% trans %}Choose regeneration mode{% endtrans %}
+		</label>
+		<div class="custom-control custom-radio">
+			<input type="radio" id="regen-alt" name="regen_mode" class="custom-control-input" value="alternative" checked>
+			<label class="custom-control-label" for="regen-alt">
+				{% trans %}Problem alternative formulation{% endtrans %}
+			</label>
+		</div>
+
+		<div class="custom-control custom-radio">
+			<input type="radio" id="regen-advocate" name="regen_mode" class="custom-control-input" value="advocate">
+			<label class="custom-control-label" for="regen-advocate">
+				{% trans %}Devil's Advocate critique{% endtrans %}
+			</label>
+		</div>
+
+		<div class="custom-control custom-radio">
+			<input type="radio" id="regen-reverse" name="regen_mode" class="custom-control-input" value="reverse">
+			<label class="custom-control-label" for="regen-reverse">
+				{% trans %}Reverse Assumptions{% endtrans %}
+			</label>
+		</div>
+
+		<hr>
+		<!-- Radio group -->
+		<div class="custom-control custom-radio mb-2">
+			<input type="radio" id="regen-new" name="regen_mode" class="custom-control-input" value="new">
+			<label class="custom-control-label" for="regen-new">
+				{% trans %}Another task{% endtrans %}
+			</label>
+		</div>
+
+		<div
+			class="text-center">
+			<!-- Submit button → opens modal -->
+			<button type="button" class="btn btn-sm btn-outline-warning mt-3" data-toggle="modal" data-target="#regenConfirmModal">
+				<span class="material-icons" style="vertical-align: middle; font-size: 18px;">autorenew</span>
+				{% trans %}Generate{% endtrans %}
+			</button>
+		</div>
+
+	</div>
+
+</form>
+
+<div class="modal fade" id="regenConfirmModal" tabindex="-1" role="dialog" aria-labelledby="regenConfirmLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h5 class="modal-title" id="regenConfirmLabel">
+					{% trans %}Confirm{% endtrans %}
+				</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<div class="modal-body">
+				{% trans %}Are you sure?{% endtrans %}
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					{% trans %}Cancel{% endtrans %}
+				</button>
+
+				<button type="submit" form="regen-form" class="btn btn-warning">
+					{% trans %}Yes, regenerate{% endtrans %}
+				</button>
+			</div>
+
+		</div>
+	</div>
+</div>

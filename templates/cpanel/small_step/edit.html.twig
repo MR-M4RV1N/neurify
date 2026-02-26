@@ -1,0 +1,32 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Edit Small Step{% endblock %}
+
+{% block body %}
+    <!-- HEADER... -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 text-center mb-0">
+            <h3 class="page-title">{% trans %}Edit record{% endtrans %}</h3>
+        </div>
+    </div>
+    <!-- ...HEADER -->
+
+    <div class="main-content-container container-fluid mb-5">
+        <div class="card card-small">
+            <div class="card-header border-bottom">
+                <a href="{{ path(step.draft
+                    ? 'cpanel_small_step_ideas'
+                    : 'cpanel_small_step_index'
+                ) }}" class="btn btn-sm btn-outline-secondary">
+                    <i class="material-icons">chevron_left</i>
+                </a>
+            </div>
+
+            {{ include('/cpanel/small_step/_form.html.twig', {
+                form: form,
+                button_label: 'Update'|trans,
+                form_type: 'edit'
+            }) }}
+        </div>
+    </div>
+{% endblock %}

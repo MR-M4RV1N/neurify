@@ -1,0 +1,109 @@
+{# templates/cpanel/small_step/index.html.twig #}
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{# --- Конфиг страницы (режимы) --- #}
+{% set pageTitle = mode == 'ideas'
+    ? 'Small ideas'
+    : 'Small steps'
+%}
+
+{% set headerTitle = mode == 'ideas'
+    ? 'Small ideas of development'
+    : 'Small steps of development'
+%}
+
+{% set cardTitle = mode == 'ideas'
+    ? 'What small steps can be taken?'
+    : 'What small step was taken to improve?'
+%}
+
+{% block title %}
+	{{ pageTitle }}
+{% endblock %}
+
+{% block styles %}{% endblock %}
+
+{% block body %}
+	<div
+		class="main-content-container container-fluid mb-5">
+		<!-- Page Header -->
+		<div class="page-header row no-gutters mb-3 pt-4">
+			<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+				<h3 class="page-title mb-2">{{ headerTitle|trans }}</h3>
+				<span class="text-uppercase page-subtitle">改善 - KAIZEN
+					{% trans %}method{% endtrans %}</span>
+			</div>
+		</div>
+
+		{{ include('cpanel/small_step/_tabs.html.twig') }}
+
+		<div class="card card-small mb-4">
+			<div class="card-header border-bottom">
+				<h6 class="m-0">{{ cardTitle|trans }}</h6>
+			</div>
+
+			<div class="card-body p-0">
+				<div class="file-list">
+					{% if items is empty %}
+						<div class="p-3 text-muted">
+							{% trans %}No records yet{% endtrans %}
+						</div>
+					{% else %}
+						{% for item in items %}
+							<div class="row file-item align-items-center">
+								<div class="icon-container">
+									<img src="/icons/{{
+																																																																																                                        mode == 'ideas'
+																																																																																                                        ? (item.draft ? 'light-bulb_2667427.png' : 'footprints_6027133.png')
+																																																																																                                        : 'footprints_6027133.png'
+																																																																																                                        }}" height="20" style="filter: brightness(0);" alt="icon">
+								</div>
+
+								<div class="d-flex">
+									<div class="name-col">
+										<a href="{{ path('cpanel_small_step_show', {id: item.id}) }}" class="filename text-dark">
+											{{ item.title }}
+										</a>
+										<span class="meta-info">
+											{{ item.date ? item.date|date('d.m.Y') : '' }}
+										</span>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+			<div class="card-footer border-top">
+				<div class="row">
+					<div class="col">
+						{% set currentRoute = mode == 'ideas' ? 'cpanel_small_step_ideas' : 'cpanel_small_step_index' %}
+						<select class="custom-select custom-select-sm" style="max-width: 200px;" onchange="window.location.href = this.value">
+							<option value="{{ path(currentRoute) }}" {{ currentCategory is null ? 'selected' : '' }}>{% trans %}Last records{% endtrans %}</option>
+							{% for sector in sectors %}
+								<option value="{{ path(currentRoute, {category: sector.id}) }}" {{ currentCategory == sector.id ? 'selected' : '' }}>
+									{{ sector.name|trans }}
+								</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="col text-right view-report">
+						<a href="{{ path('cpanel_small_step_categories', {mode: mode}) }}">{% trans %}All categories{% endtrans %}
+							&rarr;</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{# Кнопка добавления — если захочешь вернуть #}
+		{#
+																						        <div class="add-step-wrapper text-center">
+																						            <a href="{{ path('cpanel_small_step_new') }}"
+																						               class="add-step-btn"
+																						               title="{% trans %}Add small step{% endtrans %}">
+																						                +
+																						            </a>
+																						        </div>
+																						        #}
+	</div>
+{% endblock %}

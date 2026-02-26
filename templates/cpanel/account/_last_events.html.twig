@@ -1,0 +1,33 @@
+<div class="position-relative">
+    <!-- Серый квадрат, наложенный поверх картинок -->
+    <div id="infoBox"
+         class="info-box text-center position-absolute d-block"
+         role="button"
+         data-url="{{ path('app_events_list') }}"
+         style="cursor: pointer;">
+        <div class="info-number">{{ allEvents }}</div>
+        <div class="info-label">{% trans %}records{% endtrans %}</div>
+    </div>
+
+    <!-- Обёртка для центрирования на больших экранах -->
+    <div class="d-flex justify-content-center">
+        <!-- Контейнер с прокручиваемыми изображениями -->
+        <div id="scrollContainer" class="overflow-auto" style="white-space: nowrap; max-width: 100%;">
+            {% for event in lastEvents %}
+                {% set firstImage = event.images|first %}
+
+                {% if firstImage %}
+                    <img src="/cpanel/images/events/collections/{{ firstImage.url }}"
+                         alt="{{ event.title }}"
+                         style="height: 120px; width:120px; border-radius: 10px; margin: 5px; object-fit: cover;">
+                {% else %}
+                    <img src="/cpanel/images/events/collections/default-min.jpg"
+                         alt="No Image"
+                         style="height: 120px; width:120px; border-radius: 10px; margin: 5px; object-fit: cover;">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Используется /components/_account-info-box.scss -->

@@ -1,0 +1,114 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+<div class="main-content-container container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card card-small p-1 mt-4">
+                <div class="card-header border-bottom">
+                    <h6 class="m-0 text-center">Rezultāts</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 mt-4 mb-4" style="padding-right: 0px; padding-left:0px">
+                            <p class="text-justify">Вы собрали 9 записей и закончилю коллекцию. Для просмотра списка записей перейдите в
+                                раздел <a href="/cpanel/category/">"Архив"</a> и потом выберите коллекцию <a href="{{ path('app_events_by_id', {'id': category.id}) }}">{{ category.title }}</a>
+                            </p>
+                            <div class="text-center mb-5">
+                                <img src="/images/congratulation.jpg" class="img-fluid rounded" alt="Responsive image">
+                            </div>
+                            <table class="table text-center special-table-border devstyle-table">
+                                <tr>
+                                    {% for i in items %}
+                                    {% if i == null %}
+                                        <td class="td {{ loop.index|checkLoop }}"></td>
+                                    {% else %}
+                                        <td class="td {{ loop.index|checkLoop }}" onClick="dataForModal({{ i[0] }})">
+                                            <div class="devstyle-sanskrit-letter">{{ loop.index|checkSanskritLetter }}</div>
+                                            {{ i[1] }}
+                                        </td>
+                                    {% endif %}
+
+                                    {% if loop.index == 3 or loop.index == 6 %}
+                                </tr>
+                                <tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            </table>
+
+                            <div class="text-center mt-5">
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-print" aria-hidden="true"></i> Распечатать</button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                Функционал в разработке...
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <p class="text-justify">
+                                    Поздравляем с успешным завершением программы заданий в нашем приложении для развития
+                                    нейропластичности! Вы прошли через серию уникальных и стимулирующих упражнений,
+                                    каждое из которых было разработано, чтобы вызвать и укрепить новые нейронные связи
+                                    в вашем мозге. Вот некоторые из преимуществ, которые вы получили на этом пути:
+                                </p>
+                                <ol>
+                                    <li><strong>Улучшение когнитивных функций:</strong> Вызывая мозг к адаптации и обучению через новые и необычные задачи, вы способствовали улучшению своей памяти, внимания и решения проблем. Эти навыки являются ключевыми для успешного принятия решений и обучения в повседневной жизни.</li>
+                                    <li><strong>Повышение устойчивости к стрессу:</strong> Преодолевая вызовы, вы не только улучшили свою способность справляться с новыми задачами, но и укрепили свою устойчивость к стрессу. Теперь вы лучше подготовлены к преодолению сложностей, с которыми вы можете столкнуться.</li>
+                                    <li><strong>Развитие креативности:</strong> Задачи, требующие нестандартного подхода и творческого мышления, способствовали развитию вашей креативности. Это не только обогатило вашу личную жизнь, но и может открыть новые горизонты в профессиональной сфере.</li>
+                                    <li><strong>Повышение социальной активности:</strong> Многие из заданий предполагали взаимодействие с окружающими, что способствовало улучшению ваших коммуникативных навыков и углублению социальных связей.</li>
+                                    <li><strong>Способствование общему благополучию:</strong> Регулярная ментальная активность и новые социальные взаимодействия положительно сказываются на вашем эмоциональном состоянии и способствуют общему благополучию.</li>
+                                </ol>
+
+                                <p class="text-justify">
+                                    Мы надеемся, что опыт, полученный в ходе выполнения заданий нашего приложения, будет служить вам стимулом к дальнейшему развитию и постоянному самосовершенствованию. Помните, что нейропластичность мозга — это мощный инструмент, который вы можете использовать для улучшения качества своей жизни в любой момент. Продолжайте исследовать, учиться и расти. Ваш путь к личностному развитию только начинается!
+                                </p>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmModal">
+                                    <i class="fa fa-forward" aria-hidden="true"></i> Продолжить
+                                </button>
+
+                                <!-- Модальное окно Bootstrap для подтверждения -->
+                                <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Подтверждение</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                В разделе "Архив" будет создана новая коллекция. Продолжить?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                                <form action="{{ path('app_category_continue') }}" method="post">
+                                                    <button type="submit" class="btn btn-primary">Продолжить</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

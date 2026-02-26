@@ -1,0 +1,35 @@
+{# Добавляем сообщения в контейнер #}
+<turbo-stream action="append" target="chat-messages-inner">
+    <template>
+        {% include 'cpanel/chat/_message_user.html.twig' with { text: userMessage } %}
+        {% include 'cpanel/chat/_message_ai.html.twig' with { text: aiMessage } %}
+    </template>
+</turbo-stream>
+
+{# Очищаем поле ввода и скроллим вниз #}
+<turbo-stream action="after" target="chat-messages-inner">
+    <template>
+        <script>
+            (function () {
+                var textarea = document.querySelector('textarea[name="message"]');
+                if (textarea) {
+                    textarea.value = '';
+                }
+
+                var el = document.getElementById('chat-messages-inner');
+                if (el) {
+                    el.scrollTop = el.scrollHeight;
+                }
+            })();
+        </script>
+    </template>
+</turbo-stream>
+
+<turbo-stream action="remove" target="starter-block"></turbo-stream>
+
+<turbo-stream action="replace" target="chat-clear-frame">
+    <template>
+        {% include 'cpanel/chat/_clear_button.html.twig' %}
+    </template>
+</turbo-stream>
+

@@ -1,0 +1,53 @@
+{% set userId = profile.id %}
+<div class="card card-small mt-2 mb-4">
+    <div class="card-header">
+        <h6 class="m-0">{% trans %}Life balance{% endtrans %}</h6>
+    </div>
+    <div class="card-body p-0 text-center">
+        {% set lifeBalanceItems = [
+            'Love',
+            'Family',
+            'Friends',
+            'Career',
+            'Money',
+            'Self-Growth',
+            'Spirituality',
+            'Recreation',
+            'Environment',
+            'Community',
+            'Health',
+            'Appearance'
+        ] %}
+        <table class="table table-bordered m-0">
+            <tbody>
+            {% for row in 0..3 %}
+                <tr>
+                    {% for col in 0..2 %}
+                        {% set index = row * 3 + col %}
+                        <td
+                                style="
+                                        vertical-align: middle;
+                                        background-color: {{ (index + 1) is even ? 'whitesmoke' : 'transparent' }};
+                                        padding: 12px;
+                                        height: 60px;
+                                        width: 33%;
+                                        font-size: 10px;
+                                        "
+                        >
+                            {{ lifeBalanceItems[index]|trans }}<br>
+                            (0)
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer border-top">
+        <div class="row">
+            <div class="col text-right view-report">
+                <a href="{{ path('app_account_statistics') }}">{% trans %}Full report{% endtrans %} &rarr;</a>
+            </div>
+        </div>
+    </div>
+</div>

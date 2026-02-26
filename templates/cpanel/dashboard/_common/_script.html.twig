@@ -1,0 +1,85 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let confirmModal = new bootstrap.Modal(document.getElementById("confirmModal"));
+        let confirmButton = document.getElementById("confirmAccept");
+        let modalTitle = document.getElementById("confirmModalLabel");
+        let modalBody = document.querySelector("#confirmModal .modal-body");
+
+        function handleBookmarkClick(event) {
+            event.preventDefault();
+
+            const buttonContainer = event.currentTarget.closest('.bookmark-button, .bookmark-remove, .open-confirm-modal');
+            const eventId = event.currentTarget.dataset.eventId;
+            const csrfToken = event.currentTarget.dataset.csrfToken;
+            let isRemoveButton = event.currentTarget.classList.contains("bookmark-remove");
+            let isAccepted = event.currentTarget.dataset.isAccepted === "true";
+
+            if (!eventId || isNaN(eventId)) {
+                console.error(`Ошибка: eventId не определён или не является числом!`);
+                alert('Произошла ошибка: некорректный eventId.');
+                return;
+            }
+
+            modalTitle.textContent = isRemoveButton || isAccepted ? "Хотите отказаться от вызова?" : "Принятие вызова";
+            modalBody.textContent = isRemoveButton || isAccepted ? "Вы действительно хотите отказаться от вызова?" : "Вы хотите принять вызов?";
+
+            confirmButton.dataset.eventId = eventId;
+            confirmButton.dataset.csrfToken = csrfToken;
+            confirmButton.dataset.isRemoveButton = isRemoveButton;
+            confirmButton.dataset.isAccepted = isAccepted;
+
+            confirmModal.show();
+        }
+
+        document.querySelectorAll('.bookmark-toggle, .bookmark-remove, .open-confirm-modal').forEach(button => {
+            button.addEventListener('click', handleBookmarkClick);
+        });
+
+        confirmButton.addEventListener("click", async function () {
+            let eventId = this.dataset.eventId;
+            let csrfToken = this.dataset.csrfToken;
+            let isRemoveButton = this.dataset.isRemoveButton === "true";
+            let isAccepted = this.dataset.isAccepted === "true";
+
+            if (!eventId || isNaN(eventId)) {
+                console.error(`Ошибка: eventId не определён или не является числом!`);
+                alert('Произошла ошибка: некорректный eventId.');
+                return;
+            }
+
+            const url = isAccepted || isRemoveButton
+                ? `/cpanel/bookmark/remove/${eventId}`
+                : `/cpanel/bookmark/add/${eventId}`;
+            const method = isAccepted || isRemoveButton ? 'DELETE' : 'POST';
+
+            console.log(`Отправляем запрос: ${method} ${url}`);
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'X-CSRF-Token': csrfToken,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Ошибка ${response.status}: ${response.statusText}`);
+                }
+
+                // Закрываем модальное окно через Bootstrap API
+                confirmModal.hide();
+
+                // Даем анимации модального окна завершиться перед перезагрузкой
+                setTimeout(() => {
+                    location.reload();
+                }, 200);
+
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert(`Произошла ошибка: ${error.message}`);
+            }
+        });
+    });
+</script>

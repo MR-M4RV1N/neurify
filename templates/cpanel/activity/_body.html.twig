@@ -1,0 +1,87 @@
+<!-- Completed challenges -->
+<div
+	class="bg-white border-top border-bottom">
+	<!-- <div class="text-right">
+			                "{% trans %}Неважно, сколько дней было в вашей жизни. Важно, сколько жизни было в ваших днях{% endtrans %}" Abraham Lincoln
+			            </div> -->
+	<h6 class="m-0 text-center mt-2 mb-4">{% trans %}Completed challenges{% endtrans %}:
+		{{ eventsCount }}</h6>
+	<div style="position: relative; height: 300px; width: 100%;">
+		<canvas id="eventsChart" width="400" height="200" data-profile-id="{{ profile.id }}" data-year="{{ selectedYear|default('now'|date('Y')) }}"></canvas>
+	</div>
+</div>
+
+<div class="main-content-container container-fluid">
+	<div class="row mb-5">
+		<div class="col">
+			<div class="page-header row no-gutters py-2">
+				<div class="col-12 col-sm-4 text-center text-sm-left mb-0"></div>
+			</div>
+
+			{% if eventsByMonth|length > 0 %}
+				{% for month, events in eventsByMonth %}
+					<div class="card card-small mb-3">
+						<div class="card-header border-bottom">
+							<h6 class="m-0 text-center">{{ month }}</h6>
+						</div>
+						<div class="card-body">
+							<ul class="list-group list-group-flush">
+								{% for item in events %}
+									{% if profile is defined and profile is not null
+                                        and app.user is defined and app.user is not null
+                                        and profile.id is defined and app.user.id is defined
+                                        and profile.id != app.user.id
+                                    %}
+										{% if item.event.public == 0 %}
+											<li class="list-group-item" style="padding: 7px 0px 7px 0px;">
+												<div class="d-flex">
+													<div>
+														<img class="devstyle-circle-image mr-3" src="/cpanel/images/events/collections/default-min.jpg">
+													</div>
+													<div>
+														{% trans %}Hidden record{% endtrans %}
+														<div class="small text-muted">{{ item.event.date|date('d M Y') }}</div>
+													</div>
+												</div>
+											</li>
+										{% else %}
+											<li class="list-group-item" style="padding: 7px 0px 7px 0px;">
+												<div class="d-flex">
+													<div>
+														<img class="devstyle-circle-image mr-3" src="/cpanel/images/events/collections/{{ item.image }}">
+													</div>
+													<div>
+														<a href="{{ path('app_event_show', {'id': item.event.id}) }}" class="text-force-blue">{{ item.event.title }}</a>
+														<div class="small text-muted">{{ item.event.date|date('d M Y') }}</div>
+													</div>
+												</div>
+											</li>
+										{% endif %}
+									{% else %}
+										<li class="list-group-item" style="padding: 7px 0px 7px 0px;">
+											<div class="d-flex">
+												<div>
+													<img class="devstyle-circle-image mr-3" src="/cpanel/images/events/collections/{{ item.image }}">
+												</div>
+												<div>
+													<a href="{{ path('app_event_show', {'id': item.event.id}) }}">{{ item.event.title }}</a>
+													<div class="small text-muted">{{ item.event.date|date('d M Y') }}</div>
+												</div>
+											</div>
+										</li>
+									{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				{% endfor %}
+			{% else %}
+				{% if profile.id == app.user.id %}
+					<p class="text-center">{% trans %}Your completed records will be displayed here by month{% endtrans %}</p>
+				{% else %}
+					<p class="text-center">{% trans %}No records found{% endtrans %}</p>
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+</div>

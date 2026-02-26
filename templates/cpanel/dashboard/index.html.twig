@@ -1,0 +1,47 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Вызов недели{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">{% trans %}Challenge of the week{% endtrans %}</span>
+                <h3 class="page-title mb-2">{% trans %}Try to repeat{% endtrans %}</h3>
+            </div>
+        </div>
+
+        <div class="mb-4 text-center">
+            {% set path = app.request.pathinfo %}
+            <div class="btn-group btn-group-toggle d-inline-flex">
+                <a href="/cpanel/public/list" class="btn btn-white btn-sm px-2 {{ path|area('/public') }}">{% trans %}Custom{% endtrans %}</a>
+                <a href="/cpanel/dashboard" class="btn btn-white btn-sm px-2 {{ path|area('/dashboard') }}">{% trans %}Weekly{% endtrans %}</a>
+                <!--<a href="/cpanel/subscription/list" class="btn btn-white btn-sm px-2 {{ path|area('/subscription') }}">{% trans %}Subscriptions{% endtrans %}</a>-->
+            </div>
+        </div>
+
+        <div class="card card-small card-post h-100 mt-4">
+            <div class="card-post__image" style="
+                    height: 330px;
+                    background-image: url('/cpanel/images/events/collections/{{ weekImage.url }}');
+                    ">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a class="text-fiord-blue" href="#">{{ weekChallenge.event.title }}</a>
+                </h5>
+                {{ weekChallenge.event.description|raw }}
+            </div>
+            <div class="card-footer text-muted border-top py-3 text-center">
+                <a href="/cpanel/editor/events/repeate/{{ weekChallenge.event.id }}" class="mb-2 btn btn-pill btn-warning mr-2">
+                    {% trans %}Complete{% endtrans %} <i class="fas fa-fire ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- End Default Light Table -->
+
+    {% include 'cpanel/dashboard/_common/_modal.html.twig' %}
+    {% include 'cpanel/dashboard/_common/_script.html.twig' %}
+{% endblock %}

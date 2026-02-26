@@ -1,0 +1,119 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Редактирование{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">
+                {% trans %}Edit entry{% endtrans %}
+            </span>
+                <h3 class="page-title">
+                    {{ date|date('d F Y') }}
+                </h3>
+            </div>
+        </div>
+
+        {# Header #}
+        <div class="row bg-white shadow">
+            <div class="col border-bottom">
+                <div class="py-3">
+                    <div class="m-2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="journal-pill-breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ path('app_proposal_week') }}#calendar">
+                                        {% trans %}Week{% endtrans %}
+                                    </a>
+                                </li>
+
+                                <li class="breadcrumb-separator">›</li>
+
+                                <li class="breadcrumb-item">
+                                    <a href="{{ path('journal_show', { date: date|date('Y-m-d') }) }}">
+                                        {{ date|date('d.m.Y') }}
+                                    </a>
+                                </li>
+
+                                <li class="breadcrumb-separator">›</li>
+
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    {% trans %}Edit{% endtrans %}
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# Body #}
+        <div class="row bg-white shadow">
+            <div class="col">
+                <div class="py-3">
+                    <div class="">
+                        <form method="post"
+                              action="{{ path('journal_update', {date: date|date('Y-m-d')}) }}"
+                              data-turbo="true">
+
+                            <div class="form-group">
+                                <textarea
+                                        id="journal-content"
+                                        name="content"
+                                        class="form-control"
+                                        rows="10"
+                                        placeholder="{% trans %}Summarize your day in 300 characters...{% endtrans %}"
+                                >{{ entry.content }}</textarea>
+
+                                <small id="char-counter" class="form-text text-muted text-right">
+                                    0 / 300
+                                </small>
+
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const textarea = document.getElementById('journal-content');
+                                        const counter = document.getElementById('char-counter');
+                                        const limit = 300;
+
+                                        function updateCounter() {
+                                            const length = textarea.value.length;
+                                            counter.textContent = length + ' / ' + limit;
+
+                                            if (length > limit) {
+                                                counter.classList.remove('text-muted');
+                                                counter.classList.add('text-danger');
+                                            } else {
+                                                counter.classList.remove('text-danger');
+                                                counter.classList.add('text-muted');
+                                            }
+                                        }
+
+                                        textarea.addEventListener('input', updateCounter);
+
+                                        // инициализация при загрузке
+                                        updateCounter();
+                                    });
+                                </script>
+                            </div>
+
+
+                            <button type="submit" class="btn-accent-pill">
+                                {% trans %}Save{% endtrans %}
+                            </button>
+
+                            <a href="{{ path('journal_show', {date: date|date('Y-m-d')}) }}"
+                               class="btn btn-link btn-sm text-muted">
+                                {% trans %}Cancel{% endtrans %}
+                            </a>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

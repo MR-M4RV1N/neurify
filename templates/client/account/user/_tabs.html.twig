@@ -1,0 +1,8 @@
+<div class="text-center my-3" id="target-activity">
+    {% set path = app.request.pathinfo %}
+    <div class="btn-group btn-group-toggle d-inline-flex">
+        <a href="/client/users/statistics/{{ profile.id }}#target-activity" class="btn btn-white btn-sm px-2 {{ path|area('/users/statistics') }}">{% trans %}Challenges{% endtrans %}</a>
+        <a href="/client/users/user/{{ profile.id }}#target-section" class="btn btn-white btn-sm px-2 {{ path|area('/users/user') }}">{% trans %}All records{% endtrans %}</a>
+        <a href="/client/users/categories/{{ profile.id }}#target-section" class="btn btn-white btn-sm px-2 {{ path|area('/users/categories') }}">{% trans %}Categories{% endtrans %}</a>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}
+    {% trans %}Diary{% endtrans %}
+{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        {% include '/cpanel/journal/_calendar.html.twig' %}
+    </div>
+{% endblock %}

@@ -1,0 +1,109 @@
+<div class="row border bg-white">
+    <div class="d-flex justify-content-center border bg-white">
+        <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 mt-4 mb-4">
+            <div>
+                <div class="ratio-16x9">
+                    <img
+                            {% if map.filename is empty %}
+                                src="/cpanel/images/maps/default.jpg"
+                            {% else %}
+                                src="/cpanel/images/maps/{{ map.filename }}"
+                            {% endif %}
+                            class="img-fluid rounded"
+                            alt="Responsive image"
+                    >
+                </div>
+                <h6 class="text-center mt-3" style="font-family: 'Georgia'">
+                    <strong>{{ map.name }}</strong>
+                </h6>
+                {# Сокращённый текст с "далее" #}
+                <div>
+                    {% set fullText = map.description %}
+                    {% set shortText = fullText|striptags|length > 150
+                        ? fullText|striptags|slice(0, 150) ~ '...'
+                        : fullText|striptags %}
+
+                    <p>
+                        {{ shortText|raw }}
+                        {% if fullText|striptags|length > 150 %}
+                            <a href="#"
+                               data-toggle="modal"
+                               data-target="#modalMap{{ map.id }}"
+                               data-turbo="false">
+                                {% trans %}далее{% endtrans %}
+                            </a>
+                        {% endif %}
+                    </p>
+                </div>
+
+                {# Модалка с полным текстом #}
+                <div class="modal fade" id="modalMap{{ map.id }}" tabindex="-1" aria-labelledby="modalLabel{{ map.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel{{ map.id }}">Описание</h5>
+                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal" aria-label="Close">
+                                    ✕
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{ map.description|raw }}
+                            </div>
+                            <div class="modal-footer">
+                                <div class="d-flex justify-content-center">
+                                    <div>
+                                        <button class="btn btn-secondary" data-dismiss="modal">{% trans %}Close{% endtrans %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <table class="table text-center special-table-border devstyle-table">
+                    <tr>
+                        {% for i in items %}
+                        {% if i == null %}
+                            <td class="td clickable-cell {{ loop.index|checkLoop }}"></td>
+                        {% else %}
+                            <td class="td clickable-cell {{ loop.index|checkLoop }}"
+                                    {% if i %}
+                                        data-id="{{ i.id }}"
+                                        data-image-url="{% if i.filename is empty %}/cpanel/images/items/default.jpg{% else %}/cpanel/images/items/{{ i.filename }}{% endif %}"
+                                        data-description="{{ i.description|e('js') }}"
+                                        data-edit-url="{{ path('item.edit', { id: i.id }) }}"
+                                    {% endif %}
+                            >
+                                <div class="devstyle-sanskrit-letter">{{ loop.index|checkSanskritLetter }}</div>
+                                {{ i ? i.title : '' }}
+                            </td>
+                        {% endif %}
+
+                        {% if loop.index == 3 or loop.index == 6 %}
+                    </tr><tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tr>
+                </table>
+                <div class="d-flex justify-content-center">
+                    {% if is_granted('ROLE_USER') %}
+                        {% if map.user.id == app.user.id %}
+                            <div class="text-center">
+                                {% if items|checkNull %}
+                                    <a href="{{ path('item.add', {'id': map.id}) }}" class="btn btn-sm btn-outline-primary"><i class="fa fa-plus"></i> {% trans %}Add{% endtrans %}</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+        <div></div>
+    </div>
+</div>
+
+<!-- Show item -->
+{% include 'cpanel/matrix/editor/_templates/_show_item.html.twig' %}
+<!-- Show item -->

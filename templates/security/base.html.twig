@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-turbo="false">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+
+		{# CSS Dependencies #}
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+		{% block stylesheets %}
+			{# Custom styles or Webpack Encore can be included here #}
+		{% endblock %}
+
+		{% block turbo_meta %}
+			<meta name="turbo-action" content="replace">
+		{% endblock %}
+	</head>
+	<body style="background-image: linear-gradient(whitesmoke, white, whitesmoke); min-height: 100vh;">
+		<div
+			class="container-fluid d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+			{# Flash messages modal #}
+			<div class="modal fade" id="flashModal" tabindex="-1" aria-labelledby="flashModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content border-0 shadow-lg">
+						<div class="modal-header border-bottom-0">
+							<h5 class="modal-title" id="flashModalLabel">Message</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							{% for label, messages in app.flashes %}
+								{% for message in messages %}
+									<div class="alert alert-{{ label }} rounded-3 shadow-sm">{{ message }}</div>
+								{% endfor %}
+							{% endfor %}
+						</div>
+						<div class="modal-footer border-top-0">
+							<button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# Main content #}
+			{% block body %}{% endblock %}
+		</div>
+
+		{# JS Dependencies #}
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+var modalElement = document.getElementById('flashModal');
+if (modalElement && modalElement.querySelector('.alert')) {
+var flashModal = new bootstrap.Modal(modalElement);
+flashModal.show();
+}
+});
+		</script>
+
+		{% block javascripts %}
+			{# Custom JavaScript or Webpack Encore scripts can be included here #}
+		{% endblock %}
+	</body>
+</html>

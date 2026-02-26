@@ -1,0 +1,75 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке
+{% endblock %}
+
+{% block body %}
+	<div class="swiper-container position-relative">
+		<div class="presentation-stepper text-center text-muted pt-4 pb-2" style="font-weight: 500; font-size: 1.1rem; z-index: 10;">
+			{% trans %}Step{% endtrans %}
+			<span id="presentation-current-step">1</span>
+			{% trans %}from{% endtrans %}
+			<span id="presentation-total-steps">4</span>
+		</div>
+		<div class="swiper-wrapper mt-3">
+			<div class="swiper-slide">
+				<div class="swiper-slide-card bg-white border-top w-100 text-center shadow p-4 d-flex flex-column justify-content-center" style="min-height: 70vh;">
+					<div class="card-icon mb-3 mt-5 pt-5">
+						<img src="/cpanel/images/presentation/undraw_key-points_iiic.png" class="responsive-img" style="width: 150px">
+					</div>
+					<div class="swiper-slide-card-title">
+						<h5>{% trans %}Describe how your day went{% endtrans %}</h5>
+					</div>
+					<div class="swiper-slide-card-text">
+						<p>{% trans %}Collect 7 entries (one week) and review the results{% endtrans %}</p>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="swiper-slide-card bg-white border-top w-100 text-center shadow p-4 d-flex flex-column justify-content-center" style="min-height: 70vh;">
+					<div class="card-icon mb-3 mt-5">
+						<img src="/cpanel/images/presentation/undraw_artificial-intelligence_43qa.png" class="responsive-img" style="width: 150px">
+					</div>
+					<div class="swiper-slide-card-title">
+						<h5>{% trans %}Let AI analyze your entries{% endtrans %}</h5>
+					</div>
+					<div class="swiper-slide-card-text">
+						<p>{% trans %}Choose an analysis mode and receive recommendations from a specially trained AI{% endtrans %}</p>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="swiper-slide-card bg-white border-top w-100 text-center shadow p-4 d-flex flex-column justify-content-center" style="min-height: 70vh;">
+					<div class="card-icon mb-3 mt-5">
+						<img src="/cpanel/images/presentation/undraw_bull-market_4a8e.png" class="responsive-img">
+					</div>
+					<div class="swiper-slide-card-title">
+						<h5>{% trans %}Accumulate small steps{% endtrans %}</h5>
+					</div>
+					<div class="swiper-slide-card-text">
+						<p>{% trans %}Set a timer for 10 minutes and think about the smallest possible step to improve your situation{% endtrans %}</p>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div class="swiper-slide-card bg-white border-top w-100 text-center shadow p-4 d-flex flex-column justify-content-center" style="min-height: 70vh;">
+					<div class="card-icon mb-3">
+						<img src="/cpanel/images/presentation/undraw_fun_moments_2vha.png" class="responsive-img">
+					</div>
+					<div class="swiper-slide-card-title">
+						<h5>{% trans %}Publish completed challenges{% endtrans %}</h5>
+					</div>
+					<div class="swiper-slide-card-text">
+						<p>{% trans %}It’s not about how many days are in your life, but how much life is in your days{% endtrans %}</p>
+						<a href="{{ path('app_cpanel_download') }}" class="btn btn-primary">{% trans %}Start{% endtrans %}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Add Pagination -->
+		<div class="swiper-pagination"></div>
+		<!-- Add Navigation Arrows -->
+		<div class="swiper-button-next"></div>
+		<div class="swiper-button-prev"></div>
+	</div>
+{% endblock %}

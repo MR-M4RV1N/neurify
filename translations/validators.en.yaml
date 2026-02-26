@@ -1,0 +1,11 @@
+registration.email.not_blank: Email is required
+registration.username.not_blank: Username is required
+registration.firstname.not_blank: First name is required
+registration.lastname.not_blank: Last name is required
+registration.lang.not_blank: Please select a language
+registration.terms.is_true: You should agree to our terms.
+registration.terms.not_blank: You must agree to the terms.
+registration.password.mismatch: The password fields must match.
+registration.password.not_blank: Please enter a password.
+registration.password.min_length: Your password should be at least {{ limit }} characters.
+registration.email.invalid: The email '{{ value }}' is not a valid email.

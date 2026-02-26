@@ -1,0 +1,15 @@
+# Игнорируем пользовательские загрузки и сгенерированные изображения
+/cpanel/images/drafts/
+/cpanel/images/events/
+/cpanel/images/maps/
+/cpanel/images/items/
+/cpanel/images/blanks/
+/cpanel/images/example/
+/cpanel/images/exercises/
+/images/uploads/
+/cpanel/images/simple/collections/
+/cpanel/images/picture/collections/
+/cpanel/images/journal/collections/
+/cpanel/profile/uploads/images/
+/cpanel/ensemble/uploads/images/
+/uploads/instructions/

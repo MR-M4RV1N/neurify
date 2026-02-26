@@ -1,0 +1,31 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Edit Event{% endblock %}
+
+{% block body %}
+    <!-- HEADER... -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 text-center mb-0">
+            <h3 class="page-title">{% trans %}Edit record{% endtrans %}</h3>
+        </div>
+    </div>
+    <!-- ...HEADER -->
+    <div class="bg-white mb-5 shadow border-top">
+        <div class="card-header border-bottom">
+            <a href="{{ path('app_events_list') }}" class="btn btn-sm btn-outline-secondary"><i class="material-icons">chevron_left</i>
+            </a>
+        </div>
+        <div class="card-body border-bottom">
+            {{ include('/cpanel/events/event/_form.html.twig', {
+                form: form,
+                button_label: 'Update'|trans,
+                form_type: 'edit'
+            }) }}
+        </div>
+        <div class="card-footer">
+            <div class="d-flex">
+                {{ include('/cpanel/events/event/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

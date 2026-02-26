@@ -1,0 +1,20 @@
+<div class="main-content-container container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card card-small">
+                <div class="card-body p-0 text-center">
+                    <h6 class="m-0 text-center mt-2">
+                        {% trans %}Last 12 weeks{% endtrans %}
+                    </h6>
+                    <div class="chart-wrapper">
+                        <canvas
+                                id="weeklyScoreChart"
+                                data-profile-id="{{ profile.id }}"
+                                data-label-score="{% trans %}Score{% endtrans %}">>
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

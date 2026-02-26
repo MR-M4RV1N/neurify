@@ -1,0 +1,52 @@
+<div class="main-content-container container-fluid">
+    <div class="bg-white border-top border-bottom shadow">
+        <div class="text-center mb-5 mt-4">
+            <div class="text-left mx-2">
+                <div>
+                    <div class="mb-2 px-3">
+                        <strong>{% trans %}For a consultation, check the following items{% endtrans %}:</strong>
+                    </div>
+                    <div class="d-flex justify-content-between p-2 mb-2">
+                        <div>
+                            {% if checkProfileDescription %}
+                                <i class="fas fa-check-circle text-success"></i>
+                            {% else %}
+                                <i class="far fa-circle text-muted"></i>
+                            {% endif %}
+                            {% trans %}Profile description{% endtrans %}
+                        </div>
+                        <div>
+                            <a href="/cpanel/profile/index#desc-anchor">{% trans %}Open{% endtrans %}</a>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between p-2 mb-2">
+                        <div>
+                            {% if checkLastMonthEvents %}
+                                <i class="fas fa-check-circle text-success"></i>
+                            {% else %}
+                                <i class="far fa-circle text-muted"></i>
+                            {% endif %}
+                            {% trans %}Challenges for the last month{% endtrans %}
+                        </div>
+                        <div>
+                            <a href="/cpanel/account/all">{% trans %}Open{% endtrans %}</a>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between p-2 mb-2">
+                        <div>
+                            {% if checkSwot %}
+                                <i class="fas fa-check-circle text-success"></i>
+                            {% else %}
+                                <i class="far fa-circle text-muted"></i>
+                            {% endif %}
+                            {% trans %}SWOT analysis{% endtrans %}
+                        </div>
+                        <div>
+                            <a href="{{ path('app_swot_edit') }}">{% trans %}Open{% endtrans %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

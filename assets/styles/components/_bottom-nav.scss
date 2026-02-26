@@ -1,0 +1,161 @@
+/* Контент страницы */
+.content {
+  padding-bottom: 60px; /* Отступ для нижнего меню */
+}
+
+/* Нижнее фиксированное меню (скрыто по умолчанию) */
+.bottom-nav {
+  display: none; /* Скрываем на больших экранах */
+}
+
+/* Показываем только на мобильных устройствах */
+@media (max-width: 768px) {
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    height: 60px;
+    z-index: 10;
+  }
+}
+
+/* Иконка - большая */
+.icon {
+  font-size: 28px; /* Размер иконки */
+}
+
+/* Центральная кнопка (Добавить) */
+.add-button {
+  font-size: 32px;
+  background-color: #007bff; /* Цвет кнопки */
+  color: #fff;
+  border-radius: 50%; /* Делаем кнопку круглой */
+  width: 53px; /* Ширина круга */
+  height: 53px; /* Высота круга */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 3px; /* Отступ от нижнего края экрана */
+  text-decoration: none; /* Убираем подчеркивание текста */
+  cursor: pointer; /* Указатель при наведении */
+  /*z-index: 20; !* Чтобы кнопка была выше других элементов *!*/
+  /*transform: translateY(-50%); !* Поднятие кнопки над меню *!*/
+}
+
+/* Убираем подчёркивание и эффект при наведении */
+.add-button:hover {
+  text-decoration: none;
+}
+
+/* Элементы меню */
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #333;
+  flex: 1;
+  cursor: pointer; /* Указатель при наведении для индикации клика */
+}
+
+/* Убираем подчёркивание при наведении */
+.nav-item:hover {
+  text-decoration: none;
+}
+
+/* Убираем обводку и подсветку при нажатии и фокусе */
+.nav-item:focus,
+.nav-item:active {
+  outline: none;
+  color: inherit; /* Сохраняем исходный цвет */
+}
+
+/* Убираем выделение на мобильных устройствах */
+.nav-item,
+.nav-item i,
+.nav-item span {
+  -webkit-tap-highlight-color: transparent; /* Убираем подсветку при касании */
+  user-select: none; /* Запрещаем выделение текста */
+}
+
+/* Текст - маленький */
+.nav-text {
+  font-size: 10px; /* Размер текста */
+}
+
+.add-menu-wrapper {
+  position: fixed;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.add-menu-wrapper.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Меню */
+.add-menu {
+  background-color: #007bff;
+  border-radius: 10px;
+  padding: 10px;
+  width: 200px;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-menu a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  padding: 6px 8px;
+  border-radius: 5px;
+}
+
+.add-menu a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.add-menu a i {
+  margin-right: 8px;
+}
+
+/* Треугольник снизу меню */
+.menu-arrow {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #007bff;
+  margin-top: -1px;
+}
+
+.d-none {
+  display: none !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

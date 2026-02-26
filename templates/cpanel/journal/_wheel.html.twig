@@ -1,0 +1,275 @@
+<style>
+	.chart-wrapper {
+		max-width: 500px;
+	}
+
+	.chart-container {
+		height: 320px;
+		position: relative;
+	}
+
+	/* по умолчанию скрыт */
+	.polar-legend.collapsed {
+		display: none;
+	}
+
+	/* раскрытое состояние */
+	.polar-legend {
+		margin-top: 16px;
+	}
+
+	/* косметика */
+	.polar-legend ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.polar-legend li {
+		display: flex;
+		align-items: center;
+		margin-bottom: 6px;
+		font-size: 13px;
+		color: #444;
+	}
+
+	.polar-legend .color {
+		width: 12px;
+		height: 12px;
+		margin-right: 8px;
+		border-radius: 2px;
+		display: inline-block;
+	}
+
+	.polar-legend .legend-label {
+		flex: 1; /* ← занимает всё слева */
+	}
+
+	.polar-legend .legend-value {
+		margin-left: auto; /* ← уезжает вправо */
+		font-weight: 600;
+		color: #222;
+	}
+	.toggle-icon {
+		transition: transform 0.2s ease;
+	}
+
+	.toggle-icon.open {
+		transform: rotate(180deg);
+	}
+</style>
+
+<script>
+	{% set translatedLifeBalance = {} %}
+{% for key, value in lifeBalance %}
+{% set translatedLifeBalance = translatedLifeBalance|merge({ (key|trans): value }) %}
+{% endfor %}
+const lifeBalanceData = {{ translatedLifeBalance|json_encode|raw }};
+</script>
+
+<div>
+	<!-- ГРАФИК -->
+	<div class="chart-container">
+		<canvas id="polarChart"></canvas>
+	</div>
+
+	<div
+		class="px-4 py-2 mt-3">
+		<!-- КНОПКА -->
+		<div class="text-center">
+			<button type="button" class="btn btn-sm btn-info mb-2" id="toggleLegend">
+
+				<i class="fa fa-chevron-down mr-1 toggle-icon"></i>
+				<span class="toggle-text" data-show="{% trans %}Show metrics{% endtrans %}" data-hide="{% trans %}Hide metrics{% endtrans %}">
+					{% trans %}Show metrics{% endtrans %}
+				</span>
+			</button>
+		</div>
+
+		<!-- LEGEND (СКРЫТ) -->
+		<div id="polar-legend" class="polar-legend collapsed"></div>
+	</div>
+</div>
+<script>
+	let polarChartInstance = null;
+
+document.addEventListener('turbo:load', function () {
+
+const canvas = document.getElementById('polarChart');
+const legendContainer = document.getElementById('polar-legend');
+
+if (! canvas || ! legendContainer) 
+return;
+
+
+const ctx = canvas.getContext('2d');
+
+// ----------------------------
+// 12 ПОКАЗАТЕЛЕЙ
+// ----------------------------
+const labels = Object.keys(lifeBalanceData);
+const values = Object.values(lifeBalanceData);
+
+const baseColors = [
+'rgba(255, 99, 132, 0.55)',
+'rgba(255, 159, 64, 0.55)',
+'rgba(255, 205, 86, 0.55)',
+'rgba(75, 192, 192, 0.55)',
+'rgba(54, 162, 235, 0.55)',
+'rgba(255, 99, 132, 0.35)',
+'rgba(255, 159, 64, 0.35)',
+'rgba(255, 205, 86, 0.35)',
+'rgba(75, 192, 192, 0.35)',
+'rgba(54, 162, 235, 0.35)',
+'rgba(255, 99, 132, 0.7)',
+'rgba(75, 192, 192, 0.7)'
+];
+const colors = labels.map((_, i) => baseColors[i % baseColors.length]);
+
+// ----------------------------
+// УНИЧТОЖАЕМ СТАРЫЙ ГРАФИК (Turbo!)
+// ----------------------------
+if (polarChartInstance) {
+polarChartInstance.destroy();
+polarChartInstance = null;
+}
+
+// ----------------------------
+// СОЗДАЁМ ГРАФИК
+// ----------------------------
+polarChartInstance = new Chart(ctx, {
+type: 'polarArea',
+data: {
+labels: labels,
+datasets: [
+{
+data: values,
+backgroundColor: colors,
+borderWidth: 1,
+borderColor: 'rgba(255,255,255,0.6)'
+}
+]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+
+legend: {
+display: false
+},
+tooltips: {
+enabled: false
+},
+
+scale: {
+ticks: {
+display: false,
+beginAtZero: true,
+maxTicksLimit: 6
+},
+gridLines: {
+color: 'rgba(0,0,0,0.18)', // 🔥 темнее
+lineWidth: 1, // 🔥 чётче
+drawBorder: false
+}
+}
+}
+});
+
+// ----------------------------
+// СТРОИМ HTML LEGEND (12 ПУНКТОВ)
+// ----------------------------
+legendContainer.innerHTML = '';
+legendContainer.classList.add('collapsed');
+
+const ul = document.createElement('ul');
+
+labels.forEach((label, i) => {
+const li = document.createElement('li');
+
+const colorBox = document.createElement('span');
+colorBox.className = 'color';
+colorBox.style.backgroundColor = colors[i];
+
+const labelSpan = document.createElement('span');
+labelSpan.className = 'legend-label';
+labelSpan.textContent = label;
+
+const valueSpan = document.createElement('span');
+valueSpan.className = 'legend-value';
+valueSpan.textContent = values[i];
+
+li.appendChild(colorBox);
+li.appendChild(labelSpan);
+li.appendChild(valueSpan);
+ul.appendChild(li);
+});
+
+legendContainer.appendChild(ul);
+});
+</script>
+<script>
+	(function () { // 1) Bind click handler ONCE (guard)
+if (!window.__polarLegendBound) {
+window.__polarLegendBound = true;
+
+document.addEventListener('click', function (e) {
+const btn = e.target.closest('#toggleLegend');
+if (! btn) 
+return;
+
+
+const legend = document.getElementById('polar-legend');
+if (! legend) 
+return;
+
+
+const text = btn.querySelector('.toggle-text');
+const icon = btn.querySelector('.toggle-icon');
+
+const willOpen = legend.classList.contains('collapsed');
+legend.classList.toggle('collapsed');
+
+if (willOpen) {
+text.textContent = text.dataset.hide;
+icon.classList.add('open');
+} else {
+text.textContent = text.dataset.show;
+icon.classList.remove('open');
+}
+});
+}
+
+// 2) Before Turbo caches the page snapshot — force collapsed state
+document.addEventListener('turbo:before-cache', function () {
+const legend = document.getElementById('polar-legend');
+const btn = document.getElementById('toggleLegend');
+if (! legend || ! btn) 
+return;
+
+
+const text = btn.querySelector('.toggle-text');
+const icon = btn.querySelector('.toggle-icon');
+
+legend.classList.add('collapsed');
+text.textContent = text.dataset.show;
+icon.classList.remove('open');
+});
+
+// 3) On each visit (including back/forward) — ensure consistent initial UI
+document.addEventListener('turbo:load', function () {
+const legend = document.getElementById('polar-legend');
+const btn = document.getElementById('toggleLegend');
+if (! legend || ! btn) 
+return;
+
+
+const text = btn.querySelector('.toggle-text');
+const icon = btn.querySelector('.toggle-icon');
+
+legend.classList.add('collapsed');
+text.textContent = text.dataset.show;
+icon.classList.remove('open');
+});
+})();
+</script>

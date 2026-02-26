@@ -1,0 +1,36 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">{% trans %}Structure your thinking{% endtrans %}</span>
+                <h3 class="page-title">{% trans %}Table{% endtrans %}</h3>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+
+        <!-- CONTENT... -->
+        <div class="row border bg-white p-2">
+            <a class="btn btn-sm btn-outline-secondary" href="{{ path('editor.show', {'id': map.id}) }}">
+                <i class="fas fa-angle-left"></i> {% trans %}back{% endtrans %}
+            </a>
+        </div>
+        <div class="d-flex justify-content-center border bg-white devstyle-content-area">
+            <div class="col-lg-6 col-md-6 col-sm-12 mt-4 mb-4">
+                <div>
+                    <!-- Форма редактирования карты -->
+                    {% include 'cpanel/matrix/editor/map/_form.html.twig' %}
+                    <!-- Работа с удалением карты -->
+                    {% include 'cpanel/matrix/editor/map/_delete_map.html.twig' %}
+                </div>
+                {# <div class="mt-5">
+                    <!-- Работа с блоками -->
+                    {% include 'cpanel/editor/map/_items_edit.html.twig' %}
+                </div> #}
+            </div>
+        </div>
+        <!-- ...CONTENT -->
+    </div>
+{% endblock %}

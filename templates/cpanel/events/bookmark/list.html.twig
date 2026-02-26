@@ -1,0 +1,60 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Ensemble{% endblock %}
+
+{% block body %}
+    <!--<div class="image-overlay-container">
+        <img src="/client/images/agency-landing/welcome-cover.jpg" style="height: 250px;">
+    </div>
+
+    <style>
+        .image-overlay-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .image-overlay-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(210, 210, 210, 0.1); /* Серый цвет с 10% прозрачностью */
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%); /* Диагональный срез */
+            z-index: 1;
+        }
+
+        .image-overlay-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            position: relative;
+            z-index: 0;
+        }
+    </style>-->
+
+
+    <div class="main-content-container container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pb-3 pt-3">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <!--<span class="text-uppercase page-subtitle">{% trans %}All{% endtrans %}</span>-->
+                <h3 class="page-title mb-2">{% trans %}Bookmarks{% endtrans %}</h3>
+            </div>
+        </div>
+
+{#        <div class="d-flex justify-content-center mb-4">#}
+{#            <div class="devstyle-circle-button" onclick="location.href='{{ path('app_default_new') }}'">#}
+{#                <i class="material-icons">add</i>#}
+{#            </div>#}
+{#        </div>#}
+
+        {% include '/cpanel/events/_common/_iteration.html.twig' %}
+    </div>
+
+    <!-- ADD FLOATING BUTTON -->
+    <div class="devstyle-floating-button" onclick="location.href='{{ path('app_default_new') }}'">+</div>
+{% endblock %}
+

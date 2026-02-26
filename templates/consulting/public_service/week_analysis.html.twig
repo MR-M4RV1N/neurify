@@ -1,0 +1,141 @@
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom-0 pb-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-0 text-dark font-weight-bold">
+                <i class="fas fa-landmark text-primary mr-2"></i> Общественная деятельность: {% if analysis.public_service_style == 'drucker' %}Питер Друкер{% else %}{{ analysis.public_service_style|capitalize }}{% endif %}
+            </h5>
+            <small class="text-muted">
+                {{ weekStart|date('d.m.Y') }} - {{ weekEnd|date('d.m.Y') }}
+            </small>
+        </div>
+        <div class="text-right">
+            {% set rating = analysis.rating|default(0) %}
+            {% set badge_class = rating >= 8 ? 'badge-success' : (rating >= 5 ? 'badge-warning' : 'badge-danger') %}
+            <span class="badge {{ badge_class }} p-2" style="font-size: 1.1em;">
+                Рейтинг: {{ rating }}/10
+            </span>
+        </div>
+    </div>
+
+    <div class="card-body px-4">
+        <div class="mb-4">
+            <p class="lead text-dark font-italic">
+                "{{ analysis.summary|default('Анализ завершен.') }}"
+            </p>
+            {% if styleDescription is defined and styleDescription %}
+                <p class="text-muted small">{{ styleDescription }}</p>
+            {% endif %}
+        </div>
+
+        {% if analysis.public_service_style == 'drucker' %}
+                        
+                        {# Индекс эффективности #}
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="font-weight-bold"><i class="fas fa-bullseye text-primary mr-2"></i>Эффективность лидера</span>
+                                    <span class="badge badge-secondary">{{ analysis.effectiveness_score|default(0) }}/10</span>
+                                </div>
+                                {% set eff_perc = (analysis.effectiveness_score|default(0)) * 10 %}
+                                <div class="progress mb-2" style="height: 10px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: {{ eff_perc }}%" aria-valuenow="{{ eff_perc }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="font-weight-bold text-uppercase text-muted mb-3 mt-4">Ключевые сферы управления НКО:</h6>
+                        
+                        <div class="row mt-2">
+                            {% set metrics = analysis.drucker_metrics|default({}) %}
+                            
+                            <div class="col-md-6 mb-4">
+                                <div class="p-3 border rounded bg-light h-100">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <h6 class="small font-weight-bold mb-0"><i class="fas fa-flag text-warning mr-1"></i> Ясность миссии</h6>
+                                        <span class="small font-weight-bold text-muted">{{ metrics.mission_clarity|default(0) }}%</span>
+                                    </div>
+                                    <div class="progress" style="height: 6px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ metrics.mission_clarity|default(0) }}%"></div>
+                                    </div>
+                                    <p class="small text-muted mt-2 mb-0" style="line-height: 1.1;">Помнит ли автор, ради чего существует проект.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <div class="p-3 border rounded bg-light h-100">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <h6 class="small font-weight-bold mb-0"><i class="fas fa-chart-line text-success mr-1"></i> Ориентация на результат</h6>
+                                        <span class="small font-weight-bold text-muted">{{ metrics.results_focus|default(0) }}%</span>
+                                    </div>
+                                    <div class="progress" style="height: 6px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ metrics.results_focus|default(0) }}%"></div>
+                                    </div>
+                                    <p class="small text-muted mt-2 mb-0" style="line-height: 1.1;">Нацеленность на реальные изменения, а не суету.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <div class="p-3 border rounded bg-light h-100">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <h6 class="small font-weight-bold mb-0"><i class="fas fa-users text-info mr-1"></i> Команда и волонтеры</h6>
+                                        <span class="small font-weight-bold text-muted">{{ metrics.team_and_volunteers|default(0) }}%</span>
+                                    </div>
+                                    <div class="progress" style="height: 6px;">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ metrics.team_and_volunteers|default(0) }}%"></div>
+                                    </div>
+                                    <p class="small text-muted mt-2 mb-0" style="line-height: 1.1;">Развитие, мотивация и взаимодействие с людьми.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <div class="p-3 border rounded bg-light h-100">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <h6 class="small font-weight-bold mb-0"><i class="fas fa-lightbulb text-danger mr-1"></i> Инновации и маркетинг</h6>
+                                        <span class="small font-weight-bold text-muted">{{ metrics.innovation_and_marketing|default(0) }}%</span>
+                                    </div>
+                                    <div class="progress" style="height: 6px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ metrics.innovation_and_marketing|default(0) }}%"></div>
+                                    </div>
+                                    <p class="small text-muted mt-2 mb-0" style="line-height: 1.1;">Поиск новых путей и привлечение ресурсов.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-12 mb-3">
+                                <div class="p-3 bg-light border-left border-primary rounded shadow-sm">
+                                    <h6 class="font-weight-bold mb-2 small text-primary text-uppercase"><i class="fas fa-crown mr-1"></i> Проявление лидерства</h6>
+                                    <p class="mb-0 text-dark small" style="line-height: 1.4; font-size: 14px;">{{ analysis.leadership_insight|default('Нет данных') }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="p-3 bg-light border-left border-secondary rounded shadow-sm">
+                                    <h6 class="font-weight-bold mb-2 small text-secondary text-uppercase"><i class="fas fa-balance-scale mr-1"></i> Распределение ресурсов</h6>
+                                    <p class="mb-0 text-dark small" style="line-height: 1.4; font-size: 14px;">{{ analysis.resource_allocation|default('Нет данных') }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div class="alert alert-info">
+                            Анализ для данного автора находится в разработке или не поддерживается расширенным шаблоном.
+                        </div>
+                    {% endif %}
+
+        <hr class="my-4">
+
+        <h6 class="font-weight-bold text-uppercase text-muted mb-3"><i class="fas fa-clipboard-list text-warning mr-1"></i> Рекомендации:</h6>
+        {% if analysis.recommendations is defined and analysis.recommendations|length > 0 %}
+            <ul class="list-unstyled mb-0">
+                {% for rec in analysis.recommendations %}
+                    <li class="mb-2 text-dark">
+                        <i class="fas fa-check text-success mr-2"></i> {{ rec }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted small">Нет рекомендаций.</p>
+        {% endif %}
+
+    </div>
+</div>

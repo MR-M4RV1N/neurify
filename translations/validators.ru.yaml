@@ -1,0 +1,11 @@
+registration.email.not_blank: Email обязателен для заполнения
+registration.username.not_blank: Имя пользователя обязательно
+registration.firstname.not_blank: Имя обязательно
+registration.lastname.not_blank: Фамилия обязательна
+registration.lang.not_blank: Пожалуйста, выберите язык
+registration.terms.is_true: Вы должны принять условия соглашения.
+registration.terms.not_blank: Вы должны принять условия соглашения.
+registration.password.mismatch: Пароли должны совпадать.
+registration.password.not_blank: Пожалуйста, введите пароль.
+registration.password.min_length: Ваш пароль должен содержать минимум {{ limit }} символов.
+registration.email.invalid: Email '{{ value }}' не является корректным email адресом.

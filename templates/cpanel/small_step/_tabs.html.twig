@@ -1,0 +1,16 @@
+{% set path = app.request.pathinfo %}
+<div class="text-center my-3" id="target-activity">
+    <div class="btn-group btn-group-toggle d-inline-flex">
+        {% set path = app.request.pathinfo %}
+        <a href="/cpanel/small-steps/index"
+           class="btn btn-sm px-2
+           {{ path|area('/cpanel/small-steps/index') ? 'btn-warning is-active' : 'btn-white' }}">
+            {% trans %}Steps{% endtrans %}
+        </a>
+        <a href="/cpanel/small-steps/ideas"
+           class="btn btn-sm px-2
+           {{ path|area('/cpanel/small-steps/ideas') ? 'btn-warning is-active' : 'btn-white' }}">
+            {% trans %}Ideas{% endtrans %}
+        </a>
+    </div>
+</div>

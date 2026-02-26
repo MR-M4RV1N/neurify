@@ -1,0 +1,21 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Activity{% endblock %}
+
+{% block body %}
+    <!-- Page Header -->
+    <div class="page-header py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left">
+                <span class="text-uppercase page-subtitle">
+                    {% trans %}Data for the year{% endtrans %}
+                </span>
+            {% if profile.id == app.user.id %}
+                <h3 class="page-title">{% trans %}Your activity{% endtrans %}</h3>
+            {% else %}
+                <h3 class="page-title">{% trans %}Activity{% endtrans %}</h3>
+            {% endif %}
+        </div>
+    </div>
+    <!-- Используется activity-chart.js -->
+    {% include '/cpanel/activity/_body.html.twig' %}
+{% endblock %}

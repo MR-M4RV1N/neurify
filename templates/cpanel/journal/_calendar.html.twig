@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col">
+        <div class="card card-small p-1">
+            <div class="card-body">
+                {# Навигация по месяцам #}
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <a class="btn btn-sm btn-light"
+                       href="{{ path('cpanel_journal_index', {
+                           month: currentMonth|date_modify('-1 month')|date('Y-m')
+                       }) }}">
+                        ←
+                    </a>
+
+                    <strong>
+                        {{ currentMonth|date('F Y') }}
+                    </strong>
+
+                    <a class="btn btn-sm btn-light"
+                       href="{{ path('cpanel_journal_index', {
+                           month: currentMonth|date_modify('+1 month')|date('Y-m')
+                       }) }}">
+                        →
+                    </a>
+                </div>
+
+                {# Заголовки дней недели #}
+                <div class="row text-center font-weight-bold mb-2">
+                    {% for d in ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] %}
+                        <div class="col px-1">{{ d }}</div>
+                    {% endfor %}
+                </div>
+
+                {# Календарная сетка #}
+                {% for day in days %}
+                    {% if loop.index0 is divisible by(7) %}
+                        <div class="row mb-2">
+                    {% endif %}
+
+                    {% set dateKey = day|date('Y-m-d') %}
+                    {% set hasEntry = entriesByDate[dateKey] is defined %}
+                    {% set isToday = dateKey == today|date('Y-m-d') %}
+                    {% set isCurrentMonth = day|date('m') == currentMonth|date('m') %}
+
+                    <div class="col px-1">
+                        <a href="{{ path('journal_show', { date: dateKey }) }}"
+                           class="d-block p-2 rounded text-center
+                               {% if hasEntry %}
+                                   bg-secondary text-white
+                               {% elseif isToday %}
+                                   border border-primary
+                               {% elseif not isCurrentMonth %}
+                                   text-muted
+                               {% else %}
+                                   bg-light
+                               {% endif %}">
+                            {{ day|date('j') }}
+                        </a>
+                    </div>
+
+                    {% if loop.index is divisible by(7) %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <!--<div class="text-right pt-3 border-top"><a href="">Неделя: NR.52</a></div>-->
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="card-body p-0">
+    {% for user in users %}
+        <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+            <div class="d-flex align-items-center">
+                <div class="blog-comments__avatar mr-3">
+                    <img class="devstyle-user-avatar" src="/cpanel/profile/uploads/images/{{ user.image }}" alt="User avatar" />
+                </div>
+                <div>
+                    <div class="blog-comments__meta text-muted">
+                        {% set route =
+                            user.type == 3
+                            ? path('users_stepwise_ensembles', {'id': user.id})
+                            : (user.type == 4
+                            ? path('users_stepwise_single', {'id': user.id})
+                            : path('app_users_user', {'id': user.id})
+                            )
+                        %}
+
+                        <a class="text-secondary" href="{{ route }}">
+                            {% if '/rating/' in app.request.uri %}
+                                {{ ((currentPage - 1) * itemsPerPage) + loop.index }}.
+                            {% endif %}
+                            {{ user.firstname }} {{ user.lastname }}
+                        </a>
+                    </div>
+                    <p class="m-0 my-1 mb-2 text-muted">{{ user.artisan }}</p>
+                </div>
+            </div>
+            {% if app.request.attributes.get('_route') != 'app_proposal_list' %}
+                <span class="text-muted ml-auto">{{ user.progress }}</span>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="m-5">Nav neviena ieraksta.</div>
+    {% endfor %}
+</div>

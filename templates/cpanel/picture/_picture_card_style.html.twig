@@ -1,0 +1,30 @@
+<div class="col-lg-4 col-md-6 col-sm-12 mb-4 m-0 px-1">
+    <div class="card devstyle-card">
+        <div class="mx-3">
+            {% include '/cpanel/picture/_images.html.twig' %}
+        </div>
+        <!-- Footer -->
+        <div class="card-body">
+
+        </div>
+        <div class="card-footer bg-white border-top">
+            <div class="">
+                <div class="d-flex justify-content-start">
+                    <div class="devstyle-card-header pl-3">
+                        <a href="{{ path('app_users_user', {'id': picture.user.id}) }}"
+                           class="d-flex align-items-center">
+                            <img src="/cpanel/profile/uploads/images/{{ picture.user.image }}" alt="Avatar">
+                        </a>
+                        <div>
+                            <a href="{{ path('app_users_user', {'id': picture.user.id}) }}"
+                               class="text-decoration-none text-dark">
+                                <h6 class="mb-0">{{ picture.user.firstname }} {{ picture.user.lastname }}</h6>
+                            </a>
+                            <span class="text-muted">{{ picture.createdAt|date('d.m.Y') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

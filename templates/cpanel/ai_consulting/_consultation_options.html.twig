@@ -1,0 +1,517 @@
+<div class="main-content-container container-fluid">
+	<div class="bg-white border-top border-bottom shadow">
+		<div
+			class="text-center mb-5 mt-4">
+			<!--<img src="{{ asset('/images/nf-ai.png') }}" alt="Icon" width="72">-->
+			<div class="mt-3 mb-4 mx-3">
+				<h5 class="text-warning">NEURIFY MASTER</h5>
+				<span>{% trans %}Artificial Intelligence{% endtrans %}.
+					{% trans %}Your assistant in mastering the platform{% endtrans %}.</span>
+				<div class="mt-2">
+					<a href="{{ path('neurify_chat') }}" class="btn btn-outline-warning btn-sm border-0">
+						<i class="fas fa-comments mr-1"></i>
+						{% trans %}Ask about the platform{% endtrans %}
+					</a>
+				</div>
+			</div>
+
+			<div class="text-left mx-2">
+				<div class="text-center">
+					<form method="post" action="{{ path('ai_consulting_generate') }}" data-turbo="false" data-form-type="ai-generate">
+
+						<input
+						type="hidden" name="_token" value="{{ csrf_token('ai_consulting_generate') }}">
+
+						{# MODE #}
+						<div class="form-group mb-2">
+							<select name="consulting_mode" class="form-control form-control-sm">
+								<option value="" disabled selected hidden>{% trans %}Select mode{% endtrans %}</option>
+								<option value="auto">{% trans %}Life balance{% endtrans %}</option>
+								<option value="wealth">{% trans %}Wealth & Success{% endtrans %}</option>
+								<option value="thinker">{% trans %}Thinkers{% endtrans %}</option>
+								<option value="disc">{% trans %}Behavioral styles{% endtrans %}
+									(DISC)</option>
+								<option value="mbti">{% trans %}Thinking styles{% endtrans %}
+									(MBTI)</option>
+								<option value="health">{% trans %}Health{% endtrans %}</option>
+								<option value="public_service">{% trans %}Social activities{% endtrans %}</option>
+							</select>
+						</div>
+
+						<div id="mode-more-info-container" style="display: none;" class="mb-3 text-right">
+							<button type="button" class="btn btn-link btn-sm p-0 text-warning font-weight-bold" id="mode-more-info-link" data-toggle="modal" data-target="#mbtiStyleModal">
+								<i class="fas fa-info-circle mr-1"></i>Подробнее
+							</button>
+						</div>
+
+						{# HEALTH MODE #}
+						<div class="form-group mb-2" id="health-mode" style="display:none;">
+							<select name="health_style" id="health_style_select" class="form-control form-control-sm mb-2">
+								<option value="biohacking">{% trans %}Biohacking{% endtrans %}</option>
+								<option value="running">{% trans %}Running{% endtrans %}</option>
+							</select>
+
+							<div id="running-options" style="display:none;">
+								<select name="running_style" id="running_style_select" class="form-control form-control-sm">
+									<option value="running_japan" selected>Япония (~1000 км)</option>
+								</select>
+							</div>
+
+							<div id="health-more-info-container" class="mb-3 text-right">
+								<button type="button" class="btn btn-link btn-sm p-0 text-warning font-weight-bold" id="health-more-info-link" data-toggle="modal" data-target="#mbtiStyleModal">
+									<i class="fas fa-info-circle mr-1"></i>Подробнее
+								</button>
+							</div>
+						</div>
+
+						{# MBTI MODE #}
+						<div class="form-group mb-2" id="mbti-mode" style="display:none;">
+							<select name="mbti_style" id="mbti_style_select" class="form-control form-control-sm">
+								<option value="" disabled selected hidden>{% trans %}Select style{% endtrans %}</option>
+								<option value="auto">{% trans %}Auto{% endtrans %}</option>
+								{% for code, label in mbtiStyleLabels|default({}) %}
+									<option value="{{ code }}">{{ label }}</option>
+								{% endfor %}
+							</select>
+
+							{# (опционально) маленькая подсказка #}
+							<!--<small class="form-text text-muted mb-1">
+																																																																																																																																																																																Выбери “линзу мышления”, через которую ИИ оценит твою неделю.
+																																																																																																																																																																															</small>-->
+
+							<div id="mbti-more-info-container" style="display: none;" class="mb-3 text-right">
+								<button type="button" class="btn btn-link btn-sm p-0 text-warning font-weight-bold" id="mbti-more-info-link" data-toggle="modal" data-target="#mbtiStyleModal">
+									<i class="fas fa-info-circle mr-1"></i>Подробнее
+								</button>
+							</div>
+						</div>
+
+						{# THINKER MODE #}
+						<div class="form-group mb-2" id="thinker-mode" style="display: none;">
+							<select name="thinker_style" id="thinker_style_select" class="form-control form-control-sm">
+								<option value="" disabled selected hidden>{% trans %}Select style{% endtrans %}</option>
+								<option value="auto">{% trans %}Auto{% endtrans %}</option>
+								{% for code, label in thinkerStyleLabels|default({}) %}
+									<option value="{{ code }}">{{ label }}</option>
+								{% endfor %}
+							</select>
+
+							<div id="thinker-more-info-container" style="display: none;" class="mb-3 text-right">
+								<button type="button" class="btn btn-link btn-sm p-0 text-warning font-weight-bold" id="thinker-more-info-link" data-toggle="modal" data-target="#mbtiStyleModal">
+									<i class="fas fa-info-circle mr-1"></i>Подробнее
+								</button>
+							</div>
+						</div>
+
+						{# DISC MODE #}
+						<div class="form-group mb-2" id="disc-mode" style="display:none;">
+							<select name="disc_style" id="disc_style_select" class="form-control form-control-sm">
+								<option value="" disabled selected hidden>{% trans %}Select style{% endtrans %}</option>
+								<option value="auto">{% trans %}Auto{% endtrans %}</option>
+								{% for code, label in discStyleLabels|default({}) %}
+									<option value="{{ code }}">{{ label }}</option>
+								{% endfor %}
+							</select>
+
+							<div id="disc-more-info-container" style="display: none;" class="mb-3 text-right">
+								<button type="button" class="btn btn-link btn-sm p-0 text-warning font-weight-bold" id="disc-more-info-link" data-toggle="modal" data-target="#mbtiStyleModal">
+									<i class="fas fa-info-circle mr-1"></i>Подробнее
+								</button>
+							</div>
+						</div>
+
+						{# ====== WEALTH OPTIONS ====== #}
+						<div class="form-group mb-2" id="wealth-mode" style="display: none;">
+							<select name="wealth_style" id="wealth_style_select" class="form-control form-control-sm">
+								{% for val, label in wealthStyleLabels|default({}) %}
+									<option value="{{ val|escape('html_attr') }}">{{ label }}</option>
+								{% endfor %}
+							</select>
+
+							<div id="wealth-more-info-container" style="display: none;" class="mb-3 text-right">
+								<button type="button" class="btn btn-link btn-sm p-0 text-warning font-weight-bold" id="wealth-more-info-link" data-toggle="modal" data-target="#mbtiStyleModal">
+									<i class="fas fa-info-circle mr-1"></i>Подробнее
+								</button>
+							</div>
+						</div>
+
+						{# ====== PUBLIC SERVICE OPTIONS ====== #}
+						<div class="form-group mb-2" id="public-service-mode" style="display: none;">
+							<select name="public_service_style" id="public_service_style_select" class="form-control form-control-sm">
+								{% for val, label in publicServiceStyleLabels|default({}) %}
+									<option value="{{ val|escape('html_attr') }}">{{ label }}</option>
+								{% endfor %}
+							</select>
+
+							<div id="public-service-more-info-container" style="display: none;" class="mb-3 text-right">
+								<button type="button" class="btn btn-link btn-sm p-0 text-warning font-weight-bold" id="public-service-more-info-link" data-toggle="modal" data-target="#mbtiStyleModal">
+									<i class="fas fa-info-circle mr-1"></i>Подробнее
+								</button>
+							</div>
+						</div>
+
+
+						{# MANUAL MODELS #}
+						<div class="form-group mb-2" id="manual-model" style="display:none;">
+							<select name="consulting_model" class="form-control form-control-sm">
+								<option value="career_loop_4_week">4F</option>
+								<option value="dreyfus">Dreyfus</option>
+								<option value="swot">SWOT</option>
+								<option value="life_balance">Wheel of Life</option>
+								<option value="journal_reflection">Journal Reflection</option>
+							</select>
+						</div>
+
+						{# FREE PROMPT #}
+						<div class="form-group mb-2" id="free-prompt" style="display:none;">
+							<textarea name="free_prompt" class="form-control form-control-sm" rows="9" placeholder="Опиши, какие рекомендации ты хочешь получить. Это может быть отдых, проект, размышления или что-то своё."></textarea>
+						</div>
+
+						<button type="submit" id="saveButton" class="btn btn-sm btn-warning text-white">
+							{% trans %}Get a hint{% endtrans %}
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MBTI Style Modal -->
+<div class="modal fade" id="mbtiStyleModal" tabindex="-1" role="dialog" aria-labelledby="mbtiStyleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="mbtiStyleModalLabel">О стиле мышления</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div
+				class="modal-body" id="mbti-modal-body"><!-- Контент будет вставлен через JS -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Закрыть</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	(function () {
+const initMbtiModal = function () {
+const mbtiDescriptions = {{ (mbtiStyleDescriptions|default({}))|json_encode|raw }};
+const mbtiLabels = {{ (mbtiStyleLabels|default({}))|json_encode|raw }};
+const discDescriptions = {{ (discStyleDescriptions|default({}))|json_encode|raw }};
+const discLabels = {{ (discStyleLabels|default({}))|json_encode|raw }};
+const thinkerDescriptions = {{ (thinkerStyleDescriptions|default({}))|json_encode|raw }};
+const thinkerLabels = {{ (thinkerStyleLabels|default({}))|json_encode|raw }};
+const wealthDescriptions = {{ (wealthStyleDescriptions|default({}))|json_encode|raw }};
+const wealthLabels = {{ (wealthStyleLabels|default({}))|json_encode|raw }};
+const publicServiceDescriptions = {{ (publicServiceStyleDescriptions|default({}))|json_encode|raw }};
+const publicServiceLabels = {{ (publicServiceStyleLabels|default({}))|json_encode|raw }};
+const lifeBalanceDescription = {{ 'Life balance description'|trans|json_encode|raw }};
+const lifeBalanceLabel = {{ 'Life balance'|trans|json_encode|raw }};
+const autoMbtiDescription = {{ 'Auto MBTI description'|trans|json_encode|raw }};
+const autoLabel = {{ 'Auto'|trans|json_encode|raw }};
+
+{% set userLang = app.user.lang|default('ru') %}
+{% set biohackingDescriptions = {
+    'ru': '"Биохакинг: Руководство по раскрытию потенциала организма" (Олли Совиярви, Теэму Арина, Яакко Халметоя). ИИ выступает в роли эксперта-биохакера и анализирует твою неделю по 4 ключевым опорам: Сон, Питание, Движение и Ментальное состояние (фокус, стресс и работоспособность). В результате ты получишь оценку каждой сферы и конкретные научные рекомендации по оптимизации тела и разума.',
+    'lv': '"Biohakings: Ceļvedis organisma potenciāla atklāšanai" (Olli Sovijärvi, Tēmu Arina, Jākko Halmetoja). Mākslīgais intelekts darbojas kā biohakeris-eksperts un analizē tavu nedēļu 4 galvenajās jomās: Miegs, Uzturs, Kustība un Mentālais stāvoklis (uzmanība, stress un darbaspējas). Rezultātā saņemsi katras jomas vērtējumu un konkrētus zinātniskus ieteikumus ķermeņa un prāta optimizācijai.',
+    'en': '"Biohacker\'s Handbook" (Olli Sovijärvi, Teemu Arina, Jaakko Halmetoja). The AI acts as a biohacking expert and analyzes your week across 4 key pillars: Sleep, Nutrition, Exercise, and Mental state (focus, stress, and productivity). As a result, you will receive an assessment of each area and specific scientific recommendations for body and mind optimization.'
+} %}
+const biohackingDescription = {{ biohackingDescriptions[userLang]|default(biohackingDescriptions['ru'])|json_encode|raw }};
+const biohackingLabel = 'Biohacking';
+
+const modeSelect = document.querySelector('select[name="consulting_mode"]');
+const mbtiSelect = document.getElementById('mbti_style_select');
+const discSelect = document.getElementById('disc_style_select');
+const thinkerSelect = document.getElementById('thinker_style_select');
+const wealthSelect = document.getElementById('wealth_style_select');
+const publicServiceSelect = document.getElementById('public_service_style_select');
+
+const modeInfoContainer = document.getElementById('mode-more-info-container');
+const mbtiInfoContainer = document.getElementById('mbti-more-info-container');
+const discInfoContainer = document.getElementById('disc-more-info-container');
+const thinkerInfoContainer = document.getElementById('thinker-more-info-container');
+const wealthInfoContainer = document.getElementById('wealth-more-info-container'); // Added
+const publicServiceInfoContainer = document.getElementById('public-service-more-info-container');
+const healthInfoContainer = document.getElementById('health-more-info-container');
+const healthSelect = document.getElementById('health_style_select');
+const runningOptionsDiv = document.getElementById('running-options');
+
+const healthModeDiv = document.getElementById('health-mode');
+const mbtiModeDiv = document.getElementById('mbti-mode');
+const discModeDiv = document.getElementById('disc-mode');
+const thinkerModeDiv = document.getElementById('thinker-mode');
+const wealthModeDiv = document.getElementById('wealth-mode');
+const publicServiceModeDiv = document.getElementById('public-service-mode');
+const manualModelDiv = document.getElementById('manual-model');
+const freePromptDiv = document.getElementById('free-prompt');
+
+const modalBody = document.getElementById('mbti-modal-body');
+const modalTitle = document.getElementById('mbtiStyleModalLabel');
+
+function updateMbtiInfo() {
+if (! mbtiSelect)
+return;
+
+
+
+const selectedStyle = mbtiSelect.value;
+
+if (selectedStyle === 'auto') {
+modalTitle.innerText = autoLabel || 'Auto';
+modalBody.innerText = autoMbtiDescription;
+mbtiInfoContainer.style.display = 'block';
+return;
+}
+
+if (selectedStyle && mbtiDescriptions[selectedStyle]) {
+modalTitle.innerText = mbtiLabels[selectedStyle] || selectedStyle;
+modalBody.innerText = mbtiDescriptions[selectedStyle];
+mbtiInfoContainer.style.display = 'block';
+} else {
+mbtiInfoContainer.style.display = 'none';
+}
+}
+
+function updateDiscInfo() {
+if (! discSelect)
+return;
+
+
+
+const selectedStyle = discSelect.value;
+
+if (selectedStyle === 'auto') {
+modalTitle.innerText = autoLabel || 'Auto';
+modalBody.innerText = autoMbtiDescription; // Можно использовать то же описание или отдельное
+discInfoContainer.style.display = 'block';
+return;
+}
+
+if (selectedStyle && discDescriptions[selectedStyle]) {
+modalTitle.innerText = discLabels[selectedStyle] || selectedStyle;
+modalBody.innerText = discDescriptions[selectedStyle];
+discInfoContainer.style.display = 'block';
+} else {
+discInfoContainer.style.display = 'none';
+}
+}
+
+function updateThinkerInfo() {
+if (! thinkerSelect)
+return;
+
+
+
+const selectedStyle = thinkerSelect.value;
+
+if (selectedStyle && thinkerDescriptions[selectedStyle]) {
+modalTitle.innerText = thinkerLabels[selectedStyle] || selectedStyle;
+modalBody.innerText = thinkerDescriptions[selectedStyle];
+thinkerInfoContainer.style.display = 'block'; // Added
+} else {
+thinkerInfoContainer.style.display = 'none'; // Added
+}
+}
+
+function updateHealthInfo() {
+if (! healthSelect)
+return;
+
+const selectedStyle = healthSelect.value;
+
+if (selectedStyle === 'running') {
+if (runningOptionsDiv) runningOptionsDiv.style.display = 'block';
+modalTitle.innerText = 'Бег (Япония)';
+modalBody.innerText = 'При выборе данного режима ИИ подсчитает общий километраж из ваших записей дневника и виртуально переместит вас по маршруту через Японию. Вы узнаете текущий этап путешествия и интересные факты о достигнутой локации.';
+} else {
+if (runningOptionsDiv) runningOptionsDiv.style.display = 'none';
+modalTitle.innerText = biohackingLabel || 'Biohacking';
+modalBody.innerText = biohackingDescription;
+}
+}
+
+function updateWealthInfo() {
+if (! wealthSelect)
+return;
+
+
+
+const selectedStyle = wealthSelect.value;
+
+if (selectedStyle && wealthDescriptions[selectedStyle]) {
+modalTitle.innerText = wealthLabels[selectedStyle] || selectedStyle;
+modalBody.innerText = wealthDescriptions[selectedStyle];
+wealthInfoContainer.style.display = 'block'; // Added
+} else {
+wealthInfoContainer.style.display = 'none'; // Added
+}
+}
+
+function updatePublicServiceInfo() {
+if (! publicServiceSelect)
+return;
+
+const selectedStyle = publicServiceSelect.value;
+
+if (selectedStyle && publicServiceDescriptions[selectedStyle]) {
+modalTitle.innerText = publicServiceLabels[selectedStyle] || selectedStyle;
+modalBody.innerText = publicServiceDescriptions[selectedStyle];
+publicServiceInfoContainer.style.display = 'block';
+} else {
+publicServiceInfoContainer.style.display = 'none';
+}
+}
+
+function updateModeInfo() {
+if (! modeSelect)
+return;
+
+
+
+const val = modeSelect.value;
+
+// Toggles for main areas
+if (manualModelDiv)
+manualModelDiv.style.display = val === 'manual' ? 'block' : 'none';
+
+
+
+if (freePromptDiv)
+freePromptDiv.style.display = val === 'free' ? 'block' : 'none';
+
+
+
+if (healthModeDiv)
+healthModeDiv.style.display = val === 'health' ? 'block' : 'none';
+
+
+
+if (mbtiModeDiv)
+mbtiModeDiv.style.display = val === 'mbti' ? 'block' : 'none';
+
+
+
+if (discModeDiv)
+discModeDiv.style.display = val === 'disc' ? 'block' : 'none';
+
+
+
+if (thinkerModeDiv)
+thinkerModeDiv.style.display = val === 'thinker' ? 'block' : 'none';
+
+
+
+if (wealthModeDiv)
+wealthModeDiv.style.display = val === 'wealth' ? 'block' : 'none';
+
+if (publicServiceModeDiv)
+publicServiceModeDiv.style.display = val === 'public_service' ? 'block' : 'none';
+
+// More info for Life Balance (auto)
+if (modeInfoContainer) {
+if (val === 'auto' && lifeBalanceDescription) {
+modalTitle.innerText = lifeBalanceLabel || 'Life balance';
+modalBody.innerText = lifeBalanceDescription;
+modeInfoContainer.style.display = 'block';
+} else {
+modeInfoContainer.style.display = 'none';
+}
+}
+}
+
+if (mbtiSelect) {
+mbtiSelect.removeEventListener('change', updateMbtiInfo);
+mbtiSelect.addEventListener('change', updateMbtiInfo);
+updateMbtiInfo();
+}
+
+if (discSelect) {
+discSelect.removeEventListener('change', updateDiscInfo);
+discSelect.addEventListener('change', updateDiscInfo);
+updateDiscInfo();
+}
+
+if (thinkerSelect) {
+thinkerSelect.removeEventListener('change', updateThinkerInfo);
+thinkerSelect.addEventListener('change', updateThinkerInfo);
+updateThinkerInfo();
+}
+
+if (wealthSelect) { // Added
+wealthSelect.removeEventListener('change', updateWealthInfo);
+wealthSelect.addEventListener('change', updateWealthInfo);
+updateWealthInfo();
+}
+
+if (publicServiceSelect) {
+publicServiceSelect.removeEventListener('change', updatePublicServiceInfo);
+publicServiceSelect.addEventListener('change', updatePublicServiceInfo);
+updatePublicServiceInfo();
+}
+
+if (healthSelect) {
+healthSelect.removeEventListener('change', updateHealthInfo);
+healthSelect.addEventListener('change', updateHealthInfo);
+updateHealthInfo();
+}
+
+if (modeSelect) {
+modeSelect.removeEventListener('change', updateModeInfo);
+modeSelect.addEventListener('change', updateModeInfo);
+
+// MBTI reset logic on mode change
+modeSelect.addEventListener('change', function () {
+if (this.value === 'mbti' && mbtiSelect) {
+mbtiSelect.value = '';
+updateMbtiInfo();
+}
+if (this.value === 'disc' && discSelect) {
+discSelect.value = '';
+updateDiscInfo();
+}
+if (this.value === 'thinker' && thinkerSelect) {
+thinkerSelect.value = '';
+updateThinkerInfo();
+}
+});
+
+updateModeInfo();
+}
+
+const infoLinks = document.querySelectorAll('#mbti-more-info-link, #mode-more-info-link, #disc-more-info-link, #thinker-more-info-link, #wealth-more-info-link, #public-service-more-info-link, #health-more-info-link');
+infoLinks.forEach(link => {
+link.addEventListener('click', function (e) {
+if (this.id === 'mode-more-info-link') {
+    modalTitle.innerText = lifeBalanceLabel || 'Life balance';
+    modalBody.innerText = lifeBalanceDescription;
+} else if (this.id === 'disc-more-info-link') {
+updateDiscInfo();
+} else if (this.id === 'thinker-more-info-link') {
+updateThinkerInfo();
+} else if (this.id === 'wealth-more-info-link') {
+updateWealthInfo();
+} else if (this.id === 'public-service-more-info-link') {
+updatePublicServiceInfo();
+} else if (this.id === 'health-more-info-link') {
+updateHealthInfo();
+} else {
+updateMbtiInfo();
+}
+});
+});
+};
+
+document.addEventListener('DOMContentLoaded', initMbtiModal);
+document.addEventListener('turbo:load', initMbtiModal);
+
+// Run once immediately if dynamic navigation didn't trigger it
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+initMbtiModal();
+}
+})();
+</script>

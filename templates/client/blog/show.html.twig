@@ -1,0 +1,31 @@
+{% extends '_layouts/app.html.twig' %}
+
+{% block title %}{{ map.name }}{% endblock %}
+{% block description %}{{ map.description }}{% endblock %}
+{% block keywords %}{{ map.keywords }}{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">Блог</span>
+                <h3 class="page-title">Пост</h3>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+
+        <!-- CONTENT... -->
+        <div class="row border bg-white p-2">
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-sm btn-outline-secondary" href="{{ path('editor.list', {'category': 0}) }}"><i class="fas fa-angle-left"></i> назад</a>
+            {% else %}
+                <button class="btn btn-sm btn-outline-secondary" onclick="history.back()">
+                    <i class="fas fa-angle-left"></i> назад
+                </button>
+            {% endif %}
+        </div>
+        {% include '_layouts/templates/_show_table.html.twig' %}
+        <!-- ...CONTENT -->
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Apsveicam!{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid px-4 pb-4">
+
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-7 col-md-9">
+
+                <div class="card text-center p-5" style="border-radius: 16px; border: none; box-shadow: 0 4px 18px rgba(0,0,0,0.12);">
+
+                    <img src="{{ asset('/icons/trophy.png') }}" alt="" width="96" class="mb-4" />
+
+                    <h2 class="mb-3" style="font-weight: 600;">
+                        🎉 Apsveicam, {{ user.firstname }}!
+                    </h2>
+
+                    <p class="lead mb-4" style="color: #555;">
+                        Jūs veiksmīgi esat pabeidzis visus uzdevumus šajā izaicinājumu komplektā.
+                        Šis ir nozīmīgs solis Jūsu personīgajā attīstībā un pašizaugsmes ceļā.
+                    </p>
+
+                    <div class="py-3" style="font-size: 1rem;">
+                        <strong class="text-success">Jūsu progress ir saglabāts!</strong>
+                    </div>
+
+                    <a href="{{ path('dashboard_completed_paths') }}" class="btn btn-primary mt-3" style="border-radius: 8px;">
+                        {% trans %}Open{% endtrans %}
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

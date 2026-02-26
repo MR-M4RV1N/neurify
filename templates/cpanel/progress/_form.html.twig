@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="d-flex">
+        <div>
+            <a href="{{ path('app_progress_index') }}" class="btn btn-sm btn-outline-secondary mr-2">back to list</a>
+        </div>
+
+        <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Save') }}</button>
+    </div>
+{{ form_end(form) }}

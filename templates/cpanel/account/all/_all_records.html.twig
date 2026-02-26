@@ -1,0 +1,17 @@
+<div class="main-content-container container-fluid">
+    <!--<div class="mb-4 text-center">
+            {% set path = app.request.pathinfo %}
+            <div class="btn-group btn-group-toggle d-inline-flex">
+                <a href="/cpanel/editor/draft" class="btn btn-white btn-sm px-2 {{ path|area('/draft') }}">Планируемые</a>
+                <a href="/cpanel/editor/events/list" class="btn btn-white btn-sm px-2 {{ path|area('/events') }}">Выполненные</a>
+                <a href="/cpanel/editor/blanks/1" class="btn btn-white btn-sm px-2 {{ path|area('/blanks') }}">Рекомендуемые</a>
+            </div>
+        </div>-->
+
+    {% include '/cpanel/events/_common/_iteration.html.twig' %}
+</div>
+
+{% if events|length > 0 %}
+    <!-- ADD FLOATING BUTTON -->
+    <div class="devstyle-floating-button" onclick="location.href='{{ path('app_event_new') }}'">+</div>
+{% endif %}

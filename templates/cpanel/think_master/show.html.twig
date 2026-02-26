@@ -1,0 +1,59 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI Note Analysis{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pt-4">
+            <div class="col-12 col-sm-6 text-center text-sm-left mb-0">
+                <h5>{% trans %}Analysis completed successfully{% endtrans %}!</h5>
+                <span class="text-uppercase page-subtitle">{% trans %}Your thinking becomes clearer{% endtrans %}.</span>
+            </div>
+        </div>
+
+        <div class="card card-small card-post h-100 mt-4 mb-5">
+            <div class="p-3">
+
+                <!-- Icon -->
+                <div class="text-center mb-3">
+                    <img src="{{ asset('/icons/artificial-intelligence.png') }}" alt="AI Icon" width="48">
+                </div>
+
+                {% if note %}
+                    <!-- Analysis block -->
+                    <div class="m-2">
+                        <h6 class="text-muted text-uppercase">{% trans %}Analysis{% endtrans %}</h6>
+                        <div id="note-analysis-html" class="sherlock-flair">
+                            {{ note.analysis|raw }}
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Advice block -->
+                    <div class="m-2">
+                        <h6 class="text-muted text-uppercase">{% trans %}Advice{% endtrans %}</h6>
+                        <div id="note-advice-html" class="sherlock-flair">
+                            {{ note.advice|raw }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning mt-3">
+                        {% trans %}AI has not yet analyzed this note.{% endtrans %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="card-footer">
+                <div class="text-right">
+                    <a href="" class="btn btn-sm btn-outline-secondary">
+                        {% trans %}Further{% endtrans %}
+                        <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

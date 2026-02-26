@@ -1,0 +1,113 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}В разработке{% endblock %}
+
+{% block body %}
+    <h6 class="m-0 text-center pt-4 mb-4">{{ chatTitle }}</h6>
+    <div>
+        {% for m in messages %}
+            {% if m.sender.id == app.user.id %}
+                <div class="d-flex p-3 justify-content-end">
+                    <div class="rounded-message-1">
+                        <div class="text-muted">
+                            <!--<a class="text-secondary" href="#">{{ m.sender.username }}</a>-->
+                            <span class="text-muted">{{ m.date|date('d.m') }}-{{ m.time|date('H:i') }}</span>
+                        </div>
+                        <p class="m-0 my-1 mb-2 text-primary">
+                            {{ m.message }}
+                        </p>
+                        <div class="">
+                            <div class="btn-group btn-group-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ml-3">
+                        <img class="devstyle-profile-image" src="/cpanel/profile/uploads/images/{{ m.sender.image }}" alt="User avatar" />
+                    </div>
+                </div>
+            {% else %}
+                <div class="d-flex p-3">
+                    <div class="mr-3">
+                        <img class="devstyle-profile-image" src="/cpanel/profile/uploads/images/{{ m.sender.image }}" alt="User avatar" /> </div>
+                    <div class="rounded-message-2">
+                        <div class="text-muted">
+                            <!--<a class="text-secondary" href="#">{{ m.sender.username }}</a>-->
+                            <span class="text-muted">{{ m.date|date('d.m') }}-{{ m.time|date('H:i') }}</span>
+                        </div>
+                        <p class="m-0 my-1 mb-2 text-primary">
+                            {{ m.message }}
+                        </p>
+                        <div class="">
+                            <div class="btn-group btn-group-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <div>{% trans %}No records found{% endtrans %}</div>
+        {% endfor %}
+    </div>
+    <style>
+        /* Стили для закругленного сообщения с острым верхним правым углом */
+        .rounded-message-1 {
+            background-color: white; /* Фоновый цвет сообщения */
+            border-radius: 20px 0 20px 20px; /* Закругление трех углов */
+            padding: 10px 15px; /* Отступы внутри блока */
+            max-width: 70%; /* Ограничение ширины */
+            word-wrap: break-word; /* Перенос длинных слов */
+            border: 1px solid lightgray;
+        }
+        .rounded-message-2 {
+            background-color: white; /* Фоновый цвет сообщения */
+            border-radius: 0 20px 20px 20px; /* Закругление трех углов */
+            padding: 10px 15px; /* Отступы внутри блока */
+            max-width: 70%; /* Ограничение ширины */
+            word-wrap: break-word; /* Перенос длинных слов */
+            border: 1px solid lightgray;
+        }
+    </style>
+
+
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="fixed-message-input">
+                    {{ include('cpanel/chat/_message.html.twig') }}
+                </div>
+                <style>
+                    /* Фиксированная панель ввода сообщений */
+                    .fixed-message-input {
+                        position: fixed;
+                        bottom: 60px; /* Располагаем над нижним меню */
+                        left: 0;
+                        width: 100%;
+                        z-index: 15; /* Чтобы панель оставалась выше нижнего меню */
+                        background-color: #fff;
+                        border-top: 1px solid #ddd;
+                        padding: 10px;
+                    }
+
+                    @media (max-width: 768px) {
+                        .fixed-message-input {
+                            display: block; /* Включаем отображение только на мобильных */
+                        }
+
+                        /* Отключаем отступ в нижнем меню, чтобы оно было на месте */
+                        .bottom-nav {
+                            z-index: 10;
+                        }
+                    }
+                </style>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var messageSection = document.getElementById('messageSection');
+                        if (messageSection) {
+                            messageSection.scrollIntoView();
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}

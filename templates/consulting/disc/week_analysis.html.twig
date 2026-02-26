@@ -1,0 +1,66 @@
+{# templates/consulting/disc/week_analysis.html.twig #}
+
+<p class="mbti-paragraph">
+	<strong>DISC-стиль:</strong>
+	{{ analysis.disc_style|default('') }}</p>
+<p class="mbti-paragraph">
+	<strong>Период:</strong>
+	{{ weekStart|date('Y-m-d') }}
+	—
+	{{ weekEnd|date('Y-m-d') }}</p>
+
+{# Оценка #}
+{% if analysis.rating is defined %}
+	<div class="mbti-block-title">Оценка недели</div>
+	<p class="mbti-paragraph">
+		<strong>{{ analysis.rating|default(0)|round(0, 'common') }}/10</strong>
+	</p>
+{% endif %}
+
+{% if analysis.rating_reason is defined and analysis.rating_reason is not empty %}
+	<p class="mbti-paragraph">{{ analysis.rating_reason|trim }}</p>
+{% endif %}
+
+{% if analysis.what_liked is defined and analysis.what_liked is not empty %}
+	<div class="mbti-block-title">Что понравилось</div>
+	<ul class="mbti-list">
+		{% for it in analysis.what_liked %}
+			<li>{{ it|trim }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% if analysis.missing_notes is defined and analysis.missing_notes is not empty %}
+	<div class="mbti-block-title">Чего не хватает</div>
+	<ul class="mbti-list">
+		{% for it in analysis.missing_notes %}
+			<li>{{ it|trim }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% if analysis.small_questions is defined and analysis.small_questions is not empty %}
+	<div class="mbti-block-title">Вопросы для рефлексии</div>
+	<ul class="mbti-list">
+		{% for it in analysis.small_questions %}
+			<li>{{ it|trim }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% if analysis.recommendations is not empty %}
+	<div class="mbti-block-title">Рекомендации (Маленькие шаги)</div>
+
+	<ul class="mbti-list">
+		{% for rec in analysis.recommendations %}
+			{% if rec is not empty %}
+				<li>{{ rec|trim|nl2br }}</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% if analysis.summary is defined and analysis.summary is not empty %}
+	<div class="mbti-block-title">Итог</div>
+	<p class="mbti-paragraph">{{ analysis.summary|trim|nl2br }}</p>
+{% endif %}

@@ -1,0 +1,19 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+    {% include '/cpanel/members/_tabs_big.html.twig' %}
+    <hr>
+    {% include '/cpanel/members/_tabs_members.html.twig' %}
+
+    {% include '/cpanel/members/_for_members_small_list.html.twig' %}
+    {# Отображение пагинации #}
+    <div class="container">
+        <div class="d-flex justify-content-center pagination mt-2 mb-5">
+            <div class="pagination">
+                {{ pagerfanta(users, 'default') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

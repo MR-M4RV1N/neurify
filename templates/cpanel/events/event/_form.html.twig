@@ -1,0 +1,175 @@
+{{ form_start(form, {
+    attr: {
+        'data-form-type': form_type|default('edit'),
+        'data-form-context': 'event',
+        'id': 'event-form'
+    }
+}) }}
+
+{% do form.image.setRendered() %}
+
+{% if existing_images is defined and existing_images|length > 0 %}
+	<!-- Existing Images -->
+	<div class="mb-4">
+		<label>{{ 'Existing Images'|trans }}</label>
+		<div class="row">
+			{% for image in existing_images %}
+				<div class="col-md-4 mb-3 position-relative">
+					<div class="devstyle-image-container position-relative" style="overflow: hidden; border-radius: 8px;">
+						<img src="/cpanel/images/events/collections/{{ image.url }}" alt="Image" class="img-fluid rounded">
+						<button type="button" class="btn btn-sm btn-danger position-absolute devstyle-remove-image-btn" data-id="{{ image.id }}" style="top: 10px; right: 10px;">
+							<i class="material-icons">delete</i>
+						</button>
+					</div>
+				</div>
+			{% else %}
+				<p>{{ 'No images uploaded yet'|trans }}</p>
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}
+
+<!-- Dropzone for New Images -->
+<div class="form-group">
+	<label for="file-dropzone">{{ 'Upload New Images'|trans }}</label>
+	<div id="file-dropzone" class="dropzone" data-upload-url="{{ path('app_event_dropzone') }}"></div>
+</div>
+{% do form.images.setRendered() %}
+<style>
+	.dropzone {
+		border: 2px dashed #007bff;
+		border-radius: 5px;
+		padding: 20px;
+		background: #f8f9fa;
+		cursor: pointer;
+	}
+
+	.dropzone .dz-preview .dz-remove {
+		color: #dc3545;
+		text-decoration: none;
+	}
+</style>
+
+<div>
+	{{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+	<span class="text-danger">*</span>
+	{{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+	{{ form_help(form.title) }}
+	{{ form_errors(form.title) }}
+</div>
+
+<div>
+	{{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(form.date) }}
+</div>
+
+<details class="mt-4 mb-4">
+	<summary class="btn btn-light btn-sm d-flex justify-content-center" style="list-style: none;">
+		<span>{% trans %}Other options{% endtrans %}</span>
+		<span class="material-icons" style="font-size: 18px;">expand_more</span>
+	</summary>
+
+	<div class="mt-3 collapse-fields">
+		<div>
+			{{ form_label(form.description, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+			{{ form_widget(form.description, {'attr': {
+        'class': 'form-control',
+        'data-ckeditor': 'true'
+    }}) }}
+			{{ form_help(form.description) }}
+			{{ form_errors(form.description) }}
+		</div>
+
+		{% if event.type == 4 %}
+			<div>
+				{{ form_label(form.instruction, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+				{{ form_widget(form.instruction, {'attr': {
+            'class': 'form-control',
+            'data-ckeditor': 'true'
+        }}) }}
+				{{ form_help(form.instruction) }}
+				{{ form_errors(form.instruction) }}
+			</div>
+		{% else %}
+			{% do form.instruction.setRendered() %}
+		{% endif %}
+		<div>
+			{% if event.instructionFile %}
+				<div class="current-file-block mb-2">
+					<span>
+						{% trans %}File with instructions{% endtrans %}:<br>
+						<a href="{{ asset('uploads/instructions/' ~ event.instructionFile) }}" target="_blank">
+							{{ event.instructionFile }}
+						</a>
+					</span>
+
+					{# НЕ своя form, а просто кнопка #}
+					<button type="button" onclick="document.getElementById('delete-instruction-form').submit();" style="background:none;border:none;color:#c00;cursor:pointer;">
+						{% trans %}Delete{% endtrans %}
+					</button>
+				</div>
+			{% else %}
+				{{ form_row(form.instructionFileUpload) }}
+			{% endif %}
+		</div>
+		{% do form.instructionFileUpload.setRendered() %}
+
+
+		<div>
+			{{ form_label(form.ensemble, null, {'label_attr': {'class': 'form-label mt-5'}}) }}
+			{{ form_widget(form.ensemble, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.ensemble) }}
+		</div>
+		<div class="mb-5">
+			{{ form_row(form.priority) }}
+		</div>
+		<div class="mb-5">
+			{{ form_label(form.type, null, {'label_attr': {'class': 'form-label mt-1'}}) }}
+			{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.type) }}
+		</div>
+
+		<div>
+			{{ form_widget(form.public, {'attr': {'class': 'form-select mr-2'}}) }}
+			{{ form_label(form.public, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+			{{ form_errors(form.public) }}
+		</div>
+		<div>
+			{{ form_widget(form.pinned, {'attr': {'class': 'form-select mr-2'}}) }}
+			{{ form_label(form.pinned, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+			{{ form_errors(form.pinned) }}
+		</div>
+		<div>
+			{{ form_widget(form.portfolio, {'attr': {'class': 'form-select mr-2'}}) }}
+			{{ form_label(form.portfolio, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+			{{ form_errors(form.portfolio) }}
+		</div>
+		<div>
+			{{ form_widget(form.task, {'attr': {'class': 'form-select mr-2'}}) }}
+			{{ form_label(form.task, null, {'label_attr': {'class': 'form-label mt-3'}}) }}
+			{{ form_errors(form.task) }}
+		</div>
+
+
+		<div class="mb-5">
+			{{ form_label(form.power, null, {'label_attr': {'class': 'form-label mt-5'}}) }}
+			{{ form_widget(form.power, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.power) }}
+		</div>
+
+	</div>
+</details>
+<div class="text-center position-relative mt-3">
+	<button id="saveButton" class="btn btn-sm btn-outline-primary" type="submit">
+		<i class="material-icons">save</i>
+		{{ button_label|default('Сохранить') }}
+	</button>
+</div>
+{{ form_end(form) }}
+
+{% if event.instructionFile %}
+	<form id="delete-instruction-form" action="{{ path('app_event_delete_instruction', {id: event.id}) }}" method="post" style="display:none;">
+		<input type="hidden" name="_token" value="{{ csrf_token('delete_instruction_' ~ event.id) }}">
+	</form>
+{% endif %}

@@ -1,0 +1,48 @@
+{% set userId = profile.id %}
+<div class="card card-small">
+	<div class="card-body p-0 text-center">
+		<table class="table mb-0">
+			<tbody>
+				{% for power, count in classification %}
+					<tr>
+						<td class="text-left clickable" role="button" style="cursor:pointer" data-url="{{ path('app_users_list_by_power', { power: power, id: profile.id, year: selectedYear|default(currentYear) }) }}">
+							{% if power == 0 %}
+								{% trans %}Small moments{% endtrans %}
+							{% elseif power == 1 %}
+								{% trans %}Bright{% endtrans %}
+							{% elseif power == 2 %}
+								{% trans %}Difficult to repeat{% endtrans %}
+							{% elseif power == 3 %}
+								{% trans %}Main event of the year{% endtrans %}
+							{% else %}
+								{% trans %}Unknown{% endtrans %}
+							{% endif %}
+						</td>
+
+						<td>
+							{% if power > 0 %}
+								{% set starColor = power == 3 ? 'crimson' : 'gold' %}
+
+								{% for i in 1..power %}
+									<i class="material-icons" style="color: {{ starColor }};">
+										star
+									</i>
+								{% endfor %}
+							{% endif %}
+						</td>
+
+						<td>
+							{{ count }}
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="3" class="text-center">
+							{% trans %}No events{% endtrans %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>

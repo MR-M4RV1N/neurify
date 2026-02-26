@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col">
+        <div class="card card-small pt-3">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <span>Ссылка на ваш профиль:</span><br>
+                    <span class="mr-2">https://neurify.life/@{{ profile.username|correctUsername }}</span><br>
+                    <!-- Кнопка "Скопировать ссылку" -->
+                    <button id="copyButton" class="btn btn-sm btn-outline-light">
+                        <i class="material-icons">content_copy</i> {% trans %}Copy{% endtrans %}
+                    </button>
+                </div>
+                <!-- JavaScript для копирования ссылки -->
+                <script>
+                    document.getElementById('copyButton').addEventListener('click', function() {
+                        var shareUrl = 'https://neurify.life/@{{ profile.username }}';
+
+                        // Копируем ссылку в буфер обмена
+                        var dummy = document.createElement('textarea');
+                        document.body.appendChild(dummy);
+                        dummy.value = shareUrl;
+                        dummy.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(dummy);
+
+                        // Уведомление
+                        alert('Ссылка скопирована: ' + shareUrl);
+                    });
+                </script>
+
+                <hr>
+
+                <!-- Кнопка "Поделиться" -->
+                <button id="shareButton" class="btn btn-outline-secondary">
+                    <i class="material-icons">share</i> Поделиться
+                </button>
+                <script>
+                    document.getElementById('shareButton').addEventListener('click', function() {
+                        var shareUrl = 'https://neurify.life/@{{ profile.username }}';
+
+                        if (navigator.share) {
+                            navigator.share({
+                                title: 'Профиль пользователя {{ profile.username }}',
+                                text: 'Посмотрите профиль пользователя {{ profile.username }} на Neurify',
+                                url: shareUrl
+                            }).then(() => {
+                                console.log('Спасибо за то, что поделились!');
+                            }).catch((error) => {
+                                console.error('Ошибка при попытке поделиться:', error);
+                            });
+                        } else {
+                            // Копируем ссылку в буфер обмена
+                            var dummy = document.createElement('textarea');
+                            document.body.appendChild(dummy);
+                            dummy.value = shareUrl;
+                            dummy.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(dummy);
+                            alert('Ссылка скопирована: ' + shareUrl);
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+/* Меню */
+.add-menu-lux {
+  background-color: #d3a266;
+  border-radius: 10px;
+  padding: 10px;
+  width: 200px;
+  box-shadow: 0 4px 12px #888888;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-menu-lux a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  padding: 6px 8px;
+  border-radius: 5px;
+}
+
+.add-menu-lux a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.add-menu-lux a i {
+  margin-right: 8px;
+}
+
+/* Треугольник снизу меню */
+.menu-arrow-lux {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #d3a266;
+  margin-top: -1px;
+}
+
+.d-none {
+  display: none !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

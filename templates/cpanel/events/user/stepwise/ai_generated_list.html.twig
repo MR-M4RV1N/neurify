@@ -1,0 +1,18 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block body %}
+    {% include '/cpanel/events/user/_profile.html.twig' %}
+
+    <!-- Page Header -->
+    <div class="page-header row no-gutters">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">
+                    AI-Generated
+            </span>
+        </div>
+    </div>
+
+    {% include '/cpanel/events/user/stepwise/_stepwise.html.twig' %}
+{% endblock %}

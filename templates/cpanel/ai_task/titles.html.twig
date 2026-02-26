@@ -1,0 +1,60 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI Tasks Draft{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pt-4">
+            <div class="col-12 col-sm-6 text-center text-sm-left mb-0">
+                <h5>{% trans %}Draft tasks generated{% endtrans %}!</h5>
+                <span class="text-uppercase page-subtitle">
+                {% trans %}Review items before creating full tasks{% endtrans %}
+            </span>
+            </div>
+        </div>
+
+        <div class="card card-small card-post h-100 mt-4 mb-5">
+
+            <!-- AI Header -->
+            {% include '/cpanel/ai_task/_ai_header.html.twig' %}
+
+            <!-- Tasks List -->
+            <div>
+                <h6 class="mb-3 pt-3 text-center"><strong>{% trans %}Generated tasks{% endtrans %}</strong></h6>
+
+                <ul class="list-group mb-4">
+                    {% for task in tasks %}
+                        <li class="list-group-item border">
+                            <strong>{{ loop.index }}. {{ task.title }}</strong>
+                            <div class="text-muted small mt-1">
+                                {{ task.idea }}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="card-footer">
+                <div class="d-flex justify-content-between">
+
+                    <!-- Button Regenerate -->
+                    <button type="button" class="btn btn-outline-primary btn-sm"
+                            data-toggle="modal"
+                            data-target="#aiRegenerateModal">
+                        {% trans %}Regenerate{% endtrans %}
+                    </button>
+
+                    <!-- Button Create descriptions -->
+                    <a href="{{ path('ai_task_describe', {'id': draft.id}) }}"
+                       data-turbo="false"
+                       class="btn btn-sm btn-primary">
+                        {% trans %}Create descriptions{% endtrans %}
+                        <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

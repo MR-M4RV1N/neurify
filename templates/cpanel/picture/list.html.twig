@@ -1,0 +1,23 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">Название</span>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+
+        <!-- POSTS... -->
+        <div class="row">
+            {% for picture in pictures %}
+                {% include 'cpanel/picture/_picture_card.html.twig' %}
+            {% else %}
+                <p>Нет доступных записей.</p>
+            {% endfor %}
+        </div>
+        <!-- ...POSTS -->
+    </div>
+{% endblock %}

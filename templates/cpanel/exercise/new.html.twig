@@ -1,0 +1,20 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}{% trans %}New Clue{% endtrans %}{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card card-small p-1 mt-4 mb-5">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0 text-center">{% trans %}Create new exercise{% endtrans %}</h6>
+                    </div>
+                    <div class="card-body">
+                        {{ include('cpanel/exercise/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

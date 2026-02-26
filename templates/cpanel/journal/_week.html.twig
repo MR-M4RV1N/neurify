@@ -1,0 +1,105 @@
+<div class="card card-small">
+    <div class="mb-3 mt-2">
+        <div class="d-flex justify-content-center align-items-center mt-2">
+            <a href="{{ path('app_proposal_week', {
+                week: weekStart|date_modify('-7 days')|date('Y-m-d')
+            }) }}"
+               class="text-muted mr-3"
+               title="{% trans %}Previous week{% endtrans %}">
+                <i class="material-icons">chevron_left</i>
+            </a>
+
+            <strong>
+                {% trans %}Week{% endtrans %}:
+                {{ weekStart|date('d.m') }} – {{ weekEnd|date('d.m') }}
+            </strong>
+
+            <a href="{{ path('app_proposal_week', {
+                week: weekStart|date_modify('+7 days')|date('Y-m-d')
+            }) }}"
+               class="text-muted ml-3"
+               title="{% trans %}Next week{% endtrans %}">
+                <i class="material-icons">chevron_right</i>
+            </a>
+        </div>
+
+        <div class="text-center pb-3">
+            <span class="small">
+                {% if weekTitle %}
+                    {{ weekTitle }}
+                {% else %}
+                    {% trans %}Unnamed{% endtrans %}
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            {% for day in weekDays %}
+                <div class="text-center" style="margin-right: 5px">
+                    <a href="{{ path('journal_show', { date: day.dateKey }) }}"
+                       style="width: 40px;
+                       {% if day.isToday %}
+                               border: 1px solid gray
+                       {% else %}
+                               border: 1px solid lightgray
+                       {% endif %}"
+                       class="d-block p-2 rounded
+                       {% if day.hasEntry %}
+                           bg-secondary text-white
+                       {% elseif day.isToday %}
+                           font-weight-bold bg-light text-secondary
+                       {% else %}
+                           bg-light text-secondary
+                       {% endif %}">
+                        <div class="text-uppercase" style="font-size: 8px;">
+                            {{ day.date|date('D') }}
+                        </div>
+                        <div>
+                            {{ day.date|date('j') }}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="text-center pt-2 mb-2">
+        {% if isWeekComplete %}
+            <a href="{{ path('journal_week_show', { week: weekStart|date('Y-m-d') }) }}"
+               class="btn-accent-pill">
+                {% trans %}Open{% endtrans %}
+            </a>
+        {% else %}
+            <div class="small text-muted my-2 d-none js-week-locked-hint">
+                {% trans %}To open weekly reflection, please complete entries for all days of this week.{% endtrans %}
+            </div>
+            <span class="btn-accent-pill is-disabled js-week-locked"
+                  role="button"
+                  tabindex="0">
+                {% trans %}Open{% endtrans %}
+            </span>
+        {% endif %}
+    </div>
+</div>
+<script>
+    function initWeekLockedButtons() {
+        document.querySelectorAll('.js-week-locked').forEach(function (btn) {
+
+            // защита от повторного навешивания
+            if (btn.dataset.bound === '1') return;
+            btn.dataset.bound = '1';
+
+            btn.addEventListener('click', function () {
+                const hint = btn.parentElement.querySelector('.js-week-locked-hint');
+                if (!hint) return;
+
+                hint.classList.toggle('d-none');
+            });
+        });
+    }
+
+    // Turbo (основной случай)
+    document.addEventListener('turbo:load', initWeekLockedButtons);
+
+    // Fallback (на всякий случай)
+    document.addEventListener('DOMContentLoaded', initWeekLockedButtons);
+</script>

@@ -1,0 +1,33 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}New Small Step{% endblock %}
+
+{% block body %}
+<div class="main-content-container container-fluid">
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 text-center mb-0">
+            <h3 class="page-title">{% trans %}New record{% endtrans %}</h3>
+            <span class="text-muted mt-1">
+            {% if form.draft.vars.value %}
+                {% trans %}Idea{% endtrans %}
+            {% else %}
+                {% trans %}Small step{% endtrans %}
+            {% endif %}
+        </span>
+        </div>
+    </div>
+
+    <div class="card card-small mb-5">
+        <div class="card-header border-bottom">
+            <a href="{{ path('cpanel_small_step_index') }}" class="btn btn-sm btn-outline-secondary">
+                <i class="material-icons">chevron_left</i>
+            </a>
+        </div>
+        {{ include('/cpanel/small_step/_form.html.twig', {
+            form: form,
+            button_label: 'Create'|trans,
+            form_type: 'new'
+        }) }}
+    </div>
+</div>
+{% endblock %}

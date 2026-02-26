@@ -1,0 +1,61 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block styles %}
+<style>
+    .ratio-16x9 {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        overflow: hidden;
+    }
+
+    .ratio-16x9 img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">{% trans %}Structure your thinking{% endtrans %}</span>
+                <h3 class="page-title">{% trans %}Table{% endtrans %}</h3>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+
+        <!-- CONTENT... -->
+        <div class="row border bg-white p-2">
+            {% if is_granted('ROLE_USER') %}
+                {% if map.ensemble %}
+                    <a class="btn btn-sm btn-outline-secondary"
+                       href="{{ path('app_events_list', {'ensemble': map.ensemble.id}) }}">
+                        <i class="fas fa-angle-left"></i> {% trans %}back{% endtrans %}
+                    </a>
+                {% else %}
+                    <a class="btn btn-sm btn-outline-secondary"
+                       href="{{ path('app_events_list', {'ensemble': 0}) }}">
+                        <i class="fas fa-angle-left"></i> {% trans %}back{% endtrans %}
+                    </a>
+                {% endif %}
+            {% endif %}
+            {% if is_granted('ROLE_USER') %}
+                {% if map.user.id == app.user.id %}
+                    <a class="btn btn-sm btn-outline-secondary ml-2" href="/cpanel/editor/edit/map/{{ map.id }}">
+                        <i class="fa fa-edit"></i> {% trans %}edit{% endtrans %}
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+        <!-- REACT ENTRY POINT -->
+        <!--<div id="react-matrix-root" data-map-id="{{ map.id }}"></div>-->
+        {% include 'cpanel/matrix/editor/_templates/_show_table.html.twig' %}
+    </div>
+{% endblock %}

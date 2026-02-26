@@ -1,0 +1,16 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI-комментарии{% endblock %}
+
+{% block body %}
+    {% include '/cpanel/chat/_avatar.html.twig' %}
+
+    <div class="pt-2">
+        {% include '/cpanel/chat/_tabs.html.twig' %}
+    </div>
+
+    {# Options #}
+    {% include '/cpanel/ai_consulting/_options.html.twig' %}
+
+    <div class="pb-5 pt-5"></div>
+{% endblock %}

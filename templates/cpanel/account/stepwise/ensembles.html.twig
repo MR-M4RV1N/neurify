@@ -1,0 +1,13 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block body %}
+    {% include '/cpanel/account/_profile.html.twig' %}
+    <div class="text-center mt-3 mx-1">
+        {{ app.user.description }}
+    </div>
+    {% include '/cpanel/account/_tabs.html.twig' %}
+
+    {% include '/cpanel/account/stepwise/_ensembles.html.twig' %}
+{% endblock %}

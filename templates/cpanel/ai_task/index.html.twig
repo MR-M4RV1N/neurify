@@ -1,0 +1,128 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI-комментарии{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title mb-2">{% trans %}Artificial intelligence{% endtrans %}</h3>
+                <span class="text-uppercase page-subtitle">
+                    {% trans %}Your guide on life’s journey{% endtrans %}
+                </span>
+            </div>
+        </div>
+
+        <div class="bg-white border-top border-bottom shadow mb-5">
+            <div class="text-center mb-5 mt-4">
+                <img src="{{ asset('/images/nf-ai.png') }}" alt="Icon" width="72">
+                <div class="mt-3 mb-4 mx-3">
+                    <h5 class="text-primary">Neurify.AI</h5>
+                    <span>{% trans %}No personal task list found. Let’s create one.{% endtrans %}</span>
+                </div>
+
+                <div class="mb-4 mb-2">
+                    {# ---- БЛОК DESCRIPTION ---- #}
+                    <div class="d-flex justify-content-between border p-2 px-4">
+                        <div>
+                            {% if checkProfileDescription %}
+                                <i class="fas fa-check-circle text-success"></i>
+                            {% else %}
+                                <i class="far fa-circle text-muted"></i>
+                            {% endif %}
+                            {% trans %}Profile description{% endtrans %}
+                        </div>
+                        <div>
+                            <a href="/cpanel/profile/index#desc-anchor">{% trans %}Open{% endtrans %}</a>
+                        </div>
+                    </div>
+                    {# ---- БЛОК SWOT ---- #}
+                    <div class="d-flex justify-content-between border p-2 px-4 mb-2">
+                        <div>
+                            {% if checkSwot %}
+                                <i class="fas fa-check-circle text-success"></i>
+                            {% else %}
+                                <i class="far fa-circle text-muted"></i>
+                            {% endif %}
+                            {% trans %}SWOT analysis{% endtrans %}
+                        </div>
+                        <div>
+                            <a href="{{ path('app_swot_edit') }}">{% trans %}Open{% endtrans %}</a>
+                        </div>
+                    </div>
+                    <span class="text-muted small">
+                        {% trans %}Fill SWOT analysis for better personal recommendations{% endtrans %}
+                    </span>
+                </div>
+                {# Выбор стратегии #}
+                <div class="form-group text-center">
+                    <label for="strategySelect" class="px-3">
+                        {% trans %}Choose strategy{% endtrans %}
+                    </label>
+
+                    <select id="strategySelect" name="strategy" class="form-control">
+                        <option value="career">🔵 Career strategy</option>
+                        <option value="strengths">🟢 Strengths-based</option>
+                        <option value="weaknesses">🔴 Weakness reduction</option>
+                        <option value="opportunities">🟣 Opportunities-driven</option>
+                        <option value="threats">⚫ Threat minimisation</option>
+                        <option value="creative">🟡 Creativity boost</option>
+                        <option value="balance">🟤 Balance</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button"
+                            class="btn btn-primary btn-sm"
+                            data-toggle="modal"
+                            data-target="#aiTaskModal">
+                        {% trans %}Create{% endtrans %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Modal window #}
+    <div class="modal fade" id="aiTaskModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">{% trans %}AI Recommendations (optional){% endtrans %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{% trans %}Close{% endtrans %}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form id="aiTaskForm"
+                      action="{{ path('ai_task_generate') }}"
+                      method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token('ai_task') }}">
+                    <div class="modal-body">
+                        <label class="mb-2 text-muted">
+                            {% trans %}Write recommendations for AI (optional){% endtrans %}
+                        </label>
+                        <textarea name="aiNotes"
+                                  class="form-control"
+                                  rows="4"
+                                  placeholder="{% trans %}For example: focus on motivation, habits, progress…{% endtrans %}"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal">
+                            {% trans %}Cancel{% endtrans %}
+                        </button>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            {% trans %}Generate{% endtrans %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

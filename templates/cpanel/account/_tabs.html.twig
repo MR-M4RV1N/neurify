@@ -1,0 +1,12 @@
+<div class="text-center my-3" id="target-activity">
+	{% set path = app.request.pathinfo %}
+	<div class="btn-group btn-group-toggle d-inline-flex">
+		{% if profile.type == 3 or profile.type == 4 %}
+			<a href="/cpanel/account/stepwise/ensembles/{{ profile.id }}" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/account/stepwise') }}">{% trans %}Collections{% endtrans %}</a>
+		{% endif %}
+		<a href="/cpanel/account/statistics" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/account/statistics') }}">{% trans %}Challenges{% endtrans %}</a>
+		<!--<a href="/cpanel/account/all" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/account/all') }}">{% trans %}All records{% endtrans %}</a>-->
+		<a href="/cpanel/account/classification" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/account/classification') }}">{% trans %}Classification{% endtrans %}</a>
+		<a href="/cpanel/account/ensembles" class="btn btn-white btn-sm px-2 {{ path|area('/cpanel/account/ensembles') }}">{% trans %}Categories{% endtrans %}</a>
+	</div>
+</div>

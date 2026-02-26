@@ -1,0 +1,61 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Draft index{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title mb-2">{% trans %}My quests{% endtrans %}</h3>
+                <span class="text-uppercase page-subtitle">
+                    {% trans %}Progress{% endtrans %}: {{ app.user.progress }}/100
+                </span>
+            </div>
+        </div>
+
+        <div class="mb-4 text-center">
+            {% set path = app.request.pathinfo %}
+            <div class="btn-group btn-group-toggle d-inline-flex">
+                <a href="/cpanel/editor/draft" class="btn btn-white btn-sm px-2 {{ path|area('/draft') }}">Планируемые</a>
+                <a href="/cpanel/editor/events/list" class="btn btn-white btn-sm px-2 {{ path|area('/events') }}">Выполненные</a>
+                <a href="/cpanel/editor/blanks/1" class="btn btn-white btn-sm px-2 {{ path|area('/blanks') }}">Рекомендуемые</a>
+            </div>
+        </div>
+
+        <div class="row px-2">
+            {% for draft in drafts %}
+            <div class="col-lg-4">
+                <div class="card card-small card-post mb-4">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ draft.title }}</h6>
+                        <div class="my-auto ml-auto text-right">
+                            <a class="btn btn-sm btn-white" href="{{ path('app_draft_edit', {'id': draft.id}) }}">
+                                <i class="material-icons">edit</i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                <div class="col col-md-6 mx-auto text-center">
+                    {% trans %}No records found{% endtrans %}
+                </div>
+            {% endfor %}
+
+            {% if drafts|length > 0 %}
+            {# Отображение пагинации #}
+            <div class="container">
+                <div class="d-flex justify-content-center pagination mt-2 mb-5">
+                    <div class="pagination">
+                        {{ pagerfanta(drafts, 'default') }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ADD FLOATING BUTTON -->
+    <div class="devstyle-floating-button" onclick="location.href='{{ path('app_draft_new') }}'">+</div>
+
+{% endblock %}

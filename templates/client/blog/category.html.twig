@@ -1,0 +1,24 @@
+{% extends '_layouts/app.html.twig' %}
+
+{% block title %}{{ categoryName }}{% endblock %}
+{% block description %}{{ categoryDescription }}{% endblock %}
+{% block keywords %}{{ categoryKeywords }}{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- HEADER... -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <span class="text-uppercase page-subtitle">Блог</span>
+                <h3 class="page-title">
+                    {{ categoryName }}
+                </h3>
+            </div>
+        </div>
+        <!-- ...HEADER -->
+
+        <!-- POSTS... -->
+        {% include '_layouts/templates/_list.html.twig' %}
+        <!-- ...POSTS -->
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Event
+{% endblock %}
+
+{% block body %}
+	<div class="bg-white shadow border-top p-1 mt-4">
+		<div class="card-header border-bottom">
+			<div
+				class="d-flex justify-content-start">
+				<!-- Back button -->
+				{% set back_url = path('app_events_list') %}
+
+				{% if '/default/events' in app.request.uri %}
+					{% set userId = event.user.id %}
+					{% set back_url = path('app_default_list', {'id': userId}) %}
+				{% endif %}
+				{% if 'ensemble' in app.request.uri and event.ensemble is not null %}
+					{% set back_url = path('app_ensemble_open', { 'id': event.ensemble.id }) %}
+				{% endif %}
+				{% if '/editor/events' in app.request.uri %}
+					{% set back_url = path('app_events_list') %}
+				{% endif %}
+				{% if 'public' in app.request.uri %}
+					{% set back_url = path('app_public_list') %}
+				{% endif %}
+				{% if 'bookmark' in app.request.uri %}
+					{% set back_url = path('app_bookmark_list') %}
+				{% endif %}
+				{% if 'subscription' in app.request.uri %}
+					{% set back_url = path('app_subscription_list') %}
+				{% endif %}
+				{% if '/users/' in app.request.uri %}
+					{% set userId = event.user.id %}
+					{% set back_url = path('app_users_user', {'id': userId}) %}
+				{% endif %}
+				<a href="#" class="btn btn-sm btn-outline-warning" onclick="history.back(); return false;">
+					<i class="material-icons">arrow_back</i>
+					{% trans %}Back{% endtrans %}
+				</a>
+
+				<!-- Edit button -->
+				{% if event.user.id == app.user.id and '/bookmark/' not in app.request.uri %}
+					<a href="{{ path('app_event_edit', {'id': event.id}) }}" class="btn btn-sm btn-outline-warning ml-2">
+						<i class="material-icons">edit</i>
+						{% trans %}Edit{% endtrans %}
+					</a>
+				{% endif %}
+				{% if '/bookmark/' in app.request.uri %}
+					<form method="post" action="{{ path('bookmark_remove_from_account', {'id': event.id}) }}" onsubmit="return confirm('Are you sure you want to delete this bookmark?');">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+						<button type="submit" class="btn btn-sm btn-danger ml-2">
+							<i class="material-icons">delete</i>
+						</button>
+					</form>
+				{% endif %}
+			</div>
+		</div>
+		{% include '/cpanel/events/_common/_show_card_body.html.twig' %}
+	</div>
+	{% if event.aiGenerated == 1 and event.task == 1 and event.user.id == app.user.id %}
+		<div class="main-content-container container-fluid">
+			{% include '/cpanel/events/_common/_reformulation_records.html.twig' %}
+		</div>
+	{% endif %}
+	<div class="main-content-container container-fluid">
+		{% include '/cpanel/events/event/_comments.html.twig' %}
+	</div>
+{% endblock %}

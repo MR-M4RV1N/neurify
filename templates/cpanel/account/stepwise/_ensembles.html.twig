@@ -1,0 +1,43 @@
+{% set userId = profile.id %}
+<div class="main-content-container container-fluid mb-5">
+    <div class="row">
+        <div class="col">
+            <div class="card card-small mb-4">
+                <div class="card-body p-0 text-center">
+                    <table class="table mb-0">
+                        <tbody>
+                        {% for item in ensembles %}
+                            <tr>
+                                {% set currentRoute = app.request.attributes.get('_route') %}
+                                <td class="text-left clickable" role="button" style="cursor: pointer;"
+                                    data-url="{{ currentRoute starts with 'users'
+                                    ? path('users_stepwised_ensemble_open', {'ensemble': item.id})
+                                    : path('stepwised_ensemble_open', {'ensemble': item.id}) }}">
+                                    <i class="fas fa-folder-open ml-2 mr-2"></i>{{ item.title }}
+                                    <p class="m-0 my-1 mb-2 text-muted small">
+                                        {{ item.description|length > 200
+                                            ? item.description|slice(0, 200) ~ '...'
+                                            : item.description
+                                        }}
+                                    </p>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td class="text-center ml-2">{% trans %}There are no categories{% endtrans %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if '/cpanel/collections/ai' in app.request.uri %}
+    <div class="d-flex justify-content-center mb-5">
+        <a href="{{ path('ai_task_new') }}" class="btn btn-sm btn-primary" id="add-category-button">
+            <i class="material-icons">add</i> {% trans %}Add category{% endtrans %}
+        </a>
+    </div>
+    {% endif %}
+</div>

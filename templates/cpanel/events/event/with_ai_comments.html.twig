@@ -1,0 +1,59 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI-комментарии{% endblock %}
+
+{% block body %}
+    <div class="bg-white border-top border-bottom shadow">
+        <div class="text-center mb-3 mt-4">
+            <img src="{{ asset('/icons/artificial-intelligence.png') }}" alt="Icon" width="48">
+            <div class="mt-3 mb-4 mx-3">
+                <h5 class="text-primary">Neurify.GPT</h5>
+                <span>{% trans %}Artificial Intelligence{% endtrans %}. {% trans %}Your assistant in mastering the platform{% endtrans %}.</span>
+            </div>
+            <a href="https://chatgpt.com/g/g-680600acff80819186c2915fddede529-neurify-gpt" class="btn btn-sm btn-outline-primary">{% trans %}Open{% endtrans %}</a>
+
+        </div>
+    </div>
+
+    <div class="main-content-container container-fluid">
+        <div class="page-header row no-gutters pt-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h5>Испытания с AI-комментарием</h5>
+                <span class="text-uppercase page-subtitle">Sherlock Holmes style</span>
+            </div>
+        </div>
+
+        {% for comment in comments %}
+            <div class="card card-small card-post h-100 mt-4">
+                <div class="card-header border-bottom">
+                    <div>
+                        <img src="{{ asset('/icons/event.png') }}" alt="Icon" width="24">
+                        <a class="text-fiord-blue" href="{{ path('event_ai_comment', { id: comment.event.id }) }}">
+                            {{ comment.event.title }}
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>AI:</strong>
+                        {{ comment.content|striptags|length > 200
+                        ? comment.content|striptags|slice(0, 200) ~ '...'
+                        : comment.content|striptags }}
+                        <a href="{{ path('event_ai_comment', { id: comment.event.id }) }}">
+                            {% trans %}Open{% endtrans %}
+                        </a>
+                    </p>
+
+                </div>
+                <div class="card-footer border-top">
+                    <small class="text-muted">{{ comment.createdAt|date('d.m.Y H:i') }}</small>
+
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning mt-4">
+                Пока что нет событий с AI-комментариями.
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

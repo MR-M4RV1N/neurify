@@ -1,0 +1,80 @@
+<style>
+    /* Класс для анимации загрузки */
+    .fa-spinner.fa-spin {
+        animation: fa-spin 1s infinite linear;
+    }
+
+    /* Пример стилизации для скрытия иконки */
+    .d-none {
+        display: none;
+    }
+</style>
+
+<div>
+    {% set is_ensemble = 'ensemble' in app.request.uri %}
+    {% set is_default = 'default' in app.request.uri %}
+    {% set is_featured = 'featured' in app.request.uri %}
+    {% set is_events = 'events' in app.request.uri %}
+    {% set is_public = 'public' in app.request.uri %}
+    {% set is_subscription = 'subscription' in app.request.uri %}
+    {% set is_user = '/users/user' in app.request.uri %}
+    {% set is_bookmark = '/bookmark/' in app.request.uri %}
+
+    <div class="container d-flex justify-content-center m-0 p-0">
+        <div class="row justify-content-center w-100">
+            {% for item in events %}
+                {% if item.feedType == 'event' %}
+                    {% include 'cpanel/events/event/_event_card.html.twig' with {
+                        event: item,
+                        event_path: path('app_event_show', {'id': item.id}),
+                        likedEvents: likedEvents,
+                        bookmarkedEvents: bookmarkedEvents,
+                        is_bookmark: is_bookmark
+                    } %}
+                {% elseif item.feedType == 'matrix' %}
+                    {% include 'cpanel/events/event/_matrix_card.html.twig' with { map: item } %}
+                {% elseif item.feedType == 'simple' %}
+                    {% include 'cpanel/simple/_simple_card.html.twig' with { simple: item } %}
+                {% elseif item.feedType == 'picture' %}
+                    {% include 'cpanel/picture/_picture_card.html.twig' with { picture: item } %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {# Если нет записей #}
+    {% include '/cpanel/events/_common/_empty.html.twig' %}
+
+    {# Отображение пагинации #}
+    <div class="container">
+        <div class="d-flex justify-content-center pagination mt-2 mb-3">
+            <div class="pagination">
+                {{ pagerfanta(pager, 'default') }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true" style="margin-top: 100px">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Подтверждение</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Вы хотите принять вызов?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отклонить</button>
+                <button type="button" class="btn btn-primary" id="confirmAccept">Да</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- events-iteration-bookmark-toogle.js -->
+

@@ -1,0 +1,56 @@
+{# templates/cpanel/small_step/categories.html.twig #}
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% set pageTitle = mode == 'ideas' ? 'Small ideas' : 'Small steps' %}
+{% set headerTitle = (mode == 'ideas' ? 'Small ideas of development' : 'Small steps of development')|trans %}
+
+{% block title %}
+	{{ pageTitle }}
+	-
+	{% trans %}Categories{% endtrans %}
+{% endblock %}
+
+{% block body %}
+	<div
+		class="main-content-container container-fluid mb-5">
+		<!-- Page Header -->
+		<div class="page-header row no-gutters mb-3 pt-4">
+			<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+				<h3 class="page-title mb-2">{{ headerTitle }}</h3>
+				<span class="text-uppercase page-subtitle">{% trans %}Categories{% endtrans %}</span>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-8 col-md-12 col-sm-12 mb-4">
+				<div class="card card-small mb-4">
+					<div class="card-header border-bottom">
+						<h6 class="m-0">{% trans %}Categories{% endtrans %}</h6>
+					</div>
+					<div class="card-body p-0">
+						<ul class="list-group list-group-flush">
+							{% for item in stats %}
+								<li class="list-group-item d-flex px-3 align-items-center">
+									<i class="material-icons mr-3 text-muted">{{ item.sector.icon }}</i>
+									<span class="text-semibold text-fiord-blue">{{ item.sector.name|trans }}</span>
+									<span class="ml-auto text-right text-semibold text-reagent-gray">
+										{{ item.count }}
+									</span>
+									<a href="{{ path(mode == 'ideas' ? 'cpanel_small_step_ideas' : 'cpanel_small_step_index', {category: item.sector.id}) }}" class="btn btn-white btn-sm ml-3">
+										&rarr;
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="card-footer border-top">
+						<a href="{{ path(mode == 'ideas' ? 'cpanel_small_step_ideas' : 'cpanel_small_step_index') }}">
+							&larr;
+							{% trans %}Back{% endtrans %}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

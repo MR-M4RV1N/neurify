@@ -1,0 +1,14 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block body %}
+
+    {% include '/cpanel/events/user/_profile.html.twig' %}
+
+    {% include '/cpanel/events/user/_tabs.html.twig' %}
+
+    {% include '/cpanel/events/user/stepwise/_stepwise.html.twig' %}
+
+    {% include '/cpanel/account/stepwise/_award.html.twig' %}
+{% endblock %}

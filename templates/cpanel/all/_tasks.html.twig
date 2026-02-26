@@ -1,0 +1,30 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters pb-2 pt-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">{% trans %}Personalized{% endtrans %} {% trans %}Tasks{% endtrans %}</span>
+    </div>
+</div>
+<div class="col-lg col-md-4 col-sm-6 mb-4">
+    <div class="card card-small">
+        <div class="card-body p-0">
+            {% if app.user.username == 'M4RV1N' %}
+                {# Individual tasks #}
+                <div class="d-flex align-items-center justify-content-between border p-3">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <div class="blog-comments__meta text-muted">
+                                <a class="text-secondary" href="/cpanel/ai-task">
+                                    NEURIFY MASTER
+                                </a>
+                            </div>
+                            <p class="m-0 my-1 mb-2 text-muted">Individuālie uzdevumi</p>
+                        </div>
+                    </div>
+                    <span class="material-icons text-warning" style="font-size:20px;">
+                            workspace_premium
+                        </span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

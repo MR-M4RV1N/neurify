@@ -1,0 +1,53 @@
+<div class="main-content-container container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card card-small mb-4">
+                <div class="card-body p-0 pb-3 text-center">
+                    <table class="table mb-0">
+                        <tbody>
+                        {% if 'account' in app.request.uri %}
+                            <tr id="bookmark-link">
+                                <td>
+                                    <i class="fas fa-fire"></i>
+                                </td>
+                                <td id="bookmarkLink" data-url="{{ path('app_bookmark_list') }}" class="text-left" role="button" style="cursor: pointer;">
+                                    {% trans %}Accepted challenges{% endtrans %}
+                                </td>
+                                <td>{{ totalBookmarks }}</td>
+                            </tr>
+                        {% endif %}
+
+                        <tr>
+                            <td><i class="material-icons">folder</i></td>
+                            <td id="defaultLink" data-url="{{ path('app_default_list', {'id': userId}) }}" class="text-left" role="button" style="cursor: pointer;">                                {% trans %}Without category{% endtrans %}
+                            </td>
+                            <td>{{ countDefault }}</td>
+                        </tr>
+                        <!--<tr>
+                            <td><i class="material-icons">star</i></td>
+                            <td id="featuredLink" data-url="{{ path('app_featured_list', {'id': userId}) }}" class="text-left" role="button" style="cursor: pointer;">                                {% trans %}Featured{% endtrans %}
+                            </td>
+                            <td>{{ countFeatured }}</td>
+                        </tr>-->
+                        {% for item in ensembles %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td class="text-left clickable" role="button" style="cursor: pointer;"
+                                    data-url="{{ path('app_ensemble_open', {'id': item.ensemble.id}) }}">
+                                    {{ item.ensemble.title }}
+                                </td>
+                                <td>{{ item.totalCount }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center ml-2">{% trans %}There are no categories{% endtrans %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Default Light Table -->
+</div>

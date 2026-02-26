@@ -1,0 +1,172 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Запись за {{ date|date('d.m.Y') }}{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid" data-current-date="{{ date|date('Y-m-d') }}">
+
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">
+                {{ date|date('l') }}
+            </span>
+                <h3 class="page-title">
+                    {{ date|date('d F Y') }}
+                </h3>
+            </div>
+        </div>
+
+        {# Header #}
+        <div class="row bg-white shadow">
+            <div class="col border-bottom">
+                <div class="py-3">
+                    <div class="m-2">
+                        <nav aria-label="breadcrumb">
+                            <ol class="journal-pill-breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ path('app_proposal_week') }}#calendar">
+                                        {% trans %}Week{% endtrans %}
+                                    </a>
+                                </li>
+
+                                <li class="breadcrumb-separator">›</li>
+
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    {{ date|date('d.m.Y') }}
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# Body #}
+        <div class="row bg-white shadow" style="min-height: 300px;">
+            <div class="col">
+                <div class="py-3">
+                    <div class="">
+                        <div
+                                class="journal-day-content"
+                                data-edit-url="{{ path('journal_edit', {date: date|date('Y-m-d')}) }}"
+                                style="cursor: pointer"
+                        >
+                            {% if entry and entry.content %}
+                                <p class="mb-2">
+                                    {{ entry.content|nl2br }}
+                                </p>
+
+                                <small class="text-muted">
+                                    {{ entry.content|length }}/300
+                                </small>
+                            {% else %}
+                                <em class="text-muted">
+                                    {% trans %}The entry for this day has not been created yet.{% endtrans %} {% trans %}Click to add a new entry.{% endtrans %}
+                                </em>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Spacer -->
+        <div class="py-5"></div>
+    </div>
+
+    <script>
+        (function () {
+
+            function initJournalPageGestures() {
+                const page = document.querySelector('.main-content-container');
+                const content = document.querySelector('.journal-day-content');
+                if (!page) return;
+
+                const currentDate = page.dataset.currentDate;
+                const editUrl = content ? content.dataset.editUrl : null;
+
+                // Настройки
+                const SWIPE_THRESHOLD = 50; // px (можно 40–60)
+                const TAP_THRESHOLD = 10;   // px (дрожание пальца)
+                const HORIZONTAL_BIAS = 1.2; // dx должен быть > dy * 1.2
+
+                let startX = 0;
+                let startY = 0;
+                let maxDx = 0;
+                let maxDy = 0;
+                let isHorizontal = false;
+                let isVertical = false;
+
+                page.addEventListener('touchstart', function (e) {
+                    const t = e.touches[0];
+                    startX = t.clientX;
+                    startY = t.clientY;
+                    maxDx = 0;
+                    maxDy = 0;
+                    isHorizontal = false;
+                    isVertical = false;
+                }, { passive: true });
+
+                page.addEventListener('touchmove', function (e) {
+                    const t = e.touches[0];
+                    const dx = t.clientX - startX;
+                    const dy = t.clientY - startY;
+
+                    maxDx = Math.max(maxDx, Math.abs(dx));
+                    maxDy = Math.max(maxDy, Math.abs(dy));
+
+                    // Определяем намерение жеста один раз (когда движение стало заметным)
+                    if (!isHorizontal && !isVertical && (maxDx > TAP_THRESHOLD || maxDy > TAP_THRESHOLD)) {
+                        if (maxDx > maxDy * HORIZONTAL_BIAS) {
+                            isHorizontal = true;
+                        } else if (maxDy > maxDx * HORIZONTAL_BIAS) {
+                            isVertical = true;
+                        }
+                    }
+
+                    // Если это горизонтальный жест — предотвращаем вертикальный скролл
+                    if (isHorizontal) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+
+                page.addEventListener('touchend', function (e) {
+                    const t = e.changedTouches[0];
+                    const dx = t.clientX - startX;
+                    const dy = t.clientY - startY;
+
+                    const target = e.target;
+                    // Если тап по ссылке/кнопке — не вмешиваемся
+                    if (target && target.closest && target.closest('a, button')) {
+                        return;
+                    }
+
+                    // --- Горизонтальный свайп: меняем день ---
+                    if (isHorizontal && Math.abs(dx) >= SWIPE_THRESHOLD) {
+                        const date = new Date(currentDate + 'T12:00:00');
+
+                        // dx < 0 => свайп справа налево => следующий день
+                        if (dx < 0) date.setDate(date.getDate() + 1);
+                        // dx > 0 => свайп слева направо => предыдущий день
+                        else date.setDate(date.getDate() - 1);
+
+                        const nextDate = date.toISOString().slice(0, 10);
+                        window.location.href = '/cpanel/journal/' + nextDate;
+                        return;
+                    }
+
+                    // --- TAP: почти без движения => открыть редактирование ---
+                    if (Math.abs(dx) < TAP_THRESHOLD && Math.abs(dy) < TAP_THRESHOLD && editUrl) {
+                        window.location.href = editUrl;
+                    }
+
+                    // Вертикальные жесты — ничего не делаем (скролл)
+                });
+            }
+
+            // Turbo + обычная загрузка
+            document.addEventListener('turbo:load', initJournalPageGestures);
+            document.addEventListener('DOMContentLoaded', initJournalPageGestures);
+
+        })();
+    </script>
+{% endblock %}

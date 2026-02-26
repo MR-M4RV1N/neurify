@@ -1,0 +1,122 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Neurify.life
+{% endblock %}
+
+{% block body %}
+	<div
+		class="main-content-container container-fluid mb-5">
+		<!-- Page Header -->
+		<div class="page-header row no-gutters py-4">
+			<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+				<span class="text-uppercase page-subtitle">
+					{% trans %}Self-development through challenges{% endtrans %}
+				</span>
+				<h3 class="page-title">Neurify.life</h3>
+			</div>
+		</div>
+
+		<div
+			class="row">
+			<!-- Card 1: Польза от дневника -->
+			<div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+				<div class="card card-small h-100 text-center">
+					<div class="card-header border-bottom">
+						<h6 class="m-0">{% trans %}Benefits of a diary{% endtrans %}</h6>
+					</div>
+					<div class="card-body d-flex flex-column">
+						<div class="mb-3 mx-auto">
+							<div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 70px; height: 70px;">
+								<img src="/images/1311513_603.jpg" alt="Diary" style="width: 70px; height: 70px;">
+							</div>
+						</div>
+						<p
+							class="text-muted mb-0 flex-grow-1" style="text-align: justify;">
+							{{ descriptions.diary|nl2br }}
+						</p>
+					</div>
+					<div class="card-footer border-top">
+						<a href="/cpanel/journal/{{ " now"|date(" y-m-d") }}/edit" class="btn btn-outline-secondary btn-sm">
+							{% trans %}action.add_entry{% endtrans %}
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 2: Польза от ИИ комментариев -->
+			<div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+				<div class="card card-small h-100 text-center">
+					<div class="card-header border-bottom">
+						<h6 class="m-0">{% trans %}Benefits of AI comments{% endtrans %}</h6>
+					</div>
+					<div class="card-body d-flex flex-column">
+						<div class="mb-3 mx-auto">
+							<div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 70px; height: 70px;">
+								<img src="/images/26601499_85z_2201_w009_n001_95c_p6_95.jpg" alt="AI" style="width: 70px;">
+							</div>
+						</div>
+						<p
+							class="text-muted mb-0 flex-grow-1" style="text-align: justify;">
+							{{ descriptions.ai_comments|nl2br }}
+						</p>
+					</div>
+					<div class="card-footer border-top">
+						<a href="/cpanel/all" class="btn btn-outline-secondary btn-sm">
+							{% trans %}action.analyze_entries{% endtrans %}
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 3: Польза маленьких шагов -->
+			<div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+				<div class="card card-small h-100 text-center">
+					<div class="card-header border-bottom">
+						<h6 class="m-0">{% trans %}Benefits of small steps{% endtrans %}</h6>
+					</div>
+					<div class="card-body d-flex flex-column">
+						<div class="mb-3 mx-auto">
+							<div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 70px; height: 70px;">
+								<img src="/images/2945060_28512.jpg" alt="Steps" style="width: 70px;">
+							</div>
+						</div>
+						<p
+							class="text-muted mb-0 flex-grow-1" style="text-align: justify;">
+							{{ descriptions.small_steps|nl2br }}
+						</p>
+					</div>
+					<div class="card-footer border-top">
+						<a href="/cpanel/small-steps/new?type=step" class="btn btn-outline-secondary btn-sm">
+							{% trans %}action.add_small_step{% endtrans %}
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card 4: Польза от накопления испытаний -->
+			<div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+				<div class="card card-small h-100 text-center">
+					<div class="card-header border-bottom">
+						<h6 class="m-0">{% trans %}Benefits of accumulating challenges{% endtrans %}</h6>
+					</div>
+					<div class="card-body d-flex flex-column">
+						<div class="mb-3 mx-auto">
+							<div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 70px; height: 70px;">
+								<img src="/images/11668416_20943561.jpg" alt="Challenges" style="width: 70px;">
+							</div>
+						</div>
+						<p
+							class="text-muted mb-0 flex-grow-1" style="text-align: justify;">
+							{{ descriptions.challenges|nl2br }}
+						</p>
+					</div>
+					<div class="card-footer border-top">
+						<a href="/cpanel/editor/events/new?type=1" class="btn btn-outline-secondary btn-sm">
+							{% trans %}action.add_bright_event{% endtrans %}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

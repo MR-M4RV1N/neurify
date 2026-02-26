@@ -1,0 +1,92 @@
+<style>
+	/* =========================
+       MICRO SQUARE NAV
+       ========================= */
+
+	.square-nav {
+		display: flex;
+		gap: 6px; /* максимально плотно */
+		justify-content: center;
+	}
+
+	.square-item {
+		width: 56px;
+		height: 48px;
+		background: #fff;
+		border-radius: 8px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 3px;
+		text-decoration: none !important;
+		color: #555;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+		transition: background 0.12s ease, box-shadow 0.12s ease, color 0.12s ease;
+	}
+
+	.square-item i {
+		font-size: 16px;
+		line-height: 1;
+	}
+
+	/* текст */
+	.square-label {
+		font-size: 10px;
+		line-height: 1;
+		white-space: nowrap;
+		text-decoration: none !important;
+	}
+
+	/* hover (не активная) */
+	.square-item:hover {
+		color: #000;
+		box-shadow: 0 3px 8px rgba(0, 0, 0, .12);
+		text-decoration: none !important;
+	}
+
+	/* =========================
+       ACTIVE (СИНИЙ)
+       ========================= */
+
+	.square-item.active {
+		background: #d3a266; /* orange */
+		color: #fff;
+		box-shadow: none;
+	}
+
+	.square-item.active i {
+		color: #fff;
+	}
+
+	.square-item.active:hover {
+		background: #b98a4f; /* slightly darker orange */
+	}
+
+</style>
+
+<div class="mt-4 d-flex justify-content-center">
+	{% set path = app.request.pathinfo %}
+
+	<div
+		class="square-nav">
+
+		{# ===== Учитель ===== #}
+		<a class="square-item {{ path|area('/cpanel/users/collections') }}" href="/cpanel/users/collections" aria-label="Учитель">
+			<i class="fa fa-graduation-cap" aria-hidden="true"></i>
+			<span class="square-label">{% trans %}Collections{% endtrans %}</span>
+		</a>
+
+		{# ===== Лента ===== #}
+		<a class="square-item {{ path|area('/cpanel/public') }}" href="/cpanel/public/list" aria-label="Лента">
+			<span class="material-icons">dynamic_feed</span>
+			<span class="square-label">{% trans %}Challenges{% endtrans %}</span>
+		</a>
+
+		{# ===== Люди ===== #}
+		<a class="square-item {{ path|area('/cpanel/users/all') }} {{ path|area('/cpanel/rating/list') }}" href="/cpanel/users/all" aria-label="Люди">
+			<i class="fa fa-users" aria-hidden="true"></i>
+			<span class="square-label">{% trans %}Users{% endtrans %}</span>
+		</a>
+	</div>
+</div>

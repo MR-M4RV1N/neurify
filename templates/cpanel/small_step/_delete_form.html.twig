@@ -1,0 +1,9 @@
+<form method="post"
+      action="{{ path('cpanel_small_step_delete', {id: step.id}) }}"
+      onsubmit="return confirm('{% trans %}Delete this record?{% endtrans %}');"
+      style="display:inline-block;">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete_small_step_' ~ step.id) }}">
+    <button class="btn btn-outline-danger">
+        {% trans %}Delete{% endtrans %}
+    </button>
+</form>

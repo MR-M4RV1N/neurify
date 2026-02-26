@@ -1,0 +1,53 @@
+{% if profile.type == 4 %}
+	{% if '/users/' in app.request.uri %}
+		<!-- Page Header -->
+		<div class="page-header row no-gutters">
+			<div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+				<span class="text-uppercase page-subtitle">{% trans %}Task list{% endtrans %}</span>
+			</div>
+		</div>
+	{% endif %}
+{% endif %}
+
+<div class="main-content-container container-fluid mt-2">
+	<div
+		class="row">
+		{# Доступное испытание #}
+		<div class="col-md-4 mb-3">
+			<div class="card border-primary">
+				<ul class="list-group list-group-flush">
+					{% for quest in completedQuests %}
+						<li class="list-group-item border-top">
+							<i class="fas fa-check-circle text-success"></i>
+							<a href="/cpanel/public/{{ quest.id }}" class="ml-2 text-secondary">{{ quest.title }}</a>
+							<!--<br><small class="text-muted">
+																																																	                                {% trans %}Completed{% endtrans %}
+																																																	                            </small>-->
+						</li>
+					{% endfor %}
+				</ul>
+
+				<div>
+					<div>
+						<ul class="list-group list-group-flush">
+							{% for quest in todoQuests %}
+								<li class="list-group-item border-top">
+									<i class="far fa-circle text-muted"></i>
+									<a href="/cpanel/public/{{ quest.id }}" class="ml-2 text-secondary">{{ quest.title }}</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% if ensemble is defined %}
+		<div class="text-center mb-3">
+			<a href="{{ path('app_ensemble_edit', {'id': ensemble.id}) }}">
+				<i class="material-icons mb-1" style="font-size:14px;vertical-align:middle;">autorenew</i>
+				{% trans %}Edit{% endtrans %}
+			</a>
+		</div>
+	{% endif %}
+</div>

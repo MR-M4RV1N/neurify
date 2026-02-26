@@ -1,0 +1,42 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}{% trans %}Notifications{% endtrans %}{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <div class="card card-small p-1 mt-4 mb-2">
+            <div class="card-header border-bottom">
+                <h6 class="m-0 text-center">{% trans %}Notifications{% endtrans %}</h6>
+            </div>
+            <div class="card-body p-0 pb-3">
+                {% if notifications|length > 0 %}
+                    <ul class="list-group list-group-flush">
+                        {% for notification in notifications %}
+                            <li class="list-group-item">
+                                <div>
+                                    <strong>{{ notification.sender.username }}</strong>
+                                    {% if notification.type.name == 'like' %}
+                                        {% trans %}liked your event{% endtrans %}
+                                    {% elseif notification.type.name == 'comment' %}
+                                        {% trans %}left a comment on your event{% endtrans %}
+                                    {% elseif notification.type.name == 'bookmark' %}
+                                        {% trans %}bookmarked your event{% endtrans %}
+                                    {% elseif notification.type.name == 'repeat' %}
+                                        {% trans %}repeated your event{% endtrans %}
+                                    {% endif %}
+                                    <br>
+                                    <em>"{{ notification.event.title }}".</em>
+                                </div>
+                                <div class="text-muted small">
+                                    {{ notification.createdAt|date('Y-m-d H:i') }}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-center text-muted">{% trans %}No notifications{% endtrans %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

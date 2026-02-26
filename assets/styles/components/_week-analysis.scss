@@ -1,0 +1,109 @@
+.thinker-analysis {
+    // Common styles
+    $border-color: rgba(255, 255, 255, 0.1);
+    $panel-bg: rgba(255, 255, 255, 0.05);
+
+    .analysis-panel {
+        background-color: $panel-bg;
+        border: 1px solid $border-color;
+        border-radius: 0.25rem;
+        color: #fff;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+    }
+
+    .analysis-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: transparent;
+        border-bottom: 1px solid $border-color;
+        color: #fff;
+    }
+
+    .analysis-body {
+        flex: 1 1 auto;
+        padding: 1.25rem;
+    }
+
+    // DIV based list container
+    .analysis-list {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
+
+    // DIV based list item
+    .analysis-list-item {
+        position: relative;
+        display: block; // Changed from flex/block
+        padding: 0.75rem 1.25rem;
+        background-color: transparent;
+        border-bottom: 1px solid $border-color;
+        color: #eee;
+
+        // Ensure no border on last item
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &.text-muted {
+            color: #8fa0b1 !important;
+        }
+
+        &.text-danger {
+            color: #ff6b6b !important;
+        }
+
+        // Ensure icon alignment
+        i {
+            width: 1.5em; // Fixed width for alignment
+            text-align: center;
+            display: inline-block;
+        }
+    }
+
+    .progress {
+        background-color: rgba(255, 255, 255, 0.15);
+        border: none;
+        height: 1.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        overflow: hidden;
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+
+            &.bg-warning {
+                color: #212529;
+            }
+
+            &.bg-success {
+                color: #fff;
+            }
+
+            &.bg-info {
+                color: #fff;
+            }
+        }
+    }
+
+    // Helper utilities specific to this component context
+    .text-white {
+        color: #fff !important;
+    }
+
+    .text-muted {
+        color: #adb5bd !important;
+    }
+}

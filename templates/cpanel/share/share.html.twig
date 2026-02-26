@@ -1,0 +1,113 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}AI-comment{% endblock %}
+
+{% block body %}
+    <div class="main-content-container container-fluid">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters pt-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h5>{% trans %}Generation successfully completed{% endtrans %}!</h5>
+                <span class="text-uppercase page-subtitle">{% trans %}Keep up the good work{% endtrans %}!</span>
+            </div>
+        </div>
+
+
+        <div class="card card-small card-post h-100 mt-4 mb-5">
+            <div class="d-flex justify-content-between mt-1 pt-1 border-bottom">
+                {# Кнопка "Редактировать" #}
+                {% if shared %}
+                    <button type="button"
+                            class="btn btn-link text-primary mr-3"
+                            data-toggle="modal"
+                            data-target="#editPostModal">
+                        {% trans %}Edit{% endtrans %}
+                    </button>
+                {% endif %}
+
+                {# Кнопка "Удалить" #}
+                <form method="post" action="{{ path('app_share_delete') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('app_share_delete') }}">
+                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                    <button type="submit" class="btn btn-link text-danger">
+                        {% trans %}Delete{% endtrans %}
+                    </button>
+                </form>
+            </div>
+            <div>
+                {% if shared %}
+                    <div class="text-center mb-3 mt-3">
+                        <img src="{{ asset('/icons/artificial-intelligence.png') }}" alt="Icon" width="48">
+                    </div>
+
+                    <div id="ai-comment-html" class="sherlock-flair m-2">
+                        {{ shared.post|nl2br }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <div class="text-center">
+                    {% if shared %}
+                        {% if shared.published == true %}
+                            <i class="fa fa-check-square" aria-hidden="true"></i>
+                            {% trans %}Post successfully published on the social network{% endtrans %}
+                        {% else %}
+                            <form method="post" action="{{ path('app_share_send') }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('app_share_send') }}">
+                                <input type="hidden" name="event_id" value="{{ event.id }}">
+                                <button type="submit" class="btn btn-success">
+                                    {% trans %}Send{% endtrans %} <i class="fa fa-paper-plane ml-2" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if shared %}
+        <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <form method="post" action="{{ path('app_share_edit', { id: shared.id }) }}">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editPostModalLabel">
+                                {% trans %}Edit{% endtrans %}
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans %}Close{% endtrans %}">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <input type="hidden" name="_token" value="{{ csrf_token('app_share_edit_' ~ shared.id) }}">
+
+                            <div class="form-group">
+                                <label for="post_edit_text">
+                                    {% trans %}Text{% endtrans %}
+                                </label>
+                                <textarea id="post_edit_text"
+                                          name="post"
+                                          class="form-control"
+                                          rows="8">{{ shared.post }}</textarea>
+                                <small class="form-text text-muted">
+                                    {% trans %}You can adjust the text before publishing to social networks{% endtrans %}
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                {% trans %}Cancel{% endtrans %}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {% trans %}Save{% endtrans %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'cpanel/_layouts/app.html.twig' %}
+
+{% block title %}Progress index{% endblock %}
+
+{% block styles %}
+<style>
+    table td {
+        vertical-align: middle;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">{% trans %}Expand your horizons{% endtrans %}</span>
+            <h3 class="page-title">{% trans %}Your level{% endtrans %}</h3>
+        </div>
+    </div>
+    <!-- End Page Header -->
+
+    <div class="main-content-container container-fluid">
+        <div class="card card-small mb-4">
+            <div class="card-body p-0 pb-3 text-center">
+                <table class="table mb-0">
+                    <thead class="bg-light">
+                    <tr>
+                        <th scope="col" class="border-0 text-center">#</th>
+                        <th scope="col" class="border-0 text-center">{% trans %}Badge{% endtrans %}</th>
+                        <th scope="col" class="border-0 text-center">{% trans %}Challenges{% endtrans %}</th>
+                        <th>{% trans %}Actions{% endtrans %}</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    <tr>
+                        <td>0</td>
+                        <td><img class="img-fluid rounded" style="width:30px" src="/images/L0.png"></td>
+                        <td>0</td>
+                        <td><a href="{{ path('app_progress_show_by_level', {'id': 0, 'user': user}) }}">{% trans %}Open{% endtrans %}</a></td>
+                    </tr>
+                    {% for i in 1..20 %}
+                        <tr class="{{ userLevel == i ? 'table-warning' : ''}}">
+                            <td>{{ i }}</td>
+                            <td><img class="img-fluid rounded" style="width:30px" src="/images/L{{ i }}.png"></td>
+                            <td>{{ i * 10 }}</td>
+                            <td>
+                                {% if userLevel > i %}
+                                    <a href="{{ path('app_progress_show_by_level', {'id': i, 'user': user}) }}">{% trans %}Open{% endtrans %}</a>
+                                {% endif %}
+                                {{ userLevel == i ? 'Your level'|trans : ''}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% include '/cpanel/dashboard/_completed_ensembles.html.twig' %}
+{% endblock %}

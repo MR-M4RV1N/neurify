@@ -1,0 +1,88 @@
+<h5 class="font-weight-bold text-dark pt-3 mb-4">
+	<i class="fas fa-running text-primary mr-2"></i>
+	Пробежка по Японии
+</h5>
+
+<div
+	class="row">
+	<!-- Progress & Stats Card -->
+	<div class="col-12 col-xl-4 mb-4">
+		<div class="card bg-white border-0 shadow-sm h-100">
+			<div class="card-body">
+				<h6 class="text-uppercase text-muted font-weight-bold mb-3">Ваш прогресс</h6>
+
+				<div class="d-flex justify-content-between align-items-center mb-2">
+					<span class="text-dark font-weight-bold" style="font-size: 1.5rem;">
+						{{ analysis.total_distance|default(0) }}
+						<small class="text-muted" style="font-size: 1rem;">км / 1063 км</small>
+					</span>
+					<span class="badge badge-pill badge-primary" style="font-size: 0.9rem;">
+						{{ analysis.progress_percent|default(0) }}%
+					</span>
+				</div>
+
+				<div class="progress mb-4" style="height: 10px; border-radius: 5px;">
+					<div class="progress-bar bg-primary" role="progressbar" style="width: {{ analysis.progress_percent|default(0) }}%;" aria-valuenow="{{ analysis.progress_percent|default(0) }}" aria-valuemin="0" aria-valuemax="100"></div>
+				</div>
+
+				<hr>
+
+				<div class="row text-center mt-3">
+					<div class="col-6 border-right">
+						<div class="text-muted small text-uppercase mb-1">За эту неделю</div>
+						<div class="h5 mb-0 text-success font-weight-bold">
+							+{{ analysis.week_distance|default(0) }}
+							<small>км</small>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="text-muted small text-uppercase mb-1">Осталось до
+							{{ analysis.next_destination|default('цели') }}</div>
+						<div class="h5 mb-0 text-danger font-weight-bold">
+							{{ analysis.distance_to_next|default(0) }}
+							<small>км</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Story Card -->
+	<div class="col-12 col-xl-8 mb-4">
+		<div class="card bg-white border-0 shadow-sm h-100">
+			<div class="card-body">
+				<h6 class="text-uppercase text-muted font-weight-bold mb-3">
+					<i class="fas fa-map-marker-alt text-danger mr-1"></i>
+					Текущая локация:
+					{{ analysis.current_location|default('В пути') }}
+				</h6>
+
+				<div class="text-dark" style="font-family: 'Merriweather', 'Georgia', serif; font-size: 1.1rem; line-height: 1.6;">
+					{% if analysis.story is defined and analysis.story is not empty %}
+						{{ analysis.story|nl2br }}
+					{% else %}
+						<p class="text-muted italic">Дневник пуст. Надевайте кроссовки, и давайте начнем этот путь!</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Recommendations -->
+{% if analysis.recommendations|default([]) is not empty %}
+	<div class="card bg-light border-0 mb-4 mt-2">
+		<div class="card-body">
+			<h6 class="text-uppercase font-weight-bold mb-3 text-secondary">
+				<i class="fas fa-lightbulb text-warning mr-1"></i>
+				Рекомендации по бегу
+			</h6>
+			<ul class="mb-0 text-dark pl-3" style="line-height: 1.5;">
+				{% for rec in analysis.recommendations %}
+					<li class="mb-2">{{ rec }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+{% endif %}

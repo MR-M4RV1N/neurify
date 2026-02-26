@@ -1,0 +1,253 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+      image_upload_directory_drafts: '%kernel.project_dir%/public/cpanel/images/drafts'
+      image_upload_directory_events: '%kernel.project_dir%/public/cpanel/images/events'
+      maps_images_directory: '%kernel.project_dir%/public/cpanel/images/maps'
+      items_images_directory: '%kernel.project_dir%/public/cpanel/images/items'
+      image_upload_directory_blanks: '%kernel.project_dir%/public/cpanel/images/blanks'
+      image_upload_directory_example: '%kernel.project_dir%/public/cpanel/images/example'
+      image_upload_directory_exercises: '%kernel.project_dir%/public/cpanel/images/exercises'
+      image_upload_directory: '%kernel.project_dir%/public/images/uploads'
+      image_upload_directory_collections: '%kernel.project_dir%/public/cpanel/images/events/collections'
+      image_upload_temp_directory: '%kernel.project_dir%/public/cpanel/images/events/collections/temp_images'
+      image_upload_temp_directory_simple: '%kernel.project_dir%/public/cpanel/images/simple/collections/temp_images'
+      image_upload_directory_collections_simple: '%kernel.project_dir%/public/cpanel/images/simple/collections'
+      image_upload_temp_directory_picture: '%kernel.project_dir%/public/cpanel/images/picture/collections/temp_images'
+      image_upload_directory_collections_picture: '%kernel.project_dir%/public/cpanel/images/picture/collections'
+      image_upload_temp_directory_journal: '%kernel.project_dir%/public/cpanel/images/journal/collections/temp_images'
+      image_upload_directory_collections_journal: '%kernel.project_dir%/public/cpanel/images/journal/collections'
+      profile_image_upload_directory: '%kernel.project_dir%/public/cpanel/profile/uploads/images'
+      ensemble_image_upload_directory: '%kernel.project_dir%/public/cpanel/ensemble/uploads/images'
+      openai.api_key: '%env(OPENAI_API_KEY)%'
+      deepseek.api_key: '%env(DEEPSEEK_API_KEY)%'
+      webhook.zapier.url: '%env(ZAPIER_WEBHOOK_URL)%'
+      instruction_files_directory: '%kernel.project_dir%/public/uploads/instructions'
+      app.sender_email: 'main.g00gle.mail@gmail.com'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+          string $defaultWebhookUrl: '%env(ZAPIER_WEBHOOK_URL)%'
+          string $deepseekApiKey: '%deepseek.api_key%'
+          string $senderEmail: '%app.sender_email%'
+    HTMLPurifier_Config:
+        class: HTMLPurifier_Config
+        factory: ['HTMLPurifier_Config', 'createDefault']
+        calls:
+            - [set, ['HTML.DefinitionID', 'purifier_config']]
+            - [set, ['HTML.DefinitionRev', 1]]
+            - [set, ['Cache.SerializerPath', '%kernel.cache_dir%/htmlpurifier']]
+            - [set, ['HTML.Allowed', 'p,b,a[href],i']]
+    HTMLPurifier:
+        class: HTMLPurifier
+        arguments: ['@HTMLPurifier_Config']
+    App\Service\ImageOptimizerService:
+        autowire: true
+        autoconfigure: true
+    App\Service\ImageUploadHandlerService:
+        autowire: true
+        autoconfigure: true
+    App\EventSubscriber\ProfileCheckSubscriber:
+        arguments:
+            $profileService: '@App\Service\ProfileService'
+            $router: '@router.default'
+        tags:
+            - { name: 'kernel.event_subscriber' }
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: [ 'controller.service_arguments' ]
+    App\Service\EventShowPageRenderService: ~
+    Symfony\Component\Security\Http\RememberMe\TokenBasedRememberMeServices:
+        class: Symfony\Component\Security\Http\RememberMe\TokenBasedRememberMeServices
+        arguments:
+            $userProviders: [ '@security.user.provider.concrete.app_user_provider' ]
+            $secret: '%kernel.secret%'
+            $firewallName: 'main'
+            $options:
+                name: REMEMBERME
+                path: /
+                secure: false # Для разработки
+                always_remember_me: true
+                lifetime: 604800 # 1 неделя (в секундах)
+    App\EventSubscriber\LikeSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
+    App\Service\WebhookPublisher:
+      class: App\Service\WebhookPublisher
+      arguments:
+        $httpClient: '@http_client'
+        $defaultWebhookUrl: '%env(ZAPIER_WEBHOOK_URL)%'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+    App\Service\AiCommentService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@doctrine.orm.entity_manager'
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\AiConsultingService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@doctrine.orm.entity_manager'
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\ThinkMaster\NoteAnalysisService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@doctrine.orm.entity_manager'
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\ThinkMaster\NoteAdviceService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@doctrine.orm.entity_manager'
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\StepwiseService:
+      arguments:
+        $subscriptionRepository: '@App\Repository\SubscriptionRepository'
+        $eventRepository: '@App\Repository\EventRepository'
+        $eventRepeatedRepository: '@App\Repository\EventRepeatedRepository'
+        $ensembleRepository: '@App\Repository\EnsembleRepository'
+    App\Service\FacebookPostService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@doctrine.orm.entity_manager'
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\InstructionFileUploader:
+      arguments:
+        $targetDirectory: '%instruction_files_directory%'
+    App\Service\AiTaskDetailService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\AiTaskGenerateService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\AiTaskService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\AiProblemReformulationService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\ThinkingTools\AiDevilsAdvocateService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\ThinkingTools\AiReverseAssumptionsService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%deepseek.api_key%'
+    App\Service\NeurifyAiChatService:
+      autowire: false
+      autoconfigure: true
+      arguments:
+        $em: '@doctrine.orm.entity_manager'
+        $httpClient: '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        $deepseekApiKey: '%deepseek.api_key%'
+    App\Consulting\Model\Dreyfus\DreyfusConsultingService:
+      tags: ['consulting.model']
+    App\Consulting\Model\Dreyfus\DreyfusContextBuilder:
+      autoconfigure: false
+    App\Consulting\Model\Dreyfus\DreyfusPromptBuilder:
+      autoconfigure: false
+    App\Consulting\Model\Dreyfus\DreyfusResultNormalizer:
+      autoconfigure: false
+    App\Consulting\Registry\ConsultingModelRegistry:
+      arguments:
+        $models: !tagged_iterator consulting.model
+    App\Consulting\Model\Swot\SwotConsultingService:
+      tags: [ 'consulting.model' ]
+    App\Consulting\Model\Swot\SwotContextBuilder:
+      autoconfigure: false
+    App\Consulting\Model\Swot\SwotPromptBuilder:
+      autoconfigure: false
+    App\Consulting\Model\Swot\SwotResultNormalizer:
+      autoconfigure: false
+    App\Consulting\Model\Wheel\WheelConsultingService:
+      tags: [ 'consulting.model' ]
+    App\Service\Journal\JournalCalendarService:
+      autowire: true
+      autoconfigure: true
+    App\Consulting\Model\JournalCareerLoop4\JournalCareerLoop4WeekConsultingService:
+      tags: [ 'consulting.model' ]
+    App\Consulting\Model\Journal\JournalReflectionConsultingService:
+      tags: [ 'consulting.model' ]
+    App\Consulting\Model\Mbti\JournalMbtiWeekConsultingService:
+      tags: [ 'consulting.model' ]
+    App\Consulting\Model\Disc\JournalDiscWeekConsultingService:
+      tags: [ 'consulting.model' ]
+    App\Consulting\Model\Thinker\JournalThinkerWeekConsultingService:
+      tags: [ 'consulting.model' ]
+    App\Consulting\Model\Running\JournalRunningJapanConsultingService:
+      tags: [ 'consulting.model' ]
+      arguments:
+        $deepseekApiKey: '%deepseek.api_key%'
+    App\Consulting\Model\Running\RunningPromptProvider:
+      autowire: true
+      autoconfigure: true
+    App\Consulting\Model\Biohacking\JournalBiohackingWeekConsultingService:
+      tags: [ 'consulting.model' ]
+      arguments:
+        $deepseekApiKey: '%deepseek.api_key%'
+    App\Consulting\Model\Biohacking\BiohackingPromptProvider:
+      autowire: true
+      autoconfigure: true
+      
+    App\Consulting\Model\Wealth\JournalWealthWeekConsultingService:
+      tags: [ 'consulting.model' ]
+      arguments:
+        $deepseekApiKey: '%deepseek.api_key%'
+    App\Consulting\Model\Wealth\WealthPromptProvider:
+      autowire: true
+      autoconfigure: true
+      
+    App\Consulting\Model\PublicService\JournalPublicServiceWeekConsultingService:
+      tags: [ 'consulting.model' ]
+      arguments:
+        $deepseekApiKey: '%deepseek.api_key%'
+    App\Consulting\Model\PublicService\PublicServicePromptProvider:
+      autowire: true
+      autoconfigure: true
+    App\Consulting\Model\Free\FreeConsultingService:
+      tags: [ 'consulting.model' ]
+    App\Service\Journal\WeeklyLifeBalanceConsultingService:
+      autowire: true
+      autoconfigure: true
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

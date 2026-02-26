@@ -1,0 +1,30 @@
+<div class="modal fade bd-example-modal-lg devstyle-modal-z-index" id="itemShowModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+
+            <div id="divImageMargin">
+                <div class="text-center position-relative">
+                    <div id="imageLoader" class="position-absolute" style="top: 45%; left: 45%; z-index: 2; display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+
+                    <img id="image" class="rounded-top" src="" alt="Preview" style="max-width: 100%;">
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div id="divDescription" style="text-align: justify;"></div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="d-flex justify-content-center">
+                    <a class="btn btn-sm btn-primary" id="editLink" href="">{% trans %}Edit{% endtrans %}</a>
+                    <button class="btn btn-secondary ml-2" data-dismiss="modal">{% trans %}Close{% endtrans %}</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
